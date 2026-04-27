@@ -2618,6 +2618,10 @@ Dark
     <div class="flow-path-title">Cough (Age-Based)</div>
     <div class="flow-path-desc">Acute vs chronic. Differentiates viral, asthma, GERD, post-nasal drip, TB, and red flags in adults & children.</div>
 </div>
+<div class="flow-path-card" onclick="startPathway('vomiting')">
+    <div class="flow-path-title">Vomiting (Age-Based)</div>
+    <div class="flow-path-desc">Acute vs chronic. Screens for obstruction, metabolic, CNS, infectious, and red-flag causes in children & adults.</div>
+</div>
 <!-- Add more pathways here in the future -->
 </div>
 </div>
@@ -3628,6 +3632,85 @@ function renderFlowStep() {
                 <div style="display:flex; flex-wrap:wrap; gap:0.8rem; margin-top:1.5rem;">
                     <button class="flow-step-btn" onclick="showFlowResult('Refractory Chronic Cough / Cough Hypersensitivity Syndrome', '<strong>Key Features:</strong> Persistent cough despite treatment of asthma, UACS, GERD. Often triggered by talking, laughing, cold air.<br><br><strong>Next Step:</strong> Speech-language pathology referral for cough suppression therapy. Trial of neuromodulators.<br><br><strong>Widely Available Trade Names:</strong><br>• Gabapentin: <strong>Neurontin®</strong>, <strong>Gabapentin®</strong><br>• Amitriptyline: <strong>Tryptizol®</strong>, <strong>Amitriptyline®</strong><br>• Low-dose morphine (specialist only): <strong>Sevredol®</strong>', 'moderate')">Yes — refractory despite trials</button>
                     <button class="flow-step-btn" onclick="showFlowResult('Consider Specialist Referral', '<strong>Next Step:</strong> Refer to Chest Medicine or ENT for bronchoscopy, laryngoscopy, or advanced testing (pH-impedance, methacholine challenge).<br><br><strong>Resources:</strong> Chest Hospitals, University Hospitals, or private pulmonology/ENT clinics.', 'moderate')">Uncertain or worsening</button>
+                </div>`;
+        }
+    }
+    else if (flowState.type === 'vomiting') {
+        // ── VOMITING (AGE-BASED) ──
+        if (flowState.step === 1) {
+            descEl.textContent = 'Step 1 of 4: Patient age & duration';
+            titleEl.textContent = '1. What is the patient\'s age and how long has the vomiting lasted?';
+            contentEl.innerHTML = `
+                <div style="display:flex; flex-wrap:wrap; gap:0.8rem; margin-top:1.5rem;">
+                    <button class="flow-step-btn" onclick="nextFlowStep('infant-acute')">Infant (<1y), acute (<2 weeks)</button>
+                    <button class="flow-step-btn" onclick="nextFlowStep('child-acute')">Child (1–12y), acute (<2 weeks)</button>
+                    <button class="flow-step-btn" onclick="nextFlowStep('adult-acute')">Adult (≥12y), acute (<2 weeks)</button>
+                    <button class="flow-step-btn" onclick="nextFlowStep('chronic-any')">Any age, chronic (≥2 weeks)</button>
+                </div>`;
+        }
+        else if (flowState.step === 2) {
+            descEl.textContent = 'Step 2 of 4: Screen for red flags';
+            titleEl.textContent = '2. Are any red flags present? Bilious vomiting, hematemesis, severe abdominal pain/distension, signs of dehydration (dry mucosa, ↓ urine, lethargy), altered mental status, neck stiffness, or weight loss?';
+            contentEl.innerHTML = `
+                <div style="display:flex; flex-wrap:wrap; gap:0.8rem; margin-top:1.5rem;">
+                    <button class="flow-step-btn" style="border-color:var(--emergency-border);color:var(--emergency)" onclick="nextFlowStep('red-flag')">Yes — one or more present</button>
+                    <button class="flow-step-btn" onclick="nextFlowStep('no-red-flag')">No red flags</button>
+                </div>`;
+        }
+        else if (flowState.step === 3) {
+            descEl.textContent = 'Step 3 of 4: Characterise the vomiting';
+            let path = flowState.answers[0], red = flowState.answers[1];
+            
+            if (red === 'red-flag') {
+                showFlowResult('🚨 Urgent Workup Required — Red Flag Vomiting', 
+                    '<strong>RED FLAG:</strong> Possible bowel obstruction/malrotation, GI bleeding, increased ICP, metabolic crisis, or sepsis.<br><br><strong>Next Step:</strong> Urgent assessment: ABCs, IV access, electrolytes, glucose, LFTs, amylase/lipase, ABG if altered. Abdominal X-ray/US if obstruction suspected. CT head if CNS signs. Admit if dehydration, persistent vomiting, or diagnostic uncertainty.', 
+                    'very-high', 'em-acuteabd', 'emergency');
+            } 
+            else if (path === 'infant-acute' && red === 'no-red-flag') {
+                titleEl.textContent = '3. What is the character of the vomitus and feeding pattern?';
+                contentEl.innerHTML = `
+                    <div style="display:flex; flex-wrap:wrap; gap:0.8rem; margin-top:1.5rem;">
+                        <button class="flow-step-btn" onclick="showFlowResult('Gastroenteritis (Viral)', '<strong>Key Features:</strong> Acute onset vomiting ± diarrhoea, low-grade fever, recent sick contact. Well-appearing between episodes.<br><br><strong>Next Step:</strong> Oral rehydration therapy (ORT) with small frequent sips. Continue breastfeeding/formula. Avoid antiemetics in infants. Monitor for dehydration. Seek care if unable to tolerate ORT.<br><br><strong>Widely Available Trade Names:</strong><br>• ORS: <strong>WHO-ORS®</strong>, <strong>Pedialyte®</strong><br>• Ondansetron ODT (if severe, >6mo): <strong>Zofran®</strong>, <strong>Ondansetron®</strong>', 'low')">Watery/non-bilious, with diarrhoea/fever</button>
+                        <button class="flow-step-btn" onclick="showFlowResult('Infantile Hypertrophic Pyloric Stenosis', '<strong>Key Features:</strong> Age 2–8 weeks, projectile non-bilious vomiting after feeds, hungry after vomiting, visible peristalsis, palpable "olive" in RUQ. Hypochloraemic hypokalaemic metabolic alkalosis.<br><br><strong>Next Step:</strong> Abdominal US (pyloric muscle thickness >4 mm, length >14 mm). Correct electrolytes pre-op. Refer for pyloromyotomy.<br><br><strong>Widely Available Trade Names:</strong><br>• IV fluids: <strong>0.9% NaCl</strong> + KCl supplementation', 'moderate')">Projectile, non-bilious, infant 2–8 weeks</button>
+                        <button class="flow-step-btn" style="border-color:var(--emergency-border);color:var(--emergency)" onclick="showFlowResult('🚨 Malrotation with Midgut Volvulus', '<strong>RED FLAG:</strong> Bilious vomiting in infant = surgical emergency until proven otherwise. May have abdominal distension, bloody stools.<br><br><strong>Next Step:</strong> URGENT surgical consult. Abdominal X-ray (double bubble, paucity of gas). Upper GI series if stable. Immediate laparotomy if volvulus confirmed.<br><br><strong>Widely Available Trade Names:</strong><br>• Resuscitation: <strong>Ringer\\'s Lactate</strong> or <strong>0.9% NaCl</strong>', 'very-high')">Bilious (green) vomiting</button>
+                    </div>`;
+            }
+            else if (path === 'child-acute' && red === 'no-red-flag') {
+                titleEl.textContent = '3. Are there associated abdominal pain, diarrhoea, or headache?';
+                contentEl.innerHTML = `
+                    <div style="display:flex; flex-wrap:wrap; gap:0.8rem; margin-top:1.5rem;">
+                        <button class="flow-step-btn" onclick="showFlowResult('Acute Gastroenteritis', '<strong>Key Features:</strong> Vomiting ± diarrhoea, crampy abdominal pain, low-grade fever. Often viral (norovirus, rotavirus).<br><br><strong>Next Step:</strong> ORT first-line. Small frequent sips of ORS. Avoid antiemetics routinely; consider ondansetron if severe vomiting preventing ORT. Zinc supplementation in resource-limited settings.<br><br><strong>Widely Available Trade Names:</strong><br>• ORS: <strong>WHO-ORS®</strong>, <strong>Electral®</strong><br>• Ondansetron ODT: <strong>Zofran®</strong>, <strong>Ondansetron®</strong><br>• Zinc sulfate: <strong>Zinconia®</strong>, <strong>Zincovit®</strong>', 'low')">Vomiting + diarrhoea/fever</button>
+                        <button class="flow-step-btn" onclick="showFlowResult('Migraine / Abdominal Migraine', '<strong>Key Features:</strong> Episodic vomiting with headache, photophobia, or abdominal pain. Family history of migraine. Well between episodes.<br><br><strong>Next Step:</strong> Acute: rest in dark room, hydration, paracetamol/ibuprofen. Consider ondansetron for vomiting. Prophylaxis if frequent: cyproheptadine (young children) or propranolol/amitriptyline (older).<br><br><strong>Widely Available Trade Names:</strong><br>• Ondansetron: <strong>Zofran®</strong><br>• Cyproheptadine: <strong>Periactin®</strong><br>• Propranolol: <strong>Inderal®</strong>', 'moderate')">Vomiting + headache/photophobia</button>
+                        <button class="flow-step-btn" onclick="showFlowResult('Intussusception', '<strong>Key Features:</strong> Intermittent severe colicky pain, vomiting, "red currant jelly" stools, sausage-shaped mass in RUQ. Peak age 6–18 months.<br><br><strong>Next Step:</strong> Abdominal US (target sign). Air/contrast enema for reduction if no peritonitis. Surgical consult if unstable or reduction fails.<br><br><strong>Widely Available Trade Names:</strong><br>• Resuscitation: <strong>0.9% NaCl</strong> boluses as needed', 'moderate')">Intermittent severe pain + vomiting</button>
+                    </div>`;
+            }
+            else if (path === 'adult-acute' && red === 'no-red-flag') {
+                titleEl.textContent = '3. What is the predominant associated feature?';
+                contentEl.innerHTML = `
+                    <div style="display:flex; flex-wrap:wrap; gap:0.8rem; margin-top:1.5rem;">
+                        <button class="flow-step-btn" onclick="showFlowResult('Acute Gastroenteritis / Food Poisoning', '<strong>Key Features:</strong> Acute vomiting ± diarrhoea, cramps, recent suspect food or sick contact. Usually self-limited.<br><br><strong>Next Step:</strong> ORT, rest. Avoid antiemetics unless severe. Consider ondansetron 4–8 mg ODT if preventing oral intake. Antibiotics only if bacterial cause confirmed (e.g., Campylobacter, Shigella).<br><br><strong>Widely Available Trade Names:</strong><br>• ORS: <strong>WHO-ORS®</strong><br>• Ondansetron: <strong>Zofran®</strong>, <strong>Ondansetron®</strong><br>• Metoclopramide: <strong>Maxolon®</strong>, <strong>Reglan®</strong>', 'low')">Vomiting + diarrhoea/cramps</button>
+                        <button class="flow-step-btn" onclick="showFlowResult('Gastroparesis', '<strong>Key Features:</strong> Early satiety, postprandial fullness, vomiting undigested food hours after eating. Common in diabetes, post-viral, or idiopathic.<br><br><strong>Next Step:</strong> Small frequent low-fat/low-fibre meals. Prokinetics: metoclopramide 5–10 mg TID before meals (limit to 12 weeks due to tardive dyskinesia risk) or domperidone 10 mg TID. Erythromycin 250 mg TID short-term.<br><br><strong>Widely Available Trade Names:</strong><br>• Metoclopramide: <strong>Maxolon®</strong>, <strong>Reglan®</strong><br>• Domperidone: <strong>Motilium®</strong><br>• Erythromycin: <strong>Erythrocin®</strong>', 'moderate')">Vomiting undigested food hours after meals</button>
+                        <button class="flow-step-btn" onclick="showFlowResult('Cannabinoid Hyperemesis Syndrome', '<strong>Key Features:</strong> Chronic cannabis use, cyclic vomiting, compulsive hot bathing for relief, abdominal pain. Symptoms resolve with cannabis cessation.<br><br><strong>Next Step:</strong> Supportive care: IV fluids, antiemetics. Haloperidol 2.5–5 mg IV/IM often effective. Topical capsaicin 0.025–0.075% to abdomen. Definitive: cannabis cessation counselling.<br><br><strong>Widely Available Trade Names:</strong><br>• Haloperidol: <strong>Haldol®</strong><br>• Capsaicin cream: <strong>Zostrix®</strong>, <strong>Capsagel®</strong><br>• Ondansetron: <strong>Zofran®</strong>', 'moderate')">Chronic cannabis use + compulsive hot bathing</button>
+                        <button class="flow-step-btn" onclick="showFlowResult('Medication-Induced / Pregnancy', '<strong>Key Features:</strong> Temporal relationship to new medication (opioids, antibiotics, chemotherapy, GLP-1 agonists) or early pregnancy.<br><br><strong>Next Step:</strong> Review medications; discontinue if possible. Pregnancy: pyridoxine 10–25 mg TID ± doxylamine 12.5 mg TID first-line. Add metoclopramide or ondansetron if refractory.<br><br><strong>Widely Available Trade Names:</strong><br>• Pyridoxine: <strong>Pyridoxine®</strong><br>• Doxylamine/Pyridoxine: <strong>Diclegis®</strong>, <strong>Bonjesta®</strong><br>• Metoclopramide: <strong>Maxolon®</strong>', 'low')">New medication or possible pregnancy</button>
+                    </div>`;
+            }
+            else if (path === 'chronic-any' && red === 'no-red-flag') {
+                titleEl.textContent = '3. Are there features suggesting a functional or systemic cause?';
+                contentEl.innerHTML = `
+                    <div style="display:flex; flex-wrap:wrap; gap:0.8rem; margin-top:1.5rem;">
+                        <button class="flow-step-btn" onclick="showFlowResult('Cyclic Vomiting Syndrome', '<strong>Key Features:</strong> Stereotypical episodes of intense vomiting lasting hours–days, separated by symptom-free intervals. Often triggered by stress, infection, or lack of sleep. Associated with migraine.<br><br><strong>Next Step:</strong> Acute: IV fluids, ondansetron, triptans if migraine features. Prophylaxis: amitriptyline 10–50 mg nocte, propranolol, or cyproheptadine. Lifestyle: trigger avoidance, regular sleep.<br><br><strong>Widely Available Trade Names:</strong><br>• Amitriptyline: <strong>Elavil®</strong>, <strong>Tryptizol®</strong><br>• Propranolol: <strong>Inderal®</strong><br>• Sumatriptan: <strong>Imitrex®</strong>', 'moderate')">Stereotypical episodic vomiting with well intervals</button>
+                        <button class="flow-step-btn" onclick="showFlowResult('Functional Nausea/Vomiting (Rome IV)', '<strong>Key Features:</strong> Chronic nausea/vomiting ≥3 months, no structural/metabolic cause after basic workup. Often associated with anxiety, IBS, or functional dyspepsia.<br><br><strong>Next Step:</strong> Reassurance, dietary modification (small frequent meals, avoid triggers). Trial of low-dose TCA (amitriptyline 10–25 mg nocte) or mirtazapine 7.5–15 mg nocte. CBT if anxiety prominent.<br><br><strong>Widely Available Trade Names:</strong><br>• Mirtazapine: <strong>Remeron®</strong>, <strong>Mirtaz®</strong><br>• Amitriptyline: <strong>Elavil®</strong>', 'low')">Chronic symptoms, normal basic workup</button>
+                        <button class="flow-step-btn" onclick="showFlowResult('Chronic Systemic Cause (e.g., CKD, Addison\\'s, Hypercalcaemia)', '<strong>Key Features:</strong> Vomiting with fatigue, weight loss, electrolyte abnormalities, or other systemic signs. Consider renal, endocrine, or metabolic disorders.<br><br><strong>Next Step:</strong> Basic labs: FBC, electrolytes, renal/liver function, TSH, calcium, cortisol if indicated. Treat underlying cause. Antiemetics as bridge: ondansetron or metoclopramide.<br><br><strong>Widely Available Trade Names:</strong><br>• Ondansetron: <strong>Zofran®</strong><br>• Metoclopramide: <strong>Maxolon®</strong>', 'moderate')">Vomiting + systemic symptoms/lab abnormalities</button>
+                    </div>`;
+            }
+        }
+        else if (flowState.step === 4) {
+            descEl.textContent = 'Step 4 of 4: Refractory or complex cases';
+            titleEl.textContent = '4. Has vomiting persisted despite initial management or is the diagnosis uncertain?';
+            contentEl.innerHTML = `
+                <div style="display:flex; flex-wrap:wrap; gap:0.8rem; margin-top:1.5rem;">
+                    <button class="flow-step-btn" onclick="showFlowResult('Refractory Vomiting — Specialist Referral', '<strong>Next Step:</strong> Consider gastroenterology referral for upper endoscopy, gastric emptying study, or motility testing. Neurology if CNS cause suspected. Endocrinology for metabolic disorders. Dietitian for nutritional support.<br><br><strong>Widely Available Resources:</strong> University hospitals, tertiary GI/neurology clinics, multidisciplinary vomiting clinics.', 'moderate')">Persistent or diagnostic uncertainty</button>
+                    <button class="flow-step-btn" onclick="showFlowResult('Consider Psychogenic / Eating Disorder Component', '<strong>Key Features:</strong> Vomiting associated with body image concerns, restrictive eating, or psychological stress. May have dental erosion, parotid enlargement, electrolyte disturbances.<br><br><strong>Next Step:</strong> Non-judgmental assessment. Multidisciplinary approach: medical stabilization, psychotherapy (CBT, FBT), dietitian, psychiatry. Avoid reinforcing vomiting behaviour.<br><br><strong>Widely Available Trade Names:</strong><br>• SSRIs (if comorbid depression/anxiety): <strong>Sertraline®</strong>, <strong>Fluoxetine®</strong>', 'moderate')">Psychosocial stressors or eating concerns</button>
                 </div>`;
         }
     }

@@ -374,6 +374,7 @@ h1.hero-title em{font-style:italic;color:var(--gold)}
     <button class="score-tab" onclick="switchTab('homaIR',this)">HOMA-IR</button>
     <button class="score-tab" onclick="switchTab('centor',this)">Centor</button>
     <button class="score-tab" onclick="switchTab('alvarado',this)">Alvarado</button>
+<button class="score-tab" onclick="switchTab('peds-dose',this)">Peds Dose</button>
   </div>
 
   <div class="scores-content active" id="tab-chadsvasc">
@@ -562,6 +563,22 @@ h1.hero-title em{font-style:italic;color:var(--gold)}
       <div class="score-result" id="res-alvarado"><div class="score-result-num" id="alvarado-score">0</div><div class="score-result-label">Alvarado Score</div><div class="score-result-interp" id="alvarado-interp"></div></div>
     </div>
   </div>
+
+<div class="scores-content" id="tab-peds-dose">
+<div class="score-card">
+<div class="score-card-header"><div><div class="score-card-title">Pediatric Dose Calculator</div><div class="score-card-desc">Weight-based dosing for common pediatric medications</div></div><div class="score-badge" style="color:var(--peds);background:var(--peds-bg);border-color:var(--peds-border)">Paediatrics</div></div>
+
+<div class="score-params">
+<div class="score-param"><label>Patient Weight (kg)</label><input type="number" id="pd-wt" value="15" min="1" max="100" step="0.1"></div>
+<div class="score-param"><label>Patient Age</label><select id="pd-age"><option value="neonate">Neonate (0–28 days)</option><option value="infant">Infant (1–12 months)</option><option value="toddler" selected>Toddler (1–3 years)</option><option value="preschool">Preschool (3–5 years)</option><option value="school">School-age (6–12 years)</option><option value="adolescent">Adolescent (13–18 years)</option></select></div>
+<div class="score-param" style="grid-column:1/-1"><label>Select Medication</label><select id="pd-med"><option value="">— Choose medication —</option><option value="paracetamol">Paracetamol (Acetaminophen)</option><option value="ibuprofen">Ibuprofen</option><option value="amoxicillin">Amoxicillin</option><option value="amox-clav">Amoxicillin-Clavulanate</option><option value="azithromycin">Azithromycin</option><option value="prednisolone">Prednisolone</option><option value="salbutamol">Salbutamol (Albuterol)</option><option value="ondansetron">Ondansetron</option><option value="dexamethasone">Dexamethasone</option><option value="midazolam">Midazolam (Buccal/IN)</option><option value="diazepam">Diazepam (Rectal)</option><option value="adrenaline-im">Adrenaline (IM) — Anaphylaxis</option><option value="fluids-bolus">Fluid Bolus (20 mL/kg)</option><option value="maintenance">Maintenance Fluids (Holliday-Segar)</option></select></div>
+</div>
+
+<button class="calc-btn" onclick="calcPedsDose()">Calculate Dose</button>
+
+<div class="score-result" id="res-peds-dose"><div class="score-result-num" id="peds-dose-result" style="font-size:2rem">—</div><div class="score-result-label">Calculated Dose</div><div class="score-result-interp" id="peds-dose-interp"></div></div>
+</div>
+</div>
 </div>
 
 <!-- ═══════════════ MANAGEMENT ═══════════════ -->
@@ -606,6 +623,11 @@ h1.hero-title em{font-style:italic;color:var(--gold)}
       </div>
       <div class="sidebar-section" data-category="adult">
         <div class="sidebar-section-label">Gastroenterology</div>
+<button class="disease-btn" data-category="adult" onclick="selectDisease('ibs',this)">Irritable Bowel Syndrome</button>
+<button class="disease-btn" data-category="adult" onclick="selectDisease('ibd',this)">Inflammatory Bowel Disease</button>
+<button class="disease-btn" data-category="adult" onclick="selectDisease('constipation',this)">Constipation</button>
+<button class="disease-btn" data-category="adult" onclick="selectDisease('diarrhea',this)">Diarrhea</button>
+<button class="disease-btn" data-category="adult" onclick="selectDisease('distention',this)">Abdominal Distention</button>
         <button class="disease-btn" data-category="adult" onclick="selectDisease('cirrhosis',this)">Liver Cirrhosis</button>
         <button class="disease-btn" data-category="adult" onclick="selectDisease('gerd',this)">GERD</button>
       </div>
@@ -671,6 +693,22 @@ h1.hero-title em{font-style:italic;color:var(--gold)}
       </div>
       <div class="sidebar-section" data-category="emergency" style="display:none">
         <div class="sidebar-section-label">Other</div>
+<button class="disease-btn" data-category="emergency" onclick="selectDisease('em-renalcolic',this)">Renal Colic</button>
+<button class="disease-btn" data-category="emergency" onclick="selectDisease('em-biliary',this)">Biliary Colic</button>
+<button class="disease-btn" data-category="emergency" onclick="selectDisease('em-headache',this)">Acute Headache</button>
+<button class="disease-btn" data-category="emergency" onclick="selectDisease('em-syncope',this)">Syncope</button>
+<button class="disease-btn" data-category="emergency" onclick="selectDisease('em-acuteabd',this)">Acute Abdomen</button>
+<button class="disease-btn" data-category="emergency" onclick="selectDisease('em-appendicitis',this)">Acute Appendicitis</button>
+<button class="disease-btn" data-category="emergency" onclick="selectDisease('em-hypotension',this)">Hypotension / Shock</button>
+<button class="disease-btn" data-category="emergency" onclick="selectDisease('em-corrosives',this)">Corrosive Ingestion</button>
+<button class="disease-btn" data-category="emergency" onclick="selectDisease('em-zincphos',this)">Zinc Phosphide Poisoning</button>
+<button class="disease-btn" data-category="emergency" onclick="selectDisease('em-vasovagal',this)">Vasovagal Syncope</button>
+<button class="disease-btn" data-category="emergency" onclick="selectDisease('em-aru',this)">Acute Urinary Retention</button>
+<button class="disease-btn" data-category="emergency" onclick="selectDisease('em-opioid',this)">Opioid Overdose</button>
+<button class="disease-btn" data-category="emergency" onclick="selectDisease('em-thyroidstorm',this)">Thyroid Storm</button>
+<button class="disease-btn" data-category="emergency" onclick="selectDisease('em-rhabdo',this)">Rhabdomyolysis</button>
+<button class="disease-btn" data-category="emergency" onclick="selectDisease('em-glaucoma',this)">Acute Angle-Closure Glaucoma</button>
+<button class="disease-btn" data-category="emergency" onclick="selectDisease('em-adrenal',this)">Adrenal Crisis</button>
         <button class="disease-btn" data-category="emergency" onclick="selectDisease('em-htn-urgency',this)">Hypertensive Urgency</button>
         <button class="disease-btn" data-category="emergency" onclick="selectDisease('em-opoisoning',this)">Organophosphate Poisoning</button>
         <button class="disease-btn" data-category="emergency" onclick="selectDisease('em-wound',this)">Cutting Wound</button>
@@ -1399,6 +1437,416 @@ h1.hero-title em{font-style:italic;color:var(--gold)}
           </div>
         </div>
       </div>
+<!-- OPIOID OVERDOSE -->
+<div class="disease-panel" id="panel-em-opioid">
+    <div class="disease-name emergency-title">Opioid <em>Overdose</em></div>
+    <div class="disease-tags"><span class="disease-tag" style="color:var(--emergency);border-color:var(--emergency-border)">Toxicology / Respiratory</span><span class="disease-tag" style="color:#F87171;border-color:rgba(248,113,113,0.3)">Respiratory Depression</span></div>
+    <div class="alert-box emergency-alert"><strong>Classic triad:</strong> Coma, pinpoint pupils (miosis), respiratory depression. Naloxone is life-saving. Monitor closely for rebound toxicity (especially with long-acting opioids or fentanyl analogs).</div>
+    <div class="mgmt-sections">
+        <div class="mgmt-box"><div class="mgmt-box-title">Recognition &amp; Immediate Action</div>
+            <div class="diag-item"><div class="diag-dot"></div><div class="diag-text"><strong>ABC first:</strong> Bag-valve-mask if apnoeic/hypoxic. Do NOT delay ventilation for naloxone if no pulse/breathing.</div></div>
+            <div class="diag-item"><div class="diag-dot"></div><div class="diag-text"><strong>Vital signs:</strong> RR &lt; 8, SpO₂ &lt; 90%, unresponsive to sternal rub, constricted pupils.</div></div>
+            <div class="diag-item"><div class="diag-dot"></div><div class="diag-text"><strong>Context:</strong> Co-ingestion (benzodiazepines, alcohol) common. Fentanyl may require higher/repeated naloxone doses.</div></div>
+        </div>
+        <div class="mgmt-box"><div class="mgmt-box-title">Pharmacotherapy</div>
+            <div class="drug-card"><div class="drug-name">Naloxone</div><div class="drug-class">Opioid antagonist — FIRST-LINE</div><div class="drug-dose">0.4–2 mg IV/IM/IN. Start low (0.1–0.2 mg IV) in opioid-dependent patients to avoid acute withdrawal. Titrate to RR &gt; 12.</div><div class="drug-note">Duration 30–90 min. Longer-acting opioids require infusion or repeated dosing. Monitor 2–4h post-reversal.</div></div>
+            <div class="drug-card"><div class="drug-name">Naloxone Infusion (if recurrent)</div><div class="drug-class">Continuous reversal</div><div class="drug-dose">Start at ⅔ of the initial effective reversal dose per hour. Dilute in 0.9% saline. Titrate to respiratory effort.</div></div>
+        </div>
+    </div>
+</div>
+
+<!-- THYROID STORM -->
+<div class="disease-panel" id="panel-em-thyroidstorm">
+    <div class="disease-name emergency-title">Thyroid <em>Storm</em></div>
+    <div class="disease-tags"><span class="disease-tag" style="color:var(--emergency);border-color:var(--emergency-border)">Endocrine Emergency</span><span class="disease-tag" style="color:#F87171;border-color:rgba(248,113,113,0.3)">Mortality 10–30%</span></div>
+    <div class="alert-box emergency-alert"><strong>Life-threatening thyrotoxicosis:</strong> Triggered by infection, surgery, trauma, or DKA. Score &gt; 45 on Burch-Wartofsky predicts storm. ICU admission mandatory. Treat all 4 pathways simultaneously.</div>
+    <div class="mgmt-sections">
+        <div class="mgmt-box"><div class="mgmt-box-title">Diagnostic Clues</div>
+            <div class="diag-item"><div class="diag-dot"></div><div class="diag-text"><strong>Clinical:</strong> Fever &gt; 38.5°C, tachycardia out of proportion to fever, agitation/delirium, GI/hepatic dysfunction, heart failure.</div></div>
+            <div class="diag-item"><div class="diag-dot"></div><div class="diag-text"><strong>Labs:</strong> Suppressed TSH, markedly elevated fT3/fT4. Note: Levels may not distinguish storm from severe thyrotoxicosis.</div></div>
+        </div>
+        <div class="mgmt-box"><div class="mgmt-box-title">4-Prong Treatment Protocol</div>
+            <div class="drug-card"><div class="drug-name">1. Block Synthesis</div><div class="drug-class">PTU or Methimazole</div><div class="drug-dose"><strong>PTU:</strong> 500–1000 mg load → 250 mg q4h PO/NG. <strong>Methimazole:</strong> 20 mg q4h.</div><div class="drug-note">PTU preferred (blocks peripheral T4→T3 conversion). Give 1–2h BEFORE iodine.</div></div>
+            <div class="drug-card"><div class="drug-name">2. Block Release</div><div class="drug-class">Potassium Iodide / Lugol's</div><div class="drug-dose">Lugol's solution: 5–10 drops q8h PO. Or Sodium Iodide 1 g IV. <em>Must give AFTER thioamide.</em></div></div>
+            <div class="drug-card"><div class="drug-name">3. Block Peripheral Effects</div><div class="drug-class">Beta-blockers</div><div class="drug-dose"><strong>Propranolol:</strong> 60–80 mg PO q4h OR 1–2 mg IV q15 min. High doses needed. <strong>Esmolol</strong> drip if HF present.</div><div class="drug-note">Controls tachycardia, tremor, fever. Contraindicated in asthma.</div></div>
+            <div class="drug-card"><div class="drug-name">4. Glucocorticoids + Supportive</div><div class="drug-class">Hydrocortisone + Cooling</div><div class="drug-dose">Hydrocortisone 100 mg IV q8h (blocks T4→T3, covers relative adrenal insufficiency). Active cooling, IV fluids.</div></div>
+        </div>
+    </div>
+</div>
+
+<!-- RHABDOMYOLYSIS -->
+<div class="disease-panel" id="panel-em-rhabdo">
+    <div class="disease-name emergency-title"><em>Rhabdomyolysis</em></div>
+    <div class="disease-tags"><span class="disease-tag" style="color:var(--emergency);border-color:var(--emergency-border)">Muscle / Renal Emergency</span><span class="disease-tag" style="color:var(--text-muted)">ICD-10: M62.82</span></div>
+    <div class="alert-box emergency-alert"><strong>Muscle breakdown → AKI:</strong> CK &gt; 5× ULN, dark "cola" urine. Triad: myalgia, weakness, dark urine. Aggressive IV hydration is the cornerstone. Monitor for compartment syndrome and hyperkalaemia.</div>
+    <div class="mgmt-sections">
+        <div class="mgmt-box"><div class="mgmt-box-title">Diagnosis &amp; Monitoring</div>
+            <div class="diag-item"><div class="diag-dot"></div><div class="diag-text"><strong>CK:</strong> Correlates with muscle injury. &gt; 5000 U/L high risk for AKI. Check q12–24h.</div></div>
+            <div class="diag-item"><div class="diag-dot"></div><div class="diag-text"><strong>Urine dipstick:</strong> Positive for blood but NO RBCs on microscopy = myoglobinuria.</div></div>
+            <div class="diag-item"><div class="diag-dot"></div><div class="diag-text"><strong>Electrolytes:</strong> Monitor K⁺ (hyperkalaemia), Ca²⁺ (early low, late high), phosphate, uric acid.</div></div>
+        </div>
+        <div class="mgmt-box"><div class="mgmt-box-title">Management Protocol</div>
+            <div class="drug-card"><div class="drug-name">Aggressive IV Fluids</div><div class="drug-class">0.9% NaCl or Lactated Ringer's — STEP 1</div><div class="drug-dose">Initial: 1–2 L/hr. Target urine output 200–300 mL/hr. Adjust based on volume status.</div><div class="drug-note">Continue until CK &lt; 1000 U/L or steadily declining. Beware fluid overload in elderly/cardiac patients.</div></div>
+            <div class="drug-card"><div class="drug-name">Sodium Bicarbonate (Optional)</div><div class="drug-class">Alkalinization — Controversial</div><div class="drug-dose">150 mmol NaHCO₃ in 1 L D5W. Target urine pH 6.5. Use if severe acidosis or CK &gt; 30,000.</div><div class="drug-note">Not routinely recommended unless concurrent acidosis. Monitor ionised Ca²⁺.</div></div>
+            <div class="drug-card"><div class="drug-name">Electrolyte Management</div><div class="drug-class">Hyperkalaemia / Hyperphosphataemia</div><div class="drug-dose">Treat K⁺ &gt; 5.5 per hyperkalaemia protocol. Avoid calcium unless ECG changes (risk of precipitation).</div></div>
+        </div>
+    </div>
+</div>
+
+<!-- ACUTE ANGLE-CLOSURE GLAUCOMA -->
+<div class="disease-panel" id="panel-em-glaucoma">
+    <div class="disease-name emergency-title">Acute Angle-Closure <em>Glaucoma</em></div>
+    <div class="disease-tags"><span class="disease-tag" style="color:var(--emergency);border-color:var(--emergency-border)">Ophthalmology Emergency</span><span class="disease-tag" style="color:var(--text-muted)">ICD-10: H40.2</span></div>
+    <div class="alert-box emergency-alert"><strong>Sight-threatening:</strong> Sudden severe eye pain, headache, halos around lights, fixed mid-dilated pupil, hard globe on palpation. IOP &gt; 30 mmHg. Urgent ophthalmology referral. Lower IOP immediately.</div>
+    <div class="mgmt-sections">
+        <div class="mgmt-box"><div class="mgmt-box-title">Clinical Recognition</div>
+            <div class="diag-item"><div class="diag-dot"></div><div class="diag-text"><strong>Symptoms:</strong> Nausea/vomiting common (mimics migraine/GI). Red eye, cloudy cornea, shallow anterior chamber.</div></div>
+            <div class="diag-item"><div class="diag-dot"></div><div class="diag-text"><strong>Triggers:</strong> Dark environments, mydriatic drugs, anticholinergics, SSRIs, topiramate.</div></div>
+        </div>
+        <div class="mgmt-box"><div class="mgmt-box-title">IOP-Lowering Protocol</div>
+            <div class="drug-card"><div class="drug-name">Topical Drops (Combined)</div><div class="drug-class">First-line — Aqueous suppression &amp; miotic</div><div class="drug-dose">1. Timolol 0.5% + Brimonidine 0.2% (one drop each). 2. Pilocarpine 2–4% (wait 15 min after IOP &lt; 40 to avoid sphincter ischaemia).</div></div>
+            <div class="drug-card"><div class="drug-name">Acetazolamide</div><div class="drug-class">Systemic carbonic anhydrase inhibitor</div><div class="drug-dose">500 mg IV or PO STAT. Then 250 mg q6h. Contraindicated in severe sulfa allergy.</div></div>
+            <div class="drug-card"><div class="drug-name">Mannitol / Glycerol</div><div class="drug-class">Osmotic agent — Refractory cases</div><div class="drug-dose">Mannitol 20% 1–2 g/kg IV over 45 min. Check osmolality &lt; 320 mOsm/L.</div><div class="drug-note">Definitive treatment = laser peripheral iridotomy (LPI) once IOP controlled. Perform on BOTH eyes (prophylactic on contralateral).</div></div>
+        </div>
+    </div>
+</div>
+
+<!-- ADRENAL CRISIS -->
+<div class="disease-panel" id="panel-em-adrenal">
+    <div class="disease-name emergency-title">Adrenal <em>Crisis</em></div>
+    <div class="disease-tags"><span class="disease-tag" style="color:var(--emergency);border-color:var(--emergency-border)">Endocrine Emergency</span><span class="disease-tag" style="color:#F87171;border-color:rgba(248,113,113,0.3)">Hypotension / Shock</span></div>
+    <div class="alert-box emergency-alert"><strong>Never wait for labs:</strong> Treat empirically if suspected. Classic triad: hypotension refractory to fluids, hyponatraemia, hyperkalaemia. Precipitated by infection, surgery, or missed steroid doses. IV hydrocortisone is life-saving.</div>
+    <div class="mgmt-sections">
+        <div class="mgmt-box"><div class="mgmt-box-title">Diagnosis &amp; Clues</div>
+            <div class="diag-item"><div class="diag-dot"></div><div class="diag-text"><strong>Labs (draw BEFORE steroids if possible):</strong> Random cortisol (low), ACTH (high in primary), Na⁺ ↓, K⁺ ↑, glucose ↓, eosinophilia.</div></div>
+            <div class="diag-item"><div class="diag-dot"></div><div class="diag-text"><strong>History:</strong> Known Addison's, long-term steroid use, bilateral adrenal haemorrhage, autoimmune polyendocrine syndrome.</div></div>
+        </div>
+        <div class="mgmt-box"><div class="mgmt-box-title">Emergency Management</div>
+            <div class="drug-card"><div class="drug-name">Hydrocortisone IV</div><div class="drug-class">Glucocorticoid replacement — IMMEDIATE</div><div class="drug-dose">100 mg IV bolus STAT → 50–100 mg q6h IV/IM. Taper over 24–48h as clinical improvement occurs.</div><div class="drug-note">Has both glucocorticoid &amp; mineralocorticoid activity at high doses. Fludrocortisone not needed acutely.</div></div>
+            <div class="drug-card"><div class="drug-name">IV Fluid Resuscitation</div><div class="drug-class">0.9% NaCl + Dextrose</div><div class="drug-dose">1 L 0.9% saline rapidly. If hypoglycaemic, use D5NS. Monitor glucose q4h.</div></div>
+            <div class="drug-card"><div class="drug-name">Treat Precipitant</div><div class="drug-class">Underlying cause</div><div class="drug-dose">Broad-spectrum antibiotics if infection suspected. Stop precipitating drugs. Monitor electrolytes closely.</div></div>
+        </div>
+    </div>
+</div>
+
+<!-- RENAL COLIC -->
+<div class="disease-panel" id="panel-em-renalcolic">
+    <div class="disease-name emergency-title">Renal <em>Colic</em></div>
+    <div class="disease-tags"><span class="disease-tag" style="color:var(--emergency);border-color:var(--emergency-border)">Urology Emergency</span><span class="disease-tag" style="color:var(--text-muted)">ICD-10: N23</span></div>
+    <div class="alert-box emergency-alert"><strong>Classic presentation:</strong> Sudden, severe unilateral flank pain radiating to groin, restlessness, haematuria. Stone &lt; 5 mm: 90% pass spontaneously. Obstruction + infection = urological emergency (pyonephrosis).</div>
+    <div class="mgmt-sections">
+        <div class="mgmt-box"><div class="mgmt-box-title">Diagnostic Clues</div>
+            <div class="diag-item"><div class="diag-dot"></div><div class="diag-text"><strong>Urinalysis:</strong> Microscopic haematuria in 85%, but absence does NOT rule out stone.</div></div>
+            <div class="diag-item"><div class="diag-dot"></div><div class="diag-text"><strong>Imaging:</strong> Non-contrast CT KUB (gold standard). USS first-line in pregnancy/young patients.</div></div>
+            <div class="diag-item"><div class="diag-dot"></div><div class="diag-text"><strong>Red flags:</strong> Fever + obstruction = infected hydronephrosis → urgent decompression (stent/nephrostomy).</div></div>
+        </div>
+        <div class="mgmt-box"><div class="mgmt-box-title">Pain &amp; Medical Expulsive Therapy</div>
+            <div class="drug-card"><div class="drug-name">NSAIDs (First-line)</div><div class="drug-class">Analgesia + reduce ureteric spasm</div><div class="drug-dose">Diclofenac 75 mg IM/IV or Ketorolac 30 mg IV. Avoid if CKD/peptic ulcer.</div><div class="drug-note">Superior to opioids for renal colic (Cochrane 2023). Add antiemetic if needed.</div></div>
+            <div class="drug-card"><div class="drug-name">Tamsulosin</div><div class="drug-class">Alpha-blocker — Medical expulsive therapy</div><div class="drug-dose">0.4 mg OD PO × 2–4 weeks for distal ureteric stones 5–10 mm.</div><div class="drug-note">Increases spontaneous passage rate by ~30%. Start after pain controlled.</div></div>
+            <div class="drug-card"><div class="drug-name">Oxycodone / Morphine</div><div class="drug-class">Opioid — Rescue analgesia</div><div class="drug-dose">Oxycodone 5–10 mg PO or Morphine 2.5–5 mg IV titrated. Use if NSAIDs contraindicated.</div></div>
+        </div>
+    </div>
+</div>
+
+<!-- BILIARY COLIC -->
+<div class="disease-panel" id="panel-em-biliary">
+    <div class="disease-name emergency-title">Biliary <em>Colic</em></div>
+    <div class="disease-tags"><span class="disease-tag" style="color:var(--emergency);border-color:var(--emergency-border)">GI / Surgical Emergency</span><span class="disease-tag" style="color:var(--text-muted)">ICD-10: K80</span></div>
+    <div class="alert-box emergency-alert"><strong>Key distinction:</strong> Biliary colic = intermittent RUQ pain &lt; 6h, no fever/leucocytosis. Acute cholecystitis = pain &gt; 6h + fever + Murphy's sign. Jaundice + pain = possible choledocholithiasis (urgent MRCP/ERCP).</div>
+    <div class="mgmt-sections">
+        <div class="mgmt-box"><div class="mgmt-box-title">Diagnostic Assessment</div>
+            <div class="diag-item"><div class="diag-dot"></div><div class="diag-text"><strong>Murphy's sign:</strong> Inspiratory arrest on RUQ palpation = cholecystitis until proven otherwise.</div></div>
+            <div class="diag-item"><div class="diag-dot"></div><div class="diag-text"><strong>Labs:</strong> LFTs (↑ bilirubin/ALP = CBD stone), amylase (rule out gallstone pancreatitis).</div></div>
+            <div class="diag-item"><div class="diag-dot"></div><div class="diag-text"><strong>USS abdomen:</strong> First-line imaging — stones, wall thickening (&gt; 3 mm), pericholecystic fluid.</div></div>
+        </div>
+        <div class="mgmt-box"><div class="mgmt-box-title">Acute Management</div>
+            <div class="drug-card"><div class="drug-name">Diclofenac / Hyoscine Butylbromide</div><div class="drug-class">Analgesia + antispasmodic</div><div class="drug-dose">Diclofenac 75 mg IM. Hyoscine 20 mg IV/IM. Avoid morphine (sphincter of Oddi spasm).</div><div class="drug-note">NSAIDs reduce progression to cholecystitis (BMJ 2022).</div></div>
+            <div class="drug-card"><div class="drug-name">Antibiotics (if cholecystitis)</div><div class="drug-class">Empirical coverage</div><div class="drug-dose">Co-amoxiclav 1.2 g IV TDS or Ceftriaxone 2 g IV + Metronidazole 500 mg IV TDS.</div></div>
+            <div class="drug-card"><div class="drug-name">NPO + IV Fluids</div><div class="drug-class">Supportive care</div><div class="drug-dose">Nil by mouth. 0.9% saline 1–1.5 L/24h. Early surgical referral for laparoscopic cholecystectomy.</div></div>
+        </div>
+    </div>
+</div>
+
+<!-- ACUTE HEADACHE -->
+<div class="disease-panel" id="panel-em-headache">
+    <div class="disease-name emergency-title">Acute <em>Headache</em></div>
+    <div class="disease-tags"><span class="disease-tag" style="color:var(--emergency);border-color:var(--emergency-border)">Neuro Emergency</span><span class="disease-tag" style="color:#F87171;border-color:rgba(248,113,113,0.3)">Rule out SAH/meningitis</span></div>
+    <div class="alert-box emergency-alert"><strong>Red flags (SNOOP10):</strong> Systemic symptoms, Neuro deficit, Onset sudden ("thunderclap"), Older age (&gt; 50), Pattern change, Positional, Precipitated by Valsalva, Papilloedema, Pregnancy, Painful eye. Thunderclap = CT head ± LP within 6h.</div>
+    <div class="mgmt-sections">
+        <div class="mgmt-box"><div class="mgmt-box-title">Dangerous Causes to Exclude</div>
+            <div class="diag-item"><div class="diag-dot"></div><div class="diag-text"><strong>Subarachnoid haemorrhage:</strong> Thunderclap onset, neck stiffness, ↓ GCS. CT head &lt; 6h sensitivity 98%.</div></div>
+            <div class="diag-item"><div class="diag-dot"></div><div class="diag-text"><strong>Meningitis:</strong> Fever + neck stiffness + photophobia. Non-blanching rash = meningococcal → immediate antibiotics.</div></div>
+            <div class="diag-item"><div class="diag-dot"></div><div class="diag-text"><strong>Temporal arteritis:</strong> Age &gt; 50, jaw claudication, scalp tenderness, ↑ ESR/CRP. Start prednisolone 60 mg OD immediately to prevent blindness.</div></div>
+            <div class="diag-item"><div class="diag-dot"></div><div class="diag-text"><strong>Carbon monoxide:</strong> Headache + nausea + confusion in multiple household members. Check carboxyhaemoglobin.</div></div>
+        </div>
+        <div class="mgmt-box"><div class="mgmt-box-title">Symptomatic Management (After Exclusion)</div>
+            <div class="drug-card"><div class="drug-name">Paracetamol + NSAID</div><div class="drug-class">First-line analgesia</div><div class="drug-dose">Paracetamol 1 g PO + Ibuprofen 400 mg PO. Avoid opioids (rebound headache risk).</div></div>
+            <div class="drug-card"><div class="drug-name">Metoclopramide</div><div class="drug-class">Antiemetic + migraine adjunct</div><div class="drug-dose">10 mg IV/IM. Enhances analgesic absorption, reduces nausea.</div></div>
+            <div class="drug-card"><div class="drug-name">Sumatriptan</div><div class="drug-class">Migraine-specific (if diagnosed)</div><div class="drug-dose">6 mg SC or 50 mg PO. Contraindicated in CVD, uncontrolled HTN, hemiplegic migraine.</div></div>
+        </div>
+    </div>
+</div>
+
+<!-- SYNCOPE -->
+<div class="disease-panel" id="panel-em-syncope">
+    <div class="disease-name emergency-title"><em>Syncope</em></div>
+    <div class="disease-tags"><span class="disease-tag" style="color:var(--emergency);border-color:var(--emergency-border)">Cardio-Neuro Emergency</span><span class="disease-tag" style="color:var(--text-muted)">ICD-10: R55</span></div>
+    <div class="alert-box emergency-alert"><strong>Key question:</strong> Was it true syncope (transient LOC + loss of postural tone + spontaneous recovery)? Rule out cardiac causes first: ECG for all. High-risk features: abnormal ECG, HF, age &gt; 60, exertional syncope, family history of sudden death.</div>
+    <div class="mgmt-sections">
+        <div class="mgmt-box"><div class="mgmt-box-title">Risk Stratification (San Francisco Rule)</div>
+            <div class="diag-item"><div class="diag-dot"></div><div class="diag-text"><strong>High-risk criteria (admit):</strong> Abnormal ECG, SOB, Hct &lt; 30%, SBP &lt; 90, history of CHF.</div></div>
+            <div class="diag-item"><div class="diag-dot"></div><div class="diag-text"><strong>Cardiac syncope clues:</strong> Palpitations before LOC, exertional, family history of sudden death, structural heart disease.</div></div>
+            <div class="diag-item"><div class="diag-dot"></div><div class="diag-text"><strong>Neurological red flags:</strong> Focal deficit, prolonged post-ictal, headache → consider seizure/stroke.</div></div>
+        </div>
+        <div class="mgmt-box"><div class="mgmt-box-title">Acute Workup &amp; Management</div>
+            <div class="drug-card"><div class="drug-name">ECG + Cardiac Monitoring</div><div class="drug-class">Mandatory for all syncope</div><div class="drug-dose">12-lead ECG immediately. Telemetry if high-risk features. Look for: prolonged QT, Brugada, AV block, VT.</div></div>
+            <div class="drug-card"><div class="drug-name">Orthostatic BP Measurement</div><div class="drug-class">Diagnose orthostatic hypotension</div><div class="drug-dose">Measure BP/HR supine → standing at 1 and 3 min. Drop SBP ≥ 20 or DBP ≥ 10 = positive.</div><div class="drug-note">Review medications: diuretics, alpha-blockers, TCAs, antihypertensives.</div></div>
+            <div class="drug-card"><div class="drug-name">Glucose + Hb</div><div class="drug-class">Exclude metabolic causes</div><div class="drug-dose">Point-of-care glucose. FBC if pallor/melaena (anaemia). Troponin if chest pain/ECG changes.</div></div>
+        </div>
+    </div>
+</div>
+
+<!-- ACUTE ABDOMEN -->
+<div class="disease-panel" id="panel-em-acuteabd">
+    <div class="disease-name emergency-title">Acute <em>Abdomen</em></div>
+    <div class="disease-tags"><span class="disease-tag" style="color:var(--emergency);border-color:var(--emergency-border)">Surgical Emergency</span><span class="disease-tag" style="color:#F87171;border-color:rgba(248,113,113,0.3)">Peritonitis = Surgical Consult</span></div>
+    <div class="alert-box emergency-alert"><strong>Peritonism = surgical emergency:</strong> Guarding, rigidity, rebound tenderness. Do NOT give strong analgesia before surgical review (myth — adequate pain control does NOT mask diagnosis). NPO, IV access, bloods, imaging.</div>
+    <div class="mgmt-sections">
+        <div class="mgmt-box"><div class="mgmt-box-title">Key Diagnoses to Consider</div>
+            <div class="diag-item"><div class="diag-dot"></div><div class="diag-text"><strong>Perforated viscus:</strong> Sudden severe pain, board-like rigidity, free air on erect CXR/CT.</div></div>
+            <div class="diag-item"><div class="diag-dot"></div><div class="diag-text"><strong>Bowel obstruction:</strong> Colicky pain, vomiting, distension, absolute constipation. "Tinkling" bowel sounds.</div></div>
+            <div class="diag-item"><div class="diag-dot"></div><div class="diag-text"><strong>Mesenteric ischaemia:</strong> Pain out of proportion to exam, AF, vascular disease. Lactate ↑ late.</div></div>
+            <div class="diag-item"><div class="diag-dot"></div><div class="diag-text"><strong>Ruptured AAA:</strong> Elderly, back/abdominal pain, hypotension, pulsatile mass. Bedside USS if unstable.</div></div>
+        </div>
+        <div class="mgmt-box"><div class="mgmt-box-title">Resuscitation &amp; Protocol</div>
+            <div class="drug-card"><div class="drug-name">IV Fluids + Analgesia</div><div class="drug-class">Early resuscitation</div><div class="drug-dose">0.9% saline 500–1000 mL bolus if hypotensive. Morphine 2.5–5 mg IV titrated. Antiemetic: Ondansetron 4 mg IV.</div></div>
+            <div class="drug-card"><div class="drug-name">Broad-spectrum Antibiotics</div><div class="drug-class">If sepsis/perforation suspected</div><div class="drug-dose">Pip-Tazo 4.5 g IV TDS or Ceftriaxone 2 g IV + Metronidazole 500 mg IV TDS.</div></div>
+            <div class="drug-card"><div class="drug-name">NPO + NG Tube</div><div class="drug-class">Bowel rest</div><div class="drug-dose">Nil by mouth. Consider NG tube if vomiting/distension. Urgent surgical consult for peritonism.</div></div>
+        </div>
+    </div>
+</div>
+
+<!-- ACUTE APPENDICITIS -->
+<div class="disease-panel" id="panel-em-appendicitis">
+    <div class="disease-name emergency-title">Acute <em>Appendicitis</em></div>
+    <div class="disease-tags"><span class="disease-tag" style="color:var(--emergency);border-color:var(--emergency-border)">Surgical Emergency</span><span class="disease-tag" style="color:var(--text-muted)">ICD-10: K35</span></div>
+    <div class="alert-box emergency-alert"><strong>Classic migration:</strong> Periumbilical pain → RLQ over 12–24h. Alvarado score ≥ 7 → surgical referral. Atypical presentations common in elderly, pregnant, immunocompromised.</div>
+    <div class="mgmt-sections">
+        <div class="mgmt-box"><div class="mgmt-box-title">Clinical Assessment</div>
+            <div class="diag-item"><div class="diag-dot"></div><div class="diag-text"><strong>Physical signs:</strong> McBurney's point tenderness, Rovsing's sign (RLQ pain on LLQ palpation), psoas/obturator signs.</div></div>
+            <div class="diag-item"><div class="diag-dot"></div><div class="diag-text"><strong>Labs:</strong> Leucocytosis (WBC &gt; 10) + ↑ CRP. Normal WBC does NOT exclude appendicitis.</div></div>
+            <div class="diag-item"><div class="diag-dot"></div><div class="diag-text"><strong>Imaging:</strong> USS first-line in children/pregnancy. CT abdomen/pelvis if diagnosis uncertain in adults.</div></div>
+        </div>
+        <div class="mgmt-box"><div class="mgmt-box-title">Pre-operative Management</div>
+            <div class="drug-card"><div class="drug-name">Analgesia</div><div class="drug-class">Do NOT withhold</div><div class="drug-dose">Paracetamol 1 g IV + Morphine 2.5–5 mg IV titrated. Adequate analgesia does NOT obscure diagnosis.</div></div>
+            <div class="drug-card"><div class="drug-name">Antibiotics (if perforation/abscess)</div><div class="drug-class">Pre-op prophylaxis / conservative management</div><div class="drug-dose">Co-amoxiclav 1.2 g IV TDS or Ceftriaxone 2 g IV + Metronidazole 500 mg IV TDS.</div><div class="drug-note">Antibiotics-first approach may be considered for uncomplicated appendicitis (CODA trial), but surgery remains standard.</div></div>
+            <div class="drug-card"><div class="drug-name">NPO + IV Fluids</div><div class="drug-class">Preparation for surgery</div><div class="drug-dose">Nil by mouth. 0.9% saline 1–1.5 L/24h. Early surgical referral.</div></div>
+        </div>
+    </div>
+</div>
+
+<!-- HYPOTENSION / SHOCK -->
+<div class="disease-panel" id="panel-em-hypotension">
+    <div class="disease-name emergency-title">Hypotension <em>&amp; Shock</em></div>
+    <div class="disease-tags"><span class="disease-tag" style="color:var(--emergency);border-color:var(--emergency-border)">Critical Emergency</span><span class="disease-tag" style="color:#F87171;border-color:rgba(248,113,113,0.3)">MAP &lt; 65 = Organ Hypoperfusion</span></div>
+    <div class="alert-box emergency-alert"><strong>Shock types (4 H's):</strong> Hypovolaemic, Haemorrhagic, Cardiogenic, Distributive (sepsis/anaphylaxis). Treat cause while supporting perfusion. Lactate &gt; 2 mmol/L = tissue hypoxia.</div>
+    <div class="mgmt-sections">
+        <div class="mgmt-box"><div class="mgmt-box-title">Rapid Assessment</div>
+            <div class="diag-item"><div class="diag-dot"></div><div class="diag-text"><strong>ABCs + Monitoring:</strong> High-flow O₂, IV access × 2, ECG, SpO₂, BP q5min, urine output.</div></div>
+            <div class="diag-item"><div class="diag-dot"></div><div class="diag-text"><strong>Bedside tests:</strong> Glucose, lactate, ABG, ECG, FAST scan (trauma), pregnancy test.</div></div>
+            <div class="diag-item"><div class="diag-dot"></div><div class="diag-text"><strong>Identify source:</strong> Haemorrhage? Sepsis? MI? PE? Anaphylaxis? Adrenal crisis?</div></div>
+        </div>
+        <div class="mgmt-box"><div class="mgmt-box-title">Resuscitation Protocol</div>
+            <div class="drug-card"><div class="drug-name">Crystalloid Bolus</div><div class="drug-class">First-line fluid resuscitation</div><div class="drug-dose">0.9% saline or Balanced crystalloid 500–1000 mL IV over 15 min. Reassess after each bolus.</div><div class="drug-note">Avoid excessive fluids in cardiogenic shock. Use passive leg raise to assess fluid responsiveness.</div></div>
+            <div class="drug-card"><div class="drug-name">Vasopressors</div><div class="drug-class">If hypotension persists after fluids</div><div class="drug-dose">Norepinephrine 0.01–3 µg/kg/min via central line. Target MAP ≥ 65 mmHg.</div><div class="drug-note">Start early in septic shock. Add vasopressin 0.03 U/min if refractory.</div></div>
+            <div class="drug-card"><div class="drug-name">Blood Products</div><div class="drug-class">Haemorrhagic shock</div><div class="drug-dose">Activate massive transfusion protocol if ongoing bleeding. Target Hb &gt; 70 g/L (higher if CAD).</div></div>
+        </div>
+    </div>
+</div>
+
+<!-- CORROSIVE INGESTION -->
+<div class="disease-panel" id="panel-em-corrosives">
+    <div class="disease-name emergency-title">Corrosive <em>Ingestion</em></div>
+    <div class="disease-tags"><span class="disease-tag" style="color:var(--emergency);border-color:var(--emergency-border)">Toxicology Emergency</span><span class="disease-tag" style="color:var(--text-muted)">ICD-10: T54</span></div>
+    <div class="alert-box emergency-alert"><strong>DO NOT induce vomiting or give charcoal:</strong> Risk of re-exposure and perforation. Do NOT neutralise (exothermic reaction). Assess airway first — stridor = impending obstruction → early intubation.</div>
+    <div class="mgmt-sections">
+        <div class="mgmt-box"><div class="mgmt-box-title">Immediate Actions</div>
+            <div class="diag-item"><div class="diag-dot"></div><div class="diag-text"><strong>Airway:</strong> Inspect oropharynx. Drooling, stridor, hoarseness = upper airway injury → call anaesthetics early.</div></div>
+            <div class="diag-item"><div class="diag-dot"></div><div class="diag-text"><strong>Decontamination:</strong> Remove contaminated clothing. Rinse mouth/skin with water. Do NOT give anything by mouth.</div></div>
+            <div class="diag-item"><div class="diag-dot"></div><div class="diag-text"><strong>Imaging:</strong> CXR if respiratory symptoms (perforation/aspiration). CT if severe pain/peritonism.</div></div>
+        </div>
+        <div class="mgmt-box"><div class="mgmt-box-title">Supportive &amp; Definitive Care</div>
+            <div class="drug-card"><div class="drug-name">Analgesia + Antiemetics</div><div class="drug-class">Symptom control</div><div class="drug-dose">Morphine 2.5–5 mg IV titrated. Ondansetron 4 mg IV. Avoid NSAIDs (GI irritation).</div></div>
+            <div class="drug-card"><div class="drug-name">IV PPI</div><div class="drug-class">Gastric protection</div><div class="drug-dose">Pantoprazole 40 mg IV OD. May reduce stricture formation (evidence limited).</div></div>
+            <div class="drug-card"><div class="drug-name">Early Endoscopy</div><div class="drug-class">Risk stratification — 12–24h</div><div class="drug-dose">Gastroscopy to grade injury (Zargar classification). Grade 2b/3 = high perforation risk → surgical consult.</div><div class="drug-note">Contraindicated if perforation suspected. Steroids for oesophageal strictures remain controversial.</div></div>
+        </div>
+    </div>
+</div>
+
+<!-- ZINC PHOSPHIDE -->
+<div class="disease-panel" id="panel-em-zincphos">
+    <div class="disease-name emergency-title">Zinc Phosphide <em>Poisoning</em></div>
+    <div class="disease-tags"><span class="disease-tag" style="color:var(--emergency);border-color:var(--emergency-border)">Toxicology Emergency</span><span class="disease-tag" style="color:#F87171;border-color:rgba(248,113,113,0.3)">Mortality 30–70%</span></div>
+    <div class="alert-box emergency-alert"><strong>Garlic odour + phosphine gas:</strong> Releases phosphine (PH₃) in stomach — toxic to heart, lungs, liver. No specific antidote. Supportive care is critical. Staff protection: avoid inhalation of patient's breath/vomit.</div>
+    <div class="mgmt-sections">
+        <div class="mgmt-box"><div class="mgmt-box-title">Clinical Features</div>
+            <div class="diag-item"><div class="diag-dot"></div><div class="diag-text"><strong>Early (0–6h):</strong> Nausea, vomiting (garlic odour), abdominal pain, agitation.</div></div>
+            <div class="diag-item"><div class="diag-dot"></div><div class="diag-text"><strong>Delayed (6–24h):</strong> Shock, ARDS, myocarditis, hepatic/renal failure, metabolic acidosis.</div></div>
+            <div class="diag-item"><div class="diag-dot"></div><div class="diag-text"><strong>Labs:</strong> ABG (metabolic acidosis), LFTs, creatinine, troponin, lactate. ECG: QT prolongation, arrhythmias.</div></div>
+        </div>
+        <div class="mgmt-box"><div class="mgmt-box-title">Emergency Management</div>
+            <div class="drug-card"><div class="drug-name">Gastric Lavage (Controversial)</div><div class="drug-class">Only if &lt; 1h + protected airway</div><div class="drug-dose">Consider only in massive ingestion with RSI. Use large-bore tube. Avoid if corrosive co-ingestion.</div><div class="drug-note">No role for activated charcoal (poor adsorption). Do NOT give oils/fats (increase phosphine absorption).</div></div>
+            <div class="drug-card"><div class="drug-name">Supportive ICU Care</div><div class="drug-class">Mainstay of treatment</div><div class="drug-dose">IV fluids, vasopressors for shock, mechanical ventilation for ARDS, correct acidosis (NaHCO₃), monitor for arrhythmias.</div></div>
+            <div class="drug-card"><div class="drug-name">Magnesium Sulfate + NAC (Experimental)</div><div class="drug-class">Potential adjuncts</div><div class="drug-dose">MgSO₄ 2 g IV then 1 g/hr (antiarrhythmic). NAC 150 mg/kg IV load (antioxidant). Evidence limited but low risk.</div></div>
+        </div>
+    </div>
+</div>
+
+<!-- VASOVAGAL SYNCOPE -->
+<div class="disease-panel" id="panel-em-vasovagal">
+    <div class="disease-name emergency-title">Vasovagal <em>Syncope</em></div>
+    <div class="disease-tags"><span class="disease-tag" style="color:var(--emergency);border-color:var(--emergency-border)">Benign Syncope</span><span class="disease-tag" style="color:var(--text-muted)">ICD-10: R55</span></div>
+    <div class="alert-box emergency-alert"><strong>Typical triggers:</strong> Pain, emotion, prolonged standing, venepuncture. Prodrome: nausea, sweating, pallor, tunnel vision. Recovery rapid (seconds-minutes). Exclude cardiac causes first.</div>
+    <div class="mgmt-sections">
+        <div class="mgmt-box"><div class="mgmt-box-title">Diagnostic Criteria</div>
+            <div class="diag-item"><div class="diag-dot"></div><div class="diag-text"><strong>History:</strong> Clear trigger + prodrome + rapid recovery + no injury. Normal ECG.</div></div>
+            <div class="diag-item"><div class="diag-dot"></div><div class="diag-text"><strong>Exclusion:</strong> No chest pain, palpitations, exertional onset, family history of sudden death.</div></div>
+            <div class="diag-item"><div class="diag-dot"></div><div class="diag-text"><strong>Orthostatic testing:</strong> May reproduce symptoms. BP/HR drop on standing supports diagnosis.</div></div>
+        </div>
+        <div class="mgmt-box"><div class="mgmt-box-title">Acute &amp; Preventive Management</div>
+            <div class="drug-card"><div class="drug-name">Positioning + Reassurance</div><div class="drug-class">Immediate recovery</div><div class="drug-dose">Lay supine, elevate legs. Loosen tight clothing. Reassure — benign prognosis.</div></div>
+            <div class="drug-card"><div class="drug-name">Physical Counterpressure</div><div class="drug-class">Prevent recurrence</div><div class="drug-dose">Teach: leg crossing + muscle tensing, handgrip, arm tensing at prodrome. Increases venous return.</div><div class="drug-note">Reduces recurrence by 36% (NEJM 2006).</div></div>
+            <div class="drug-card"><div class="drug-name">Fludrocortisone / Midodrine</div><div class="drug-class">Refractory cases only</div><div class="drug-dose">Fludrocortisone 0.1 mg OD or Midodrine 2.5–10 mg TDS. Refer to cardiology/syncope clinic.</div></div>
+        </div>
+    </div>
+</div>
+
+<!-- ACUTE URINARY RETENTION -->
+<div class="disease-panel" id="panel-em-aru">
+    <div class="disease-name emergency-title">Acute Urinary <em>Retention</em></div>
+    <div class="disease-tags"><span class="disease-tag" style="color:var(--emergency);border-color:var(--emergency-border)">Urology Emergency</span><span class="disease-tag" style="color:var(--text-muted)">ICD-10: R33</span></div>
+    <div class="alert-box emergency-alert"><strong>Painful distension + inability to void:</strong> Post-void residual &gt; 500 mL. Common causes: BPH, urethral stricture, constipation, drugs (anticholinergics, opioids), post-op. Rule out cauda equina (saddle anaesthesia, bilateral leg weakness).</div>
+    <div class="mgmt-sections">
+        <div class="mgmt-box"><div class="mgmt-box-title">Assessment &amp; Red Flags</div>
+            <div class="diag-item"><div class="diag-dot"></div><div class="diag-text"><strong>History:</strong> LUTS, constipation, recent surgery/anaesthesia, medications, neurological symptoms.</div></div>
+            <div class="diag-item"><div class="diag-dot"></div><div class="diag-text"><strong>Examination:</strong> Distended bladder (suprapubic percussion), DRE (prostate size, tone), neuro exam.</div></div>
+            <div class="diag-item"><div class="diag-dot"></div><div class="diag-text"><strong>Cauda equina red flags:</strong> Saddle anaesthesia, bilateral sciatica, bladder/bowel dysfunction → emergency MRI spine.</div></div>
+        </div>
+        <div class="mgmt-box"><div class="mgmt-box-title">Relief &amp; Pharmacotherapy</div>
+            <div class="drug-card"><div class="drug-name">Urethral Catheterisation</div><div class="drug-class">First-line decompression</div><div class="drug-dose">14–16 Fr Foley catheter. Use lidocaine gel. If difficult: coudé-tip catheter or urology consult for suprapubic catheter.</div><div class="drug-note">Drain completely. Post-obstructive diuresis: monitor U&amp;E, replace losses if urine output &gt; 200 mL/h.</div></div>
+            <div class="drug-card"><div class="drug-name">Tamsulosin</div><div class="drug-class">Alpha-blocker — Prevent recurrence (BPH)</div><div class="drug-dose">0.4 mg OD PO. Start after catheterisation. Continue × 3–7 days before trial without catheter (TWOC).</div></div>
+            <div class="drug-card"><div class="drug-name">Antibiotics</div><div class="drug-class">If UTI suspected</div><div class="drug-dose">Nitrofurantoin 100 mg BD × 3 days (if eGFR &gt; 45) or Cefalexin 500 mg TDS × 5 days. Send urine culture.</div></div>
+        </div>
+    </div>
+</div>
+
+<!-- IRRITABLE BOWEL SYNDROME -->
+<div class="disease-panel" id="panel-ibs">
+    <div class="disease-name">Irritable Bowel <em>Syndrome</em></div>
+    <div class="disease-tags"><span class="disease-tag" style="color:var(--gold);border-color:rgba(201,168,76,0.3)">Rome IV Criteria</span><span class="disease-tag" style="color:var(--text-muted)">ICD-10: K58</span><span class="disease-tag" style="color:var(--peds);border-color:var(--peds-border)">Functional GI Disorder</span></div>
+    <div class="alert-box default"><strong>Rome IV criteria:</strong> Recurrent abdominal pain ≥1 day/week in last 3 months, associated with ≥2 of: related to defecation, change in stool frequency, change in stool form. Subtypes: IBS-C, IBS-D, IBS-M, IBS-U.</div>
+    <div class="mgmt-sections">
+        <div class="mgmt-box"><div class="mgmt-box-title">Diagnostic Approach</div>
+            <div class="diag-item"><div class="diag-dot"></div><div class="diag-text"><strong>Red flags (exclude organic disease):</strong> Age &gt; 50 onset, weight loss, nocturnal symptoms, rectal bleeding, anaemia, family history of CRC/IBD</div></div>
+            <div class="diag-item"><div class="diag-dot"></div><div class="diag-text"><strong>Minimal workup:</strong> FBC, CRP/ESR, coeliac serology (tTG-IgA), stool calprotectin if uncertain. Avoid routine colonoscopy in young patients without alarm features.</div></div>
+            <div class="diag-item"><div class="diag-dot"></div><div class="diag-text"><strong>Stool calprotectin:</strong> &lt; 50 µg/g strongly favours IBS over IBD (NPV &gt; 95%)</div></div>
+        </div>
+        <div class="mgmt-box"><div class="mgmt-box-title">Stepwise Management</div>
+            <div class="drug-card"><div class="drug-name">Dietary Modification</div><div class="drug-class">First-line — Low FODMAP diet</div><div class="drug-dose">2–6 week elimination phase → structured reintroduction. Work with dietitian. 50–75% respond with symptom improvement.</div><div class="drug-note">Not a lifelong diet. Reintroduce tolerated FODMAPs to maximise dietary variety.</div></div>
+            <div class="drug-card"><div class="drug-name">Peppermint Oil (IBGard®)</div><div class="drug-class">Antispasmodic — IBS pain/bloating</div><div class="drug-dose">180–225 mg enteric-coated capsule TID before meals.</div><div class="drug-note">Meta-analysis: NNT = 3 for global symptom improvement. Avoid in GERD (may worsen reflux).</div></div>
+            <div class="drug-card"><div class="drug-name">Linaclotide / Lubiprostone</div><div class="drug-class">Guanylate cyclase-C agonist — IBS-C</div><div class="drug-dose">Linaclotide 290 µg OD fasting. Lubiprostone 8 µg BID with food.</div><div class="drug-note">Increase spontaneous bowel movements, reduce pain. Diarrhoea is common side effect.</div></div>
+            <div class="drug-card"><div class="drug-name">Rifaximin</div><div class="drug-class">Non-absorbable antibiotic — IBS-D</div><div class="drug-dose">550 mg TID × 14 days. May repeat × 2 courses if relapse.</div><div class="drug-note">TARGET trials: significant improvement in bloating and global symptoms. Minimal systemic absorption.</div></div>
+            <div class="drug-card"><div class="drug-name">Low-dose Amitriptyline</div><div class="drug-class">Neuromodulator — Visceral hypersensitivity</div><div class="drug-dose">10–25 mg at bedtime. Titrate slowly over 2–4 weeks.</div><div class="drug-note">Start low to avoid anticholinergic side effects. Benefit may take 4–6 weeks. Avoid in cardiac conduction disease.</div></div>
+        </div>
+    </div>
+</div>
+
+<!-- INFLAMMATORY BOWEL DISEASE -->
+<div class="disease-panel" id="panel-ibd">
+    <div class="disease-name">Inflammatory Bowel <em>Disease</em></div>
+    <div class="disease-tags"><span class="disease-tag" style="color:var(--gold);border-color:rgba(201,168,76,0.3)">Crohn's / Ulcerative Colitis</span><span class="disease-tag" style="color:var(--text-muted)">ICD-10: K50–K51</span><span class="disease-tag" style="color:#F87171;border-color:rgba(248,113,113,0.3)">Chronic Relapsing</span></div>
+    <div class="alert-box default"><strong>Crohn's vs UC:</strong> Crohn's = transmural, skip lesions, any GI segment, perianal disease. UC = mucosal, continuous, rectum to proximal. Smoking worsens Crohn's but may protect against UC.</div>
+    <div class="mgmt-sections">
+        <div class="mgmt-box"><div class="mgmt-box-title">Diagnostic Workup</div>
+            <div class="diag-item"><div class="diag-dot"></div><div class="diag-text"><strong>Labs:</strong> FBC (anaemia), CRP/ESR (inflammation), albumin (nutrition), faecal calprotectin (&gt; 250 µg/g suggests IBD)</div></div>
+            <div class="diag-item"><div class="diag-dot"></div><div class="diag-text"><strong>Endoscopy + biopsy:</strong> Gold standard. Colonoscopy with ileoscopy + multiple biopsies (even from normal-appearing mucosa)</div></div>
+            <div class="diag-item"><div class="diag-dot"></div><div class="diag-text"><strong>Imaging:</strong> MR/CT enterography for small bowel Crohn's. USS for abscess/fistula screening.</div></div>
+            <div class="diag-item"><div class="diag-dot"></div><div class="diag-text"><strong>Exclude infections:</strong> Stool culture, C. difficile, ova/parasites before escalating therapy</div></div>
+        </div>
+        <div class="mgmt-box"><div class="mgmt-box-title">Treatment Strategy — Treat-to-Target</div>
+            <div class="drug-card"><div class="drug-name">Mesalazine / Sulfasalazine</div><div class="drug-class">5-ASA — Mild-moderate UC induction/maintenance</div><div class="drug-dose">Mesalazine 2.4–4.8 g/day PO. Rectal formulations for distal disease.</div><div class="drug-note">Not effective for Crohn's. Monitor renal function annually (interstitial nephritis risk).</div></div>
+            <div class="drug-card"><div class="drug-name">Budesonide MMX</div><div class="drug-class">Topical steroid — Mild-moderate Crohn's/UC</div><div class="drug-dose">9 mg OD × 8 weeks. Minimal systemic absorption vs prednisolone.</div><div class="drug-note">For ileocecal Crohn's or left-sided UC. Not for severe disease.</div></div>
+            <div class="drug-card"><div class="drug-name">Anti-TNF (Infliximab / Adalimumab)</div><div class="drug-class">Biologic — Moderate-severe IBD</div><div class="drug-dose">Infliximab: 5 mg/kg IV at 0, 2, 6 wks → q8wks. Adalimumab: 160/80/40 mg SC loading → 40 mg q2wks.</div><div class="drug-note">Screen for TB/hepatitis B before initiation. Therapeutic drug monitoring (trough levels) guides dose optimisation.</div></div>
+            <div class="drug-card"><div class="drug-name">Vedolizumab / Ustekinumab</div><div class="drug-class">Gut-selective / IL-12/23 inhibitor — Biologic-experienced</div><div class="drug-dose">Vedolizumab: 300 mg IV at 0, 2, 6 wks → q8wks. Ustekinumab: weight-based IV induction → 90 mg SC q8–12wks.</div><div class="drug-note">Lower infection risk than anti-TNF. Vedolizumab preferred in elderly or high infection risk.</div></div>
+            <div class="drug-card"><div class="drug-name">JAK Inhibitors (Upadacitinib)</div><div class="drug-class">Oral small molecule — Moderate-severe UC</div><div class="drug-dose">45 mg OD × 8 wks induction → 15–30 mg OD maintenance.</div><div class="drug-note">Rapid onset (2 weeks). Monitor lipids, LFTs, CBC. Avoid in high VTE risk.</div></div>
+        </div>
+    </div>
+</div>
+
+<!-- CONSTIPATION -->
+<div class="disease-panel" id="panel-constipation">
+    <div class="disease-name"><em>Constipation</em></div>
+    <div class="disease-tags"><span class="disease-tag" style="color:var(--gold);border-color:rgba(201,168,76,0.3)">Rome IV / Functional</span><span class="disease-tag" style="color:var(--text-muted)">ICD-10: K59.0</span></div>
+    <div class="alert-box default"><strong>Rome IV criteria:</strong> ≥2 of: straining, lumpy/hard stools, sensation of incomplete evacuation, sensation of anorectal obstruction, manual manoeuvres, &lt; 3 spontaneous bowel movements/week. Symptoms ≥3 months.</div>
+    <div class="mgmt-sections">
+        <div class="mgmt-box"><div class="mgmt-box-title">Red Flags &amp; Workup</div>
+            <div class="diag-item"><div class="diag-dot"></div><div class="diag-text"><strong>Alarm features:</strong> New onset &gt; 50 years, rectal bleeding, weight loss, anaemia, family history CRC, neurological symptoms</div></div>
+            <div class="diag-item"><div class="diag-dot"></div><div class="diag-text"><strong>Medication review:</strong> Opioids, anticholinergics, calcium channel blockers, iron, antacids, antidepressants</div></div>
+            <div class="diag-item"><div class="diag-dot"></div><div class="diag-text"><strong>Basic labs:</strong> TSH, calcium, glucose, electrolytes. Consider colonoscopy if alarm features or age-appropriate screening due.</div></div>
+        </div>
+        <div class="mgmt-box"><div class="mgmt-box-title">Stepwise Laxative Therapy</div>
+            <div class="drug-card"><div class="drug-name">Bulk-forming (Psyllium)</div><div class="drug-class">First-line — Functional constipation</div><div class="drug-dose">3.5 g in 250 mL water OD–TID. Increase fluid intake to avoid obstruction.</div><div class="drug-note">Take with adequate water. May cause bloating initially. Avoid in dysphagia or strictures.</div></div>
+            <div class="drug-card"><div class="drug-name">Osmotic (Macrogol / PEG)</div><div class="drug-class">Second-line — Evidence-based efficacy</div><div class="drug-dose">Macrogol 3350: 13.8 g (1 sachet) in 250 mL water OD. Titrate to effect (max 3 sachets/day).</div><div class="drug-note">Superior to lactulose in RCTs. Safe for long-term use. Minimal electrolyte disturbance.</div></div>
+            <div class="drug-card"><div class="drug-name">Stimulant (Bisacodyl / Senna)</div><div class="drug-class">Rescue / Opioid-induced constipation</div><div class="drug-dose">Bisacodyl 5–10 mg PO at bedtime or 10 mg suppository. Senna 15–30 mg at bedtime.</div><div class="drug-note">Use intermittently. Chronic daily use may cause melanosis coli (benign) or cathartic colon (controversial).</div></div>
+            <div class="drug-card"><div class="drug-name">Prucalopride</div><div class="drug-class">5-HT₄ agonist — Refractory chronic constipation</div><div class="drug-dose">2 mg OD (1 mg if eGFR &lt; 30). Take with/without food.</div><div class="drug-note">Increases spontaneous complete bowel movements. Avoid in severe hepatic impairment. Headache common initially.</div></div>
+            <div class="drug-card"><div class="drug-name">Naloxegol / Naldemedine</div><div class="drug-class">PAMORA — Opioid-induced constipation</div><div class="drug-dose">Naloxegol 25 mg OD fasting. Naldemedine 0.2 mg OD.</div><div class="drug-note">Peripherally-acting μ-opioid receptor antagonists. Do NOT reverse central analgesia. Avoid in bowel obstruction.</div></div>
+        </div>
+    </div>
+</div>
+
+<!-- DIARRHEA -->
+<div class="disease-panel" id="panel-diarrhea">
+    <div class="disease-name"><em>Diarrhea</em></div>
+    <div class="disease-tags"><span class="disease-tag" style="color:var(--gold);border-color:rgba(201,168,76,0.3)">Acute / Chronic</span><span class="disease-tag" style="color:var(--text-muted)">ICD-10: R19.7 / K59.1</span></div>
+    <div class="alert-box default"><strong>Acute (&lt; 14 days) vs Chronic (&gt; 4 weeks):</strong> Acute = usually infectious; Chronic = consider IBD, IBS, malabsorption, medications, endocrine. Always assess hydration status first.</div>
+    <div class="mgmt-sections">
+        <div class="mgmt-box"><div class="mgmt-box-title">Diagnostic Approach</div>
+            <div class="diag-item"><div class="diag-dot"></div><div class="diag-text"><strong>Acute workup:</strong> Stool culture if bloody, fever, travel, immunocompromised. C. difficile if recent antibiotics/hospitalisation.</div></div>
+            <div class="diag-item"><div class="diag-dot"></div><div class="diag-text"><strong>Chronic workup:</strong> FBC, CRP, coeliac serology, TSH, faecal calprotectin, stool osmotic gap, elastase if steatorrhoea.</div></div>
+            <div class="diag-item"><div class="diag-dot"></div><div class="diag-text"><strong>Red flags:</strong> Blood, weight loss, nocturnal diarrhoea, family history IBD/CRC, onset &gt; 50 years</div></div>
+            <div class="diag-item"><div class="diag-dot"></div><div class="diag-text"><strong>Medication review:</strong> Metformin, PPIs, SSRIs, NSAIDs, magnesium-containing antacids, laxative abuse</div></div>
+        </div>
+        <div class="mgmt-box"><div class="mgmt-box-title">Symptomatic &amp; Targeted Therapy</div>
+            <div class="drug-card"><div class="drug-name">Oral Rehydration Solution (ORS)</div><div class="drug-class">First-line — All acute diarrhoea</div><div class="drug-dose">WHO-ORS: 1 L clean water + 6 tsp sugar + ½ tsp salt. Sip frequently. Target: urine output &gt; 0.5 mL/kg/hr.</div><div class="drug-note">Prevents/treats dehydration. Superior to sports drinks (correct Na⁺:glucose ratio for optimal absorption).</div></div>
+            <div class="drug-card"><div class="drug-name">Loperamide</div><div class="drug-class">Antimotility — Non-infectious / traveller's diarrhoea</div><div class="drug-dose">4 mg initially, then 2 mg after each loose stool (max 16 mg/day).</div><div class="drug-note">AVOID in bloody diarrhoea, fever, or suspected C. difficile (risk of toxic megacolon). Safe in IBS-D.</div></div>
+            <div class="drug-card"><div class="drug-name">Rifaximin</div><div class="drug-class">Non-absorbable antibiotic — Traveller's diarrhoea / IBS-D</div><div class="drug-dose">200 mg TID × 3 days (traveller's) or 550 mg TID × 14 days (IBS-D).</div><div class="drug-note">Minimal systemic absorption. Effective against ETEC. Not for invasive pathogens (Shigella, Campylobacter).</div></div>
+            <div class="drug-card"><div class="drug-name">Bismuth Subsalicylate</div><div class="drug-class">Antimicrobial / antisecretory — Traveller's prophylaxis/treatment</div><div class="drug-dose">524 mg (2 tabs) QID. Can be used prophylactically (2 tabs QID during travel).</div><div class="drug-note">Avoid in aspirin allergy, anticoagulation, children (Reye's risk). May darken tongue/stool (benign).</div></div>
+            <div class="drug-card"><div class="drug-name">Budesonide</div><div class="drug-class">Topical steroid — Microscopic colitis</div><div class="drug-dose">9 mg OD × 6–8 weeks, then taper to lowest effective dose.</div><div class="drug-note">First-line for collagenous/lymphocytic colitis. Superior to mesalazine. Monitor for adrenal suppression with long-term use.</div></div>
+        </div>
+    </div>
+</div>
+
+<!-- ABDOMINAL DISTENTION -->
+<div class="disease-panel" id="panel-distention">
+    <div class="disease-name">Abdominal <em>Distention</em></div>
+    <div class="disease-tags"><span class="disease-tag" style="color:var(--gold);border-color:rgba(201,168,76,0.3)">Functional / Organic</span><span class="disease-tag" style="color:var(--text-muted)">ICD-10: R14.0</span></div>
+    <div class="alert-box default"><strong>Distention vs Bloating:</strong> Distention = visible/measurable increase in abdominal girth. Bloating = subjective sensation of fullness. Often coexist in IBS. Rule out obstruction, ascites, ovarian mass, severe constipation.</div>
+    <div class="mgmt-sections">
+        <div class="mgmt-box"><div class="mgmt-box-title">Differential Diagnosis</div>
+            <div class="diag-item"><div class="diag-dot"></div><div class="diag-text"><strong>Functional:</strong> IBS, functional bloating, aerophagia, abdominal phrenic dyssynergia (paradoxical diaphragm contraction)</div></div>
+            <div class="diag-item"><div class="diag-dot"></div><div class="diag-text"><strong>Organic:</strong> Bowel obstruction, ascites (liver/heart failure/malignancy), ovarian mass, severe constipation, SIBO, gastroparesis</div></div>
+            <div class="diag-item"><div class="diag-dot"></div><div class="diag-text"><strong>Red flags:</strong> Weight loss, vomiting, early satiety, post-menopausal bleeding, palpable mass, ascites on exam</div></div>
+            <div class="diag-item"><div class="diag-dot"></div><div class="diag-text"><strong>Basic workup:</strong> Abdominal X-ray (obstruction), USS (ascites/ovarian mass), consider CT if uncertain. Faecal calprotectin if IBD suspected.</div></div>
+        </div>
+        <div class="mgmt-box"><div class="mgmt-box-title">Management Strategies</div>
+            <div class="drug-card"><div class="drug-name">Dietary Modification</div><div class="drug-class">First-line — Low FODMAP / reduce gas-producing foods</div><div class="drug-dose">Eliminate beans, onions, cruciferous vegetables, carbonated drinks, sugar alcohols (sorbitol, xylitol). Reintroduce systematically.</div><div class="drug-note">Food/symptom diary helps identify triggers. Work with dietitian to avoid nutritional deficiencies.</div></div>
+            <div class="drug-card"><div class="drug-name">Simethicone</div><div class="drug-class">Antifoaming agent — Symptomatic relief</div><div class="drug-dose">40–125 mg after meals and at bedtime (max 500 mg/day).</div><div class="drug-note">Breaks up gas bubbles. Safe, minimal absorption. Modest efficacy in RCTs but low risk.</div></div>
+            <div class="drug-card"><div class="drug-name">Rifaximin</div><div class="drug-class">Non-absorbable antibiotic — Suspected SIBO</div><div class="drug-dose">550 mg TID × 14 days. May repeat course if relapse.</div><div class="drug-note">Consider if bloating + diarrhoea + risk factors (PPI use, prior bowel surgery, diabetes). Confirm SIBO with breath test if available.</div></div>
+            <div class="drug-card"><div class="drug-name">Prokinetics (Prucalopride / Domperidone)</div><div class="drug-class">Motility enhancement — Gastroparesis / slow transit</div><div class="drug-dose">Prucalopride 2 mg OD. Domperidone 10 mg TID before meals (cardiac risk: avoid if QT prolongation).</div><div class="drug-note">Use only after excluding mechanical obstruction. Prucalopride preferred for lower GI; domperidone for upper GI symptoms.</div></div>
+            <div class="drug-card"><div class="drug-name">Pelvic Floor Biofeedback</div><div class="drug-class">Non-pharmacologic — Abdominophrenic dyssynergia</div><div class="drug-dose">6–8 sessions with trained therapist. Teaches diaphragmatic breathing + abdominal muscle coordination.</div><div class="drug-note">Highly effective for functional distention with paradoxical muscle activation. Refer to GI motility specialist.</div></div>
+        </div>
+    </div>
+</div>
 
     </div><!-- end mgmt-main -->
   </div><!-- end mgmt-layout -->
@@ -1537,8 +1985,16 @@ const searchData=[
   {name:'Hypertensive Urgency',desc:'Oral vs IV management, labetalol, nitroprusside',cat:'emergency',catClass:'cat-emergency',action:()=>{showMgmt('emergency');selectDisease('em-htn-urgency',null)}},
   {name:'Organophosphate Poisoning',desc:'Atropine, pralidoxime, SLUDGE signs',cat:'emergency',catClass:'cat-emergency',action:()=>{showMgmt('emergency');selectDisease('em-opoisoning',null)}},
   {name:'Cutting Wound',desc:'Haemorrhage control, closure, tetanus, antibiotics',cat:'emergency',catClass:'cat-emergency',action:()=>{showMgmt('emergency');selectDisease('em-wound',null)}},
-  {name:'Epistaxis',desc:'Anterior/posterior, silver nitrate, nasal packing, tranexamic acid',cat:'emergency',catClass:'cat-emergency',action:()=>{showMgmt('emergency');selectDisease('em-epistaxis',null)}},
-];
+  {name:'Epistaxis',desc:'Anterior/posterior, silver nitrate, nasal packing, tranexamic acid',cat:'emergency',catClass:'cat-emergency',action:()=>{showMgmt('emergency');selectDisease('em-epistaxis',null)}},{name:'Opioid Overdose',desc:'Naloxone reversal, respiratory depression, triad',cat:'emergency',catClass:'cat-emergency',action:()=>{showMgmt('emergency');selectDisease('em-opioid',null)}},
+{name:'Thyroid Storm',desc:'PTU, beta-blockers, iodine, hydrocortisone',cat:'emergency',catClass:'cat-emergency',action:()=>{showMgmt('emergency');selectDisease('em-thyroidstorm',null)}},
+{name:'Rhabdomyolysis',desc:'Aggressive IV fluids, CK monitoring, myoglobinuria',cat:'emergency',catClass:'cat-emergency',action:()=>{showMgmt('emergency');selectDisease('em-rhabdo',null)}},
+{name:'Acute Angle-Closure Glaucoma',desc:'IOP lowering, timolol, pilocarpine, acetazolamide',cat:'emergency',catClass:'cat-emergency',action:()=>{showMgmt('emergency');selectDisease('em-glaucoma',null)}},
+{name:'Adrenal Crisis',desc:'IV hydrocortisone, fluid resuscitation, treat precipitant',cat:'emergency',catClass:'cat-emergency',action:()=>{showMgmt('emergency');selectDisease('em-adrenal',null)}},
+{name:'Irritable Bowel Syndrome',desc:'Rome IV criteria, low FODMAP, linaclotide, rifaximin, amitriptyline',cat:'adult',catClass:'cat-adult',action:()=>{showMgmt('adult');selectDisease('ibs',null)}},
+{name:'Inflammatory Bowel Disease',desc:'Crohn vs UC, mesalazine, anti-TNF, vedolizumab, treat-to-target',cat:'adult',catClass:'cat-adult',action:()=>{showMgmt('adult');selectDisease('ibd',null)}},
+{name:'Constipation',desc:'Rome IV, macrogol, prucalopride, PAMORA for opioid-induced',cat:'adult',catClass:'cat-adult',action:()=>{showMgmt('adult');selectDisease('constipation',null)}},
+{name:'Diarrhea',desc:'Acute vs chronic, ORS, loperamide cautions, rifaximin, budesonide for microscopic colitis',cat:'adult',catClass:'cat-adult',action:()=>{showMgmt('adult');selectDisease('diarrhea',null)}},
+{name:'Abdominal Distention',desc:'Functional vs organic, low FODMAP, simethicone, SIBO workup, biofeedback',cat:'adult',catClass:'cat-adult',action:()=>{showMgmt('adult');selectDisease('distention',null)}},];
 
 function openSearch(){
   document.getElementById('search-overlay').classList.add('open');
@@ -1734,6 +2190,107 @@ function calcAlvarado(){
   else if(s<=9){badge='<span class="interp-badge risk-high">High Probability</span>';rec='~76% risk. Urgent surgical referral.'}
   else{badge='<span class="interp-badge risk-very-high">Very High Probability</span>';rec='Near-certain appendicitis. Emergency appendicectomy.'}
   showResult('res-alvarado',s,badge+'<br><br>'+rec);
+}
+function calcPedsDose(){
+  const med=document.getElementById('pd-med').value;
+  if(!med){
+    document.getElementById('res-peds-dose').classList.remove('show');
+    return;
+  }
+  const wt=parseFloat(document.getElementById('pd-wt').value)||15;
+  const age=document.getElementById('pd-age').value;
+  const r=document.getElementById('res-peds-dose');
+  r.classList.add('show');
+
+  let dose='',freq='',max='',notes='',title='';
+
+  switch(med){
+    case'paracetamol':
+      const pDose=Math.round(wt*15*10)/10;
+      const pMax=Math.min(Math.round(wt*60),4000);
+      dose=pDose+' mg';freq='Every 4–6 hours PRN';max='Max: '+pMax+' mg/24h';
+      notes='Safe in all age groups. Liquid: '+Math.round(pDose/120*5*10)/10+' mL of 120 mg/5mL suspension';
+      break;
+    case'ibuprofen':
+      if(wt<5){dose='Not recommended';freq='Age < 6 months';max='';notes='Contraindicated in infants < 6 months or < 5 kg'}
+      else{const iDose=Math.round(wt*10);const iMax=Math.round(wt*40);dose=iDose+' mg';freq='Every 6–8 hours PRN';max='Max: '+iMax+' mg/24h';notes='Liquid: '+Math.round(iDose/100*5*10)/10+' mL of 100 mg/5mL suspension. Give with food'}
+      break;
+    case'amoxicillin':
+      const aDose=Math.round(wt*25);const aMax=1500;
+      dose=aDose+' mg/day divided TID';freq='Every 8 hours';max='Max: '+aMax+' mg/day';
+      notes='Standard: 25–50 mg/kg/day. Otitis media: '+(wt*80)+' mg/day divided BID (high dose)';
+      break;
+    case'amox-clav':
+      const acDose=Math.round(wt*25);const acMax=1000;
+      dose=acDose+' mg (amox component) per dose';freq='Every 12 hours';max='Max: '+acMax+' mg/dose';
+      notes='Use 7:1 or 14:1 ratio. Liquid: '+Math.round(acDose/200*5*10)/10+' mL of 200 mg/5mL suspension';
+      break;
+    case'azithromycin':
+      const azD1=Math.min(Math.round(wt*10),500);const azD2=Math.min(Math.round(wt*5),250);
+      dose='Day 1: '+azD1+' mg<br>Days 2–5: '+azD2+' mg';freq='Once daily';max='';
+      notes='Total 5-day course. Liquid: Day 1: '+Math.round(azD1/100*5*10)/10+' mL of 100 mg/5mL';
+      break;
+    case'prednisolone':
+      const prDose=Math.min(Math.round(wt*2),60);
+      dose=prDose+' mg';freq='Once daily or divided BID';max='Max: 60 mg/day';
+      notes='Asthma exacerbation: '+prDose+' mg OD × 3–5 days. Give with food';
+      break;
+    case'salbutamol':
+      const sDose=Math.min(wt*0.15,5);const puffs=Math.ceil(Math.min(wt*0.15/0.1,4));
+      dose=sDose.toFixed(2)+' mg nebulised<br>OR '+puffs+' puffs MDI';freq='Every 4–6 hours PRN';max='Max: 5 mg/dose';
+      notes='MDI with spacer: '+puffs+' × 100 µg puffs. Nebule: '+sDose.toFixed(1)+' mL of 5 mg/mL (2.5 mg nebuliser)';
+      break;
+    case'ondansetron':
+      const oDose=Math.min(Math.round(wt*0.15*10)/10,8);
+      dose=oDose+' mg';freq='Single dose';max='Max: 8 mg';
+      notes='For vomiting in gastroenteritis. ODT or IV. May repeat once if vomiting persists';
+      break;
+    case'dexamethasone':
+      const dDose=Math.min(Math.round(wt*0.6),10);
+      dose=dDose+' mg';freq='Single dose (croup)';max='Max: 10 mg';
+      notes='Croup: 0.15–0.6 mg/kg single dose. Meningitis: 0.15 mg/kg q6h × 4 days';
+      break;
+    case'midazolam':
+      const mDose=Math.min(Math.round(wt*0.3*10)/10,10);
+      dose=mDose+' mg';freq='For acute seizures';max='Max: 10 mg';
+      notes='Buccal or intranasal. May repeat once after 10 min if still seizing. Call ambulance';
+      break;
+    case'diazepam':
+      const dzDose=Math.min(Math.round(wt*0.5),10);
+      dose=dzDose+' mg';freq='For acute seizures';max='Max: 10 mg';
+      notes='Rectal administration. Use rectal solution or IV solution per rectum. May repeat once';
+      break;
+    case'adrenaline-im':
+      let adDose,adVol,adText;
+      if(wt<20||age==='infant'||age==='toddler'||age==='neonate'){adDose=0.15;adVol=0.15;adText='< 6 years (or < 20 kg)'}
+      else if(wt<=40||age==='school'){adDose=0.3;adVol=0.3;adText='6–12 years (20–40 kg)'}
+      else{adDose=0.5;adVol=0.5;adText='> 12 years (> 40 kg)'}
+      dose=adDose+' mg ('+adVol+' mL)';freq='IM anterolateral thigh';max='May repeat q5 min';
+      notes=adText+'. Use 1:1000 (1 mg/mL) concentration. Auto-injector: EpiPen Jr 0.15 mg or EpiPen 0.3 mg';
+      break;
+    case'fluids-bolus':
+      const fbVol=Math.round(wt*20);
+      dose=fbVol+' mL';freq='Over 15–20 minutes';max='Max 60 mL/kg in first hour';
+      notes='0.9% NaCl or Ringer lactate. Reassess after each bolus. Monitor for fluid overload';
+      break;
+    case'maintenance':
+      let mRate;
+      if(wt<=10)mRate=wt*4;
+      else if(wt<=20)mRate=40+(wt-10)*2;
+      else mRate=60+(wt-20)*1;
+      const mDaily=Math.round(mRate*24);
+      dose=Math.round(mRate)+' mL/hr';freq='Continuous';max=mDaily+' mL/day';
+      notes='Holliday-Segar method. Use 0.9% NaCl + 5% dextrose + KCl 20 mmol/L when passing urine';
+      break;
+  }
+
+  document.getElementById('peds-dose-result').innerHTML=dose;
+  document.getElementById('peds-dose-interp').innerHTML=
+  '<strong>'+freq+'</strong><br>'+
+  (max?'<br>'+max:'')+
+  (notes?'<br><br><span style="color:var(--text-muted)">'+notes+'</span>':'');
+
+  r.scrollIntoView({behavior:'smooth',block:'nearest'});
 }
 </script>
 </body>

@@ -2606,6 +2606,18 @@ Dark
 <div class="flow-path-title">Chronic Fatigue</div>
 <div class="flow-path-desc">Physiological vs Pathological. Screens for anaemia, thyroid, diabetes, depression, sleep disorders, and systemic disease.</div>
 </div>
+<div class="flow-path-card" onclick="startPathway('backpain')">
+    <div class="flow-path-title">Back Pain</div>
+    <div class="flow-path-desc">Red flags, radicular vs mechanical vs inflammatory. Guides imaging and referral urgency.</div>
+</div>
+<div class="flow-path-card" onclick="startPathway('pruritus')">
+    <div class="flow-path-title">Generalized Itching</div>
+    <div class="flow-path-desc">Dermatologic vs Systemic vs Neuropathic. Screens for renal, hepatic, thyroid, hematologic, and drug-induced causes.</div>
+</div>
+<div class="flow-path-card" onclick="startPathway('cough')">
+    <div class="flow-path-title">Cough (Age-Based)</div>
+    <div class="flow-path-desc">Acute vs chronic. Differentiates viral, asthma, GERD, post-nasal drip, TB, and red flags in adults & children.</div>
+</div>
 <!-- Add more pathways here in the future -->
 </div>
 </div>
@@ -3422,6 +3434,201 @@ function renderFlowStep() {
             } else if (a === 'bloods-normal') {
                 showFlowResult('Myalgic Encephalomyelitis / Chronic Fatigue Syndrome (ME/CFS)', '<strong>Key Features:</strong> Profound fatigue ≥ 6 months, not relieved by rest, worsened by physical or mental exertion (post-exertional malaise is hallmark). Cognitive impairment, unrefreshing sleep, orthostatic intolerance.<br><br><strong>Next Step:</strong> Diagnosis of exclusion. Screen for sleep apnoea (Epworth/PSG), coeliac disease (TTG-IgA), autoimmune (ANA, anti-dsDNA). No curative treatment. Pacing (energy management), graded activity (carefully), CBT. Avoid pushing through fatigue. Refer CFS clinic if available.', 'moderate');
             }
+        }
+    }
+    else if (flowState.type === 'backpain') {
+        // ── BACK PAIN ──
+        if (flowState.step === 1) {
+            descEl.textContent = 'Step 1 of 3: Screen for red flags';
+            titleEl.textContent = '1. Are any red flags present? Cauda equina symptoms (saddle anaesthesia, bowel/bladder dysfunction), progressive neurological deficit, fever, recent trauma, history of malignancy, or age > 50 with new-onset pain?';
+            contentEl.innerHTML = `
+                <div style="display:flex; flex-wrap:wrap; gap:0.8rem; margin-top:1.5rem;">
+                    <button class="flow-step-btn" style="border-color:var(--emergency-border);color:var(--emergency)" onclick="nextFlowStep('red-flag')">Yes — one or more present</button>
+                    <button class="flow-step-btn" onclick="nextFlowStep('no-red-flag')">No red flags</button>
+                </div>`;
+        }
+        else if (flowState.step === 2) {
+            descEl.textContent = 'Step 2 of 3: Characterise pain distribution & features';
+            if (flowState.answers[0] === 'red-flag') {
+                showFlowResult('🚨 Urgent Back Pain — Red Flag Present', '<strong>RED FLAG:</strong> Possible cauda equina syndrome, spinal fracture, infection (discitis/osteomyelitis), or malignancy.<br><br><strong>Next Step:</strong> URGENT MRI spine (same day if cauda equina suspected). Immediate neurosurgical/orthopaedic referral. Do NOT discharge without clear diagnosis and imaging.', 'very-high');
+            } else {
+                titleEl.textContent = '2. Does the pain radiate below the knee, or is it associated with numbness, tingling, or weakness?';
+                contentEl.innerHTML = `
+                    <div style="display:flex; flex-wrap:wrap; gap:0.8rem; margin-top:1.5rem;">
+                        <button class="flow-step-btn" onclick="nextFlowStep('radicular')">Yes — radiating/neurological symptoms</button>
+                        <button class="flow-step-btn" onclick="nextFlowStep('non-radicular')">No — localised to back/buttocks only</button>
+                    </div>`;
+            }
+        }
+        else if (flowState.step === 3) {
+            descEl.textContent = 'Step 3 of 3: Final differentiation';
+            let a = flowState.answers[1];
+            if (a === 'radicular') {
+                titleEl.textContent = '3. Is pain worsened by sitting, coughing, or sneezing? Is straight leg raise positive?';
+                contentEl.innerHTML = `
+                    <div style="display:flex; flex-wrap:wrap; gap:0.8rem; margin-top:1.5rem;">
+                        <button class="flow-step-btn" onclick="showFlowResult('Lumbar Disc Herniation / Sciatica', '<strong>Key Features:</strong> Dermatomal pain, positive straight leg raise, worsened by Valsalva/sitting. Usually L4-L5 or L5-S1.<br><br><strong>Next Step:</strong> Conservative management first: NSAIDs, stay active, physiotherapy. Oral steroids if severe. MRI only if > 6 weeks conservative fails or progressive deficit. Refer to spine surgery if cauda equina or refractory pain.', 'moderate')">Yes — classic discogenic/radicular pattern</button>
+                        <button class="flow-step-btn" onclick="showFlowResult('Spinal Stenosis / Neurogenic Claudication', '<strong>Key Features:</strong> Bilateral leg pain/heaviness worsened by standing/walking, relieved by sitting or leaning forward (shopping cart sign). Common in elderly.<br><br><strong>Next Step:</strong> Physiotherapy (flexion-based exercises), NSAIDs, epidural steroid injections. MRI for surgical planning if conservative fails.', 'moderate')">No — worsened by standing/walking, relieved by flexion</button>
+                    </div>`;
+            } else if (a === 'non-radicular') {
+                titleEl.textContent = '3. Is there morning stiffness > 30 minutes that improves with exercise, with onset before age 40?';
+                contentEl.innerHTML = `
+                    <div style="display:flex; flex-wrap:wrap; gap:0.8rem; margin-top:1.5rem;">
+                        <button class="flow-step-btn" onclick="showFlowResult('Inflammatory Back Pain (Axial Spondyloarthritis)', '<strong>Key Features:</strong> Insidious onset, age < 40, morning stiffness > 30 min, improves with exercise but NOT rest, nocturnal pain, alternating buttock pain.<br><br><strong>Next Step:</strong> HLA-B27, CRP/ESR, MRI SI joints. Refer to rheumatology. NSAIDs first-line. Biologics (anti-TNF/IL-17) if refractory.', 'moderate')">Yes — inflammatory features present</button>
+                        <button class="flow-step-btn" onclick="showFlowResult('Mechanical / Non-Specific Low Back Pain', '<strong>Key Features:</strong> Most common cause. Worsened by activity/loading, relieved by rest. No neurological deficit or systemic features.<br><br><strong>Next Step:</strong> Reassurance, advise to stay active. Short-course NSAIDs or paracetamol. Physiotherapy if > 2–3 weeks. Avoid routine imaging. Return if red flags develop.', 'low')">No — mechanical/positional pattern</button>
+                    </div>`;
+            }
+        }
+    }
+    else if (flowState.type === 'pruritus') {
+        // ── GENERALIZED PRURITUS ──
+        if (flowState.step === 1) {
+            descEl.textContent = 'Step 1 of 3: Duration and distribution';
+            titleEl.textContent = '1. Is the itching acute (< 6 weeks) or chronic (≥ 6 weeks), and is it truly generalized (≥ 2 body regions)?';
+            contentEl.innerHTML = `
+                <div style="display:flex; flex-wrap:wrap; gap:0.8rem; margin-top:1.5rem;">
+                    <button class="flow-step-btn" onclick="nextFlowStep('acute-gen')">Acute (< 6 weeks), generalized</button>
+                    <button class="flow-step-btn" onclick="nextFlowStep('chronic-gen')">Chronic (≥ 6 weeks), generalized</button>
+                    <button class="flow-step-btn" onclick="showFlowResult('Localized Pruritus — Not Generalized', '<strong>Note:</strong> This pathway is for generalized pruritus. Localized itching (single region) suggests contact dermatitis, neuropathic itch, or localized infection.<br><br><strong>Next Step:</strong> Evaluate for contact allergens, scabies, lichen simplex chronicus, or neuropathic causes (notalgia paresthetica, brachioradial pruritus).', 'low', 'contact-derm', 'adult')">Primarily localized to one area</button>
+                </div>`;
+        }
+        else if (flowState.step === 2) {
+            descEl.textContent = 'Step 2 of 3: Primary skin examination';
+            if (flowState.answers[0] === 'acute-gen') {
+                titleEl.textContent = '2. Are primary skin lesions present? (wheals, vesicles, papules, burrows, scaling plaques)';
+                contentEl.innerHTML = `
+                    <div style="display:flex; flex-wrap:wrap; gap:0.8rem; margin-top:1.5rem;">
+                        <button class="flow-step-btn" onclick="nextFlowStep('lesions-present')">Yes — primary lesions visible</button>
+                        <button class="flow-step-btn" onclick="nextFlowStep('no-lesions-acute')">No — skin appears normal (pruritus sine materia)</button>
+                    </div>`;
+            } else {
+                titleEl.textContent = '2. Are primary skin lesions present? (wheals, vesicles, papules, burrows, scaling plaques)';
+                contentEl.innerHTML = `
+                    <div style="display:flex; flex-wrap:wrap; gap:0.8rem; margin-top:1.5rem;">
+                        <button class="flow-step-btn" onclick="nextFlowStep('lesions-present')">Yes — primary lesions visible</button>
+                        <button class="flow-step-btn" onclick="nextFlowStep('no-lesions-chronic')">No — skin appears normal (pruritus sine materia)</button>
+                    </div>`;
+            }
+        }
+        else if (flowState.step === 3) {
+            descEl.textContent = 'Step 3 of 3: Final differentiation';
+            let a = flowState.answers[1];
+            
+            if (a === 'lesions-present') {
+                titleEl.textContent = '3. What is the morphology of the primary lesions?';
+                contentEl.innerHTML = `
+                    <div style="display:flex; flex-wrap:wrap; gap:0.8rem; margin-top:1.5rem;">
+                        <button class="flow-step-btn" onclick="showFlowResult('Urticaria (Acute/Chronic)', '<strong>Key Features:</strong> Transient wheals (< 24h), angioedema possible. Acute: often allergic/drug/infection. Chronic: often idiopathic/autoimmune.<br><br><strong>Next Step:</strong> Non-sedating H1 antihistamine (cetirizine 10 mg OD, can up-dose 4×). If chronic: consider omalizumab referral. Avoid triggers. Rule out urticarial vasculitis if lesions last > 24h with purpura.', 'moderate', 'urticaria', 'adult')">Wheals/hives (transient, blanching)</button>
+                        <button class="flow-step-btn" onclick="showFlowResult('Atopic Dermatitis / Eczema', '<strong>Key Features:</strong> Erythematous, scaly, lichenified plaques in flexural areas. Personal/family history of atopy. Chronic relapsing course.<br><br><strong>Next Step:</strong> Emollients QID, topical corticosteroids (potency by site/severity), trigger avoidance. Consider topical calcineurin inhibitors for face/flexures. Refer if refractory for dupilumab/JAK inhibitors.', 'moderate', 'atopic', 'adult')">Eczematous plaques (scaly, lichenified)</button>
+                        <button class="flow-step-btn" onclick="showFlowResult('Scabies', '<strong>Key Features:</strong> Intense nocturnal pruritus, burrows in finger webs, wrists, axillae, genitalia. Household contacts often affected.<br><br><strong>Next Step:</strong> Permethrin 5% cream neck-down × 8–14h, repeat × 1 in 7 days. Treat all close contacts simultaneously. Wash bedding at 60°C. Oral ivermectin 200 µg/kg × 2 doses if crusted scabies or treatment failure.', 'low', 'worms', 'adult')">Burrows, nocturnal itch, household spread</button>
+                        <button class="flow-step-btn" onclick="showFlowResult('Psoriasis', '<strong>Key Features:</strong> Well-demarcated erythematous plaques with silvery scale, extensor surfaces, scalp, nails (pitting). Auspitz sign (pinpoint bleeding on scale removal).<br><br><strong>Next Step:</strong> Topical vitamin D analogues + potent steroids for limited disease. Phototherapy or systemic agents (methotrexate, biologics) for extensive disease. Screen for psoriatic arthritis.', 'moderate', 'eczema', 'adult')">Thick silvery scales on extensor surfaces</button>
+                    </div>`;
+            } 
+            else if (a === 'no-lesions-acute') {
+                titleEl.textContent = '3. Any recent new medications, infections, or allergen exposures?';
+                contentEl.innerHTML = `
+                    <div style="display:flex; flex-wrap:wrap; gap:0.8rem; margin-top:1.5rem;">
+                        <button class="flow-step-btn" onclick="showFlowResult('Drug-Induced Pruritus', '<strong>Key Features:</strong> Onset days-weeks after starting new medication. Common culprits: opioids, ACE inhibitors, allopurinol, antibiotics, antifungals.<br><br><strong>Next Step:</strong> Review medication list. Discontinue suspected agent if possible. Symptomatic relief with antihistamines, emollients. Pruritus may persist weeks after drug cessation.', 'moderate')">Yes — new medication or exposure</button>
+                        <button class="flow-step-btn" onclick="showFlowResult('Acute Viral Exanthem / Post-Viral Pruritus', '<strong>Key Features:</strong> Recent viral prodrome (fever, URI symptoms), transient generalized pruritus ± faint macular rash. Common with EBV, hepatitis, parvovirus.<br><br><strong>Next Step:</strong> Supportive care: emollients, oral antihistamines, cool compresses. Usually self-limited. Check LFTs if hepatitis suspected.', 'low')">Recent viral illness, no clear drug trigger</button>
+                    </div>`;
+            } 
+            else if (a === 'no-lesions-chronic') {
+                titleEl.textContent = '3. Any systemic symptoms or abnormal baseline labs? (weight loss, night sweats, jaundice, renal impairment, thyroid dysfunction, eosinophilia)';
+                contentEl.innerHTML = `
+                    <div style="display:flex; flex-wrap:wrap; gap:0.8rem; margin-top:1.5rem;">
+                        <button class="flow-step-btn" style="border-color:var(--emergency-border);color:var(--emergency)" onclick="showFlowResult('🚨 Pruritus with Systemic Red Flags — Urgent Workup', '<strong>RED FLAG:</strong> Chronic pruritus + weight loss/night sweats/lymphadenopathy → rule out lymphoma (especially Hodgkin\'s). Jaundice → cholestasis. Renal impairment → uremic pruritus. Eosinophilia → parasitic infection or hematologic disorder.<br><br><strong>Next Step:</strong> Urgent labs: FBC, LFTs (including bilirubin, ALP), U&E, TSH, fasting glucose, HIV/HCV serology, LDH. CXR. Consider CT chest/abdomen/pelvis if lymphoma suspected. Dermatology + hematology referral.', 'very-high', 'ida', 'adult')">Yes — systemic symptoms or abnormal labs</button>
+                        <button class="flow-step-btn" onclick="showFlowResult('Chronic Idiopathic Pruritus / Pruritus of Unknown Origin', '<strong>Key Features:</strong> Chronic generalized pruritus > 6 weeks, normal skin exam, normal baseline labs, no systemic symptoms. Diagnosis of exclusion.<br><br><strong>Next Step:</strong> Stepwise management: 1) Emollients + non-sedating antihistamines. 2) Add gabapentin/pregabalin if neuropathic features. 3) Consider low-dose mirtazapine or naltrexone for refractory cases. Regular follow-up to monitor for emerging systemic disease.', 'moderate')">No red flags, baseline workup normal</button>
+                    </div>`;
+            }
+        }
+        // Step 4 for chronic no-lesions with normal workup (optional refinement)
+        else if (flowState.step === 4 && flowState.answers[0] === 'chronic-gen' && flowState.answers[1] === 'no-lesions-chronic' && flowState.answers[2] === 'no-red-flags') {
+            descEl.textContent = 'Step 4 of 4: Refine management';
+            titleEl.textContent = '4. Any features suggesting neuropathic or psychogenic contribution? (burning/tingling quality, stress/anxiety exacerbation, history of depression/anxiety)';
+            contentEl.innerHTML = `
+                <div style="display:flex; flex-wrap:wrap; gap:0.8rem; margin-top:1.5rem;">
+                    <button class="flow-step-btn" onclick="showFlowResult('Neuropathic Pruritus', '<strong>Key Features:</strong> Burning, tingling, pins-and-needles quality. May follow dermatomal pattern. Associated with diabetes, post-herpetic neuralgia, small fiber neuropathy.<br><br><strong>Next Step:</strong> First-line: gabapentin 100–300 mg nocte → titrate, or pregabalin 25–75 mg BID. Topical capsaicin 0.025–0.075% TID. Consider neurology referral if refractory.', 'moderate', 'shingles', 'adult')">Yes — neuropathic features (burning, tingling)</button>
+                    <button class="flow-step-btn" onclick="showFlowResult('Psychogenic / Stress-Exacerbated Pruritus', '<strong>Key Features:</strong> Pruritus worsened by stress/anxiety, history of depression/anxiety/OCD, excoriations from scratching, normal workup.<br><br><strong>Next Step:</strong> Address underlying mood disorder: SSRIs (sertraline, escitalopram) or mirtazapine (also has antipruritic effects). Cognitive behavioral therapy. Habit reversal training. Dermatology-psychiatry liaison if severe.', 'low', 'eczema', 'adult')">Yes — stress/anxiety correlation, psychiatric history</button>
+                    <button class="flow-step-btn" onclick="showFlowResult('Chronic Idiopathic Pruritus — Standard Management', '<strong>Key Features:</strong> No clear neuropathic or psychogenic features. Diagnosis of exclusion after thorough workup.<br><br><strong>Next Step:</strong> Continue emollients, non-sedating antihistamines. Trial of narrowband UVB phototherapy if available. Consider referral to specialized pruritus clinic for refractory cases.', 'low')">No clear neuropathic/psychogenic features</button>
+                </div>`;
+        }
+    }
+    else if (flowState.type === 'cough') {
+        // ── COUGH (AGE-BASED) ──
+        if (flowState.step === 1) {
+            descEl.textContent = 'Step 1 of 4: Patient age & duration';
+            titleEl.textContent = '1. What is the patient\'s age and how long has the cough lasted?';
+            contentEl.innerHTML = `
+                <div style="display:flex; flex-wrap:wrap; gap:0.8rem; margin-top:1.5rem;">
+                    <button class="flow-step-btn" onclick="nextFlowStep('child-acute')">Child (<12y), acute (<3 weeks)</button>
+                    <button class="flow-step-btn" onclick="nextFlowStep('child-chronic')">Child (<12y), chronic (≥3 weeks)</button>
+                    <button class="flow-step-btn" onclick="nextFlowStep('adult-acute')">Adult (≥12y), acute (<3 weeks)</button>
+                    <button class="flow-step-btn" onclick="nextFlowStep('adult-chronic')">Adult (≥12y), chronic (≥3 weeks)</button>
+                </div>`;
+        }
+        else if (flowState.step === 2) {
+            descEl.textContent = 'Step 2 of 4: Screen for red flags';
+            titleEl.textContent = '2. Are any red flags present? Haemoptysis, weight loss, night sweats, dyspnoea at rest, stridor, choking episode, immunosuppression, or fever >39°C?';
+            contentEl.innerHTML = `
+                <div style="display:flex; flex-wrap:wrap; gap:0.8rem; margin-top:1.5rem;">
+                    <button class="flow-step-btn" style="border-color:var(--emergency-border);color:var(--emergency)" onclick="nextFlowStep('red-flag')">Yes — one or more present</button>
+                    <button class="flow-step-btn" onclick="nextFlowStep('no-red-flag')">No red flags</button>
+                </div>`;
+        }
+        else if (flowState.step === 3) {
+            descEl.textContent = 'Step 3 of 4: Characterise the cough';
+            let path = flowState.answers[0], red = flowState.answers[1];
+            
+            if (red === 'red-flag') {
+                showFlowResult('🚨 Urgent Workup Required — Red Flag Cough', '<strong>RED FLAG:</strong> Possible pneumonia, TB, foreign body aspiration, malignancy, or heart failure.<br><br><strong>Next Step:</strong> Urgent CXR, CBC, CRP. Sputum AFB if TB suspected. Bronchoscopy if foreign body suspected. Admit if hypoxic or septic.', 'very-high', 'em-pulmoedema', 'emergency');
+            } 
+            else if (path === 'child-acute' && red === 'no-red-flag') {
+                titleEl.textContent = '3. What is the dominant cough pattern?';
+                contentEl.innerHTML = `
+                    <div style="display:flex; flex-wrap:wrap; gap:0.8rem; margin-top:1.5rem;">
+                        <button class="flow-step-btn" onclick="showFlowResult('Acute Viral URI / Bronchitis', '<strong>Key Features:</strong> Wet/productive cough, low-grade fever, clear rhinorrhoea. Self-limiting.<br><br><strong>Next Step:</strong> Supportive care: hydration, saline nasal drops, paracetamol for fever. Avoid cough suppressants in children <6 years.<br><br><strong>Widely Available Trade Names:</strong><br>• Paracetamol: <strong>Panadol®</strong>, <strong>Adol®</strong><br>• Saline nasal drops: <strong>Otrivin Baby®</strong>, <strong>Sterimar®</strong><br>• Ibuprofen (if >6mo): <strong>Brufen®</strong>, <strong>Profenid®</strong>', 'low')">Wet cough + low-grade fever</button>
+                        <button class="flow-step-btn" onclick="showFlowResult('Acute Asthma / Wheezy Illness', '<strong>Key Features:</strong> Dry cough + wheezing, increased work of breathing, possible bark/stridor.<br><br><strong>Next Step:</strong> Salbutamol via spacer/nebuliser. Assess severity. If croup features: dexamethasone single dose.<br><br><strong>Widely Available Trade Names:</strong><br>• Salbutamol: <strong>Ventolin®</strong>, <strong>Asthalin®</strong><br>• Budesonide neb: <strong>Pulmicort®</strong><br>• Dexamethasone: <strong>Dexa®</strong>, <strong>Decadron®</strong>', 'moderate', 'peds-asthma', 'peds')">Dry cough + wheezing/stridor</button>
+                        <button class="flow-step-btn" onclick="showFlowResult('Post-Nasal Drip / Allergic Rhinitis', '<strong>Key Features:</strong> Dry cough + nasal congestion, throat clearing, worse at night.<br><br><strong>Next Step:</strong> Intranasal steroid + oral antihistamine trial × 2 weeks. Saline irrigation.<br><br><strong>Widely Available Trade Names:</strong><br>• Fluticasone nasal: <strong>Flixonase®</strong><br>• Cetirizine syrup: <strong>Zyrtec®</strong>, <strong>Cetirizine®</strong>', 'low', 'allergic-rhinitis', 'adult')">Dry cough + nasal congestion</button>
+                    </div>`;
+            }
+            else if (path === 'child-chronic' && red === 'no-red-flag') {
+                titleEl.textContent = '3. Is there a history of atopy, recurrent wheeze, or cough worse at night/with exercise?';
+                contentEl.innerHTML = `
+                    <div style="display:flex; flex-wrap:wrap; gap:0.8rem; margin-top:1.5rem;">
+                        <button class="flow-step-btn" onclick="showFlowResult('Paediatric Asthma / Cough-Variant Asthma', '<strong>Key Features:</strong> Recurrent dry cough, worse at night/exercise/cold air. Personal/family history of atopy.<br><br><strong>Next Step:</strong> Trial of salbutamol via spacer. If responsive: start low-dose ICS. Refer if uncontrolled.<br><br><strong>Widely Available Trade Names:</strong><br>• Salbutamol: <strong>Ventolin®</strong>, <strong>Asthalin®</strong><br>• Fluticasone: <strong>Flixotide®</strong>, <strong>Flomist®</strong><br>• Montelukast: <strong>Singulair®</strong>, <strong>Montelukast®</strong><br>• Prednisolone syrup: <strong>Prednisol®</strong>, <strong>Orasone®</strong>', 'moderate', 'peds-asthma', 'peds')">Yes — features suggest asthma</button>
+                        <button class="flow-step-btn" onclick="showFlowResult('Upper Airway Cough Syndrome', '<strong>Key Features:</strong> Chronic cough with nasal congestion, throat clearing, sensation of mucus dripping. Often allergic rhinitis.<br><br><strong>Next Step:</strong> Intranasal steroid + oral antihistamine trial × 2–4 weeks.<br><br><strong>Widely Available Trade Names:</strong><br>• Fluticasone nasal: <strong>Flixonase®</strong>, <strong>Nasofan®</strong><br>• Mometasone nasal: <strong>Nasonex®</strong><br>• Loratadine: <strong>Clarityne®</strong>', 'low', 'allergic-rhinitis', 'adult')">No — primarily nasal/post-nasal symptoms</button>
+                        <button class="flow-step-btn" onclick="showFlowResult('Protracted Bacterial Bronchitis', '<strong>Key Features:</strong> Chronic wet cough >4 weeks in otherwise well child. Often follows viral URI.<br><br><strong>Next Step:</strong> Trial of amoxicillin-clavulanate × 2 weeks. If no response: refer for bronchoscopy.<br><br><strong>Widely Available Trade Names:</strong><br>• Amox-Clav: <strong>Augmentin®</strong>, <strong>Clavamox®</strong>, <strong>Amoclan®</strong><br>• Azithromycin: <strong>Zithromax®</strong>, <strong>Azimycin®</strong>', 'moderate')">Chronic wet cough, no asthma features</button>
+                    </div>`;
+            }
+            else if (path === 'adult-acute' && red === 'no-red-flag') {
+                titleEl.textContent = '3. Is there fever, purulent sputum, or pleuritic chest pain?';
+                contentEl.innerHTML = `
+                    <div style="display:flex; flex-wrap:wrap; gap:0.8rem; margin-top:1.5rem;">
+                        <button class="flow-step-btn" onclick="showFlowResult('Acute Viral Bronchitis', '<strong>Key Features:</strong> Cough <3 weeks, often post-viral. May have clear/yellow sputum. No focal chest signs.<br><br><strong>Next Step:</strong> Supportive care only. Avoid antibiotics. Honey, hydration, simple analgesia.<br><br><strong>Widely Available Trade Names (Symptomatic):</strong><br>• Dextromethorphan: <strong>Tussidex®</strong>, <strong>Robitussin®</strong><br>• Ambroxol: <strong>Mucosolvan®</strong>, <strong>Mucobrox®</strong><br>• Guaifenesin: <strong>Bisolvon®</strong><br>• Paracetamol: <strong>Panadol®</strong>, <strong>Adol®</strong>', 'low')">No — typical viral pattern</button>
+                        <button class="flow-step-btn" onclick="showFlowResult('Community-Acquired Pneumonia (Mild)', '<strong>Key Features:</strong> Fever, productive cough, pleuritic pain, focal crackles. CURB-65 ≤1 for outpatient.<br><br><strong>Next Step:</strong> CXR if uncertain. Amoxicillin + clarithromycin × 5–7 days.<br><br><strong>Widely Available Trade Names:</strong><br>• Amoxicillin: <strong>Clamoxyl®</strong>, <strong>Amoxil®</strong><br>• Clarithromycin: <strong>Klacid®</strong>, <strong>Klaram®</strong><br>• Azithromycin: <strong>Zithromax®</strong>, <strong>Azimycin®</strong><br>• Ceftriaxone (if severe): <strong>Rocephin®</strong>', 'moderate', 'cap', 'adult')">Yes — suggests bacterial pneumonia</button>
+                        <button class="flow-step-btn" onclick="showFlowResult('Pertussis (Whooping Cough)', '<strong>Key Features:</strong> Paroxysmal cough with whoop/post-tussive vomiting. May lack classic whoop in adults.<br><br><strong>Next Step:</strong> Nasopharyngeal PCR. Macrolide antibiotic if <3 weeks from onset. Notify public health.<br><br><strong>Widely Available Trade Names:</strong><br>• Azithromycin: <strong>Zithromax®</strong>, <strong>Azimycin®</strong><br>• Clarithromycin: <strong>Klacid®</strong>', 'moderate')">Paroxysmal cough with whoop/vomiting</button>
+                    </div>`;
+            }
+            else if (path === 'adult-chronic' && red === 'no-red-flag') {
+                titleEl.textContent = '3. Which pattern best fits? (Select one)';
+                contentEl.innerHTML = `
+                    <div style="display:flex; flex-wrap:wrap; gap:0.8rem; margin-top:1.5rem;">
+                        <button class="flow-step-btn" onclick="showFlowResult('Upper Airway Cough Syndrome (Post-Nasal Drip)', '<strong>Key Features:</strong> Chronic cough with nasal congestion, throat clearing, sensation of mucus. Worse when lying down.<br><br><strong>Next Step:</strong> Intranasal steroid + oral antihistamine × 4 weeks. Saline irrigation.<br><br><strong>Widely Available Trade Names:</strong><br>• Fluticasone nasal: <strong>Flixonase®</strong><br>• Mometasone nasal: <strong>Nasonex®</strong><br>• Cetirizine: <strong>Zyrtec®</strong><br>• Loratadine: <strong>Clarityne®</strong><br>• Desloratadine: <strong>Aerius®</strong>', 'low', 'allergic-rhinitis', 'adult')">Nasal symptoms + throat clearing</button>
+                        <button class="flow-step-btn" onclick="showFlowResult('Cough-Variant Asthma', '<strong>Key Features:</strong> Dry cough as sole symptom. Worse at night, with exercise, cold air, or allergens.<br><br><strong>Next Step:</strong> Trial of salbutamol + ICS × 4–8 weeks. Spirometry if available.<br><br><strong>Widely Available Trade Names:</strong><br>• Salbutamol: <strong>Ventolin®</strong>, <strong>Asthalin®</strong><br>• Fluticasone: <strong>Flixotide®</strong><br>• Budesonide/Formoterol: <strong>Symbicort®</strong><br>• Montelukast: <strong>Singulair®</strong>, <strong>Montelukast®</strong>', 'moderate', 'asthma', 'adult')">Cough triggered by exercise/cold air/night</button>
+                        <button class="flow-step-btn" onclick="showFlowResult('GERD-Related Cough', '<strong>Key Features:</strong> Cough worse after meals, when lying down, or with heartburn/regurgitation. May lack classic heartburn.<br><br><strong>Next Step:</strong> PPI trial × 8 weeks + lifestyle modification (elevate bed, avoid late meals).<br><br><strong>Widely Available Trade Names:</strong><br>• Omeprazole: <strong>Losec®</strong>, <strong>Omez®</strong><br>• Esomeprazole: <strong>Nexium®</strong>, <strong>Esomeprazole®</strong><br>• Pantoprazole: <strong>Controloc®</strong>, <strong>Pantoloc®</strong><br>• Rabeprazole: <strong>Pariet®</strong>', 'moderate', 'gerd', 'adult')">Cough worse after meals/lying down ± heartburn</button>
+                        <button class="flow-step-btn" onclick="showFlowResult('ACE Inhibitor-Induced Cough', '<strong>Key Features:</strong> Dry, persistent cough starting weeks-months after ACE inhibitor initiation.<br><br><strong>Next Step:</strong> Switch ACEi to ARB. Cough usually resolves within 1–4 weeks.<br><br><strong>Widely Available Trade Names (ARB alternatives):</strong><br>• Losartan: <strong>Cozaar®</strong>, <strong>Losartan®</strong><br>• Valsartan: <strong>Diovan®</strong>, <strong>Valsartan®</strong><br>• Telmisartan: <strong>Micardis®</strong>', 'low', 'htn', 'adult')">On ACE inhibitor (e.g. enalapril, lisinopril)</button>
+                        <button class="flow-step-btn" onclick="showFlowResult('Chronic Bronchitis / COPD', '<strong>Key Features:</strong> Chronic productive cough ≥3 months/year × 2 consecutive years. Smoker or biomass exposure.<br><br><strong>Next Step:</strong> Spirometry. Smoking cessation. LAMA/LABA ± ICS if confirmed COPD.<br><br><strong>Widely Available Trade Names:</strong><br>• Tiotropium: <strong>Spiriva®</strong><br>• Salmeterol/Fluticasone: <strong>Seretide®</strong><br>• Formoterol/Budesonide: <strong>Symbicort®</strong><br>• Roflumilast: <strong>Daxas®</strong> (severe COPD)', 'moderate', 'copd', 'adult')">Smoker with chronic productive cough</button>
+                    </div>`;
+            }
+        }
+        else if (flowState.step === 4) {
+            descEl.textContent = 'Step 4 of 4: Refractory cough management';
+            titleEl.textContent = '4. Has cough persisted >8 weeks despite targeted trials?';
+            contentEl.innerHTML = `
+                <div style="display:flex; flex-wrap:wrap; gap:0.8rem; margin-top:1.5rem;">
+                    <button class="flow-step-btn" onclick="showFlowResult('Refractory Chronic Cough / Cough Hypersensitivity Syndrome', '<strong>Key Features:</strong> Persistent cough despite treatment of asthma, UACS, GERD. Often triggered by talking, laughing, cold air.<br><br><strong>Next Step:</strong> Speech-language pathology referral for cough suppression therapy. Trial of neuromodulators.<br><br><strong>Widely Available Trade Names:</strong><br>• Gabapentin: <strong>Neurontin®</strong>, <strong>Gabapentin®</strong><br>• Amitriptyline: <strong>Tryptizol®</strong>, <strong>Amitriptyline®</strong><br>• Low-dose morphine (specialist only): <strong>Sevredol®</strong>', 'moderate')">Yes — refractory despite trials</button>
+                    <button class="flow-step-btn" onclick="showFlowResult('Consider Specialist Referral', '<strong>Next Step:</strong> Refer to Chest Medicine or ENT for bronchoscopy, laryngoscopy, or advanced testing (pH-impedance, methacholine challenge).<br><br><strong>Resources:</strong> Chest Hospitals, University Hospitals, or private pulmonology/ENT clinics.', 'moderate')">Uncertain or worsening</button>
+                </div>`;
         }
     }
 }

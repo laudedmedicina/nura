@@ -2730,7 +2730,58 @@ const searchData=[
 {name:'Inflammatory Bowel Disease',desc:'Crohn vs UC, mesalazine, anti-TNF, vedolizumab, treat-to-target',cat:'adult',catClass:'cat-adult',action:()=>{showMgmt('adult');selectDisease('ibd',null)}},
 {name:'Constipation',desc:'Rome IV, macrogol, prucalopride, PAMORA for opioid-induced',cat:'adult',catClass:'cat-adult',action:()=>{showMgmt('adult');selectDisease('constipation',null)}},
 {name:'Diarrhea',desc:'Acute vs chronic, ORS, loperamide cautions, rifaximin, budesonide for microscopic colitis',cat:'adult',catClass:'cat-adult',action:()=>{showMgmt('adult');selectDisease('diarrhea',null)}},
-{name:'Abdominal Distention',desc:'Functional vs organic, low FODMAP, simethicone, SIBO workup, biofeedback',cat:'adult',catClass:'cat-adult',action:()=>{showMgmt('adult');selectDisease('distention',null)}},];
+{name:'Abdominal Distention',desc:'Functional vs organic, low FODMAP, simethicone, SIBO workup, biofeedback',cat:'adult',catClass:'cat-adult',action:()=>{showMgmt('adult');selectDisease('distention',null)}}, // UTI
+{name:'Uncomplicated UTI (Female)',desc:'Nitrofurantoin, fosfomycin, trimethoprim',cat:'adult',catClass:'cat-adult',action:()=>{showMgmt('adult');selectDisease('uti-f',null)}},
+{name:'UTI (Male) / Complicated',desc:'Fluoroquinolones, culture-guided therapy',cat:'adult',catClass:'cat-adult',action:()=>{showMgmt('adult');selectDisease('uti-m',null)}},
+{name:'Recurrent UTI',desc:'Prophylaxis options: nitrofurantoin, cephalexin, postcoital',cat:'adult',catClass:'cat-adult',action:()=>{showMgmt('adult');selectDisease('uti-rec',null)}},
+{name:'Pyelonephritis (mild)',desc:'Ciprofloxacin, ceftriaxone, outpatient management',cat:'adult',catClass:'cat-adult',action:()=>{showMgmt('adult');selectDisease('pyelo',null)}},
+// Parasitic
+{name:'Intestinal Worms',desc:'Albendazole, mebendazole, pyrantel',cat:'adult',catClass:'cat-adult',action:()=>{showMgmt('adult');selectDisease('worms',null)}},
+{name:'Enterobius (Pinworm)',desc:'Mebendazole single dose + household treatment',cat:'adult',catClass:'cat-adult',action:()=>{showMgmt('adult');selectDisease('enterobius',null)}},
+{name:'Strongyloidiasis',desc:'Ivermectin first-line, screen before immunosuppression',cat:'adult',catClass:'cat-adult',action:()=>{showMgmt('adult');selectDisease('strongyloides',null)}},
+// GI
+{name:'H. Pylori Regimen',desc:'Bismuth quadruple, clarithromycin triple, concomitant',cat:'adult',catClass:'cat-adult',action:()=>{showMgmt('adult');selectDisease('hpylori',null)}},
+{name:'Dyspepsia / Gastritis',desc:'PPI trial, H. pylori test, alarm features',cat:'adult',catClass:'cat-adult',action:()=>{showMgmt('adult');selectDisease('dyspepsia',null)}},
+{name:'Peptic Ulcer Disease',desc:'PPI + H. pylori eradication, avoid NSAIDs',cat:'adult',catClass:'cat-adult',action:()=>{showMgmt('adult');selectDisease('pud',null)}},
+// Oral
+{name:'Oral Thrush',desc:'Nystatin suspension, fluconazole PO',cat:'adult',catClass:'cat-adult',action:()=>{showMgmt('adult');selectDisease('thrush',null)}},
+{name:'Aphthous Ulcer',desc:'Topical steroids, triamcinolone paste, avoid triggers',cat:'adult',catClass:'cat-adult',action:()=>{showMgmt('adult');selectDisease('aphthous',null)}},
+// Stones
+{name:'Hyperuricosuric Stones',desc:'Allopurinol, hydration, alkalinize urine',cat:'adult',catClass:'cat-adult',action:()=>{showMgmt('adult');selectDisease('stones-uric',null)}},
+{name:'Calcium Oxalate Stones',desc:'Hydration, thiazides, citrate, limit oxalate',cat:'adult',catClass:'cat-adult',action:()=>{showMgmt('adult');selectDisease('stones-ox',null)}},
+// Dermatology — Fungal
+{name:'Tinea Corporis / Cruris',desc:'Topical terbinafine, clotrimazole, oral for extensive',cat:'adult',catClass:'cat-adult',action:()=>{showMgmt('adult');selectDisease('tinea-body',null)}},
+{name:'Tinea Capitis',desc:'Oral griseofulvin/terbinafine, selenium sulfide shampoo',cat:'adult',catClass:'cat-adult',action:()=>{showMgmt('adult');selectDisease('tinea-capitis',null)}},
+{name:'Onychomycosis',desc:'Oral terbinafine × 12 weeks, topical efinaconazole',cat:'adult',catClass:'cat-adult',action:()=>{showMgmt('adult');selectDisease('onychomycosis',null)}},
+{name:'Candidiasis (Intertrigo)',desc:'Topical nystatin/clotrimazole, keep dry, barrier creams',cat:'adult',catClass:'cat-adult',action:()=>{showMgmt('adult');selectDisease('candida-inter',null)}},
+{name:'Tinea Versicolor',desc:'Selenium sulfide shampoo, ketoconazole cream',cat:'adult',catClass:'cat-adult',action:()=>{showMgmt('adult');selectDisease('tinea-vers',null)}},
+{name:'Pityriasis Alba',desc:'Emollients, mild topical steroids, sun protection',cat:'adult',catClass:'cat-adult',action:()=>{showMgmt('adult');selectDisease('pityriasis',null)}},
+// Dermatology — Bacterial
+{name:'Impetigo',desc:'Topical mupirocin, oral cephalexin if extensive',cat:'adult',catClass:'cat-adult',action:()=>{showMgmt('adult');selectDisease('impetigo',null)}},
+{name:'Cellulitis (mild)',desc:'Cephalexin, dicloxacillin, elevate limb',cat:'adult',catClass:'cat-adult',action:()=>{showMgmt('adult');selectDisease('cellulitis',null)}},
+{name:'Furunculosis',desc:'Incision & drainage, TMP-SMX if MRSA risk',cat:'adult',catClass:'cat-adult',action:()=>{showMgmt('adult');selectDisease('furuncle',null)}},
+// Dermatology — Viral/Inflammatory
+{name:'Herpes Zoster (Shingles)',desc:'Valacyclovir 1g TID × 7d, analgesia, start within 72h',cat:'adult',catClass:'cat-adult',action:()=>{showMgmt('adult');selectDisease('shingles',null)}},
+{name:'Eczema / Dermatitis',desc:'Emollients, topical steroids, trigger avoidance',cat:'adult',catClass:'cat-adult',action:()=>{showMgmt('adult');selectDisease('eczema',null)}},
+{name:'Atopic Dermatitis',desc:'Stepwise steroids, calcineurin inhibitors, dupilumab for severe',cat:'adult',catClass:'cat-adult',action:()=>{showMgmt('adult');selectDisease('atopic',null)}},
+{name:'Contact Dermatitis',desc:'Identify/remove allergen, topical steroids, antihistamines',cat:'adult',catClass:'cat-adult',action:()=>{showMgmt('adult');selectDisease('contact-derm',null)}},
+{name:'Urticaria (Insect Bite)',desc:'Non-sedating antihistamines, topical steroids, avoid triggers',cat:'adult',catClass:'cat-adult',action:()=>{showMgmt('adult');selectDisease('urticaria',null)}},
+// Respiratory
+{name:'Viral URTI',desc:'Supportive care, analgesia, avoid antibiotics',cat:'adult',catClass:'cat-adult',action:()=>{showMgmt('adult');selectDisease('viral-urti',null)}},
+{name:'Acute Pharyngitis',desc:'Centor score, penicillin if GAS+, avoid antibiotics if viral',cat:'adult',catClass:'cat-adult',action:()=>{showMgmt('adult');selectDisease('pharyngitis',null)}},
+{name:'Acute Sinusitis',desc:'Amoxicillin if bacterial criteria met, nasal steroids, decongestants',cat:'adult',catClass:'cat-adult',action:()=>{showMgmt('adult');selectDisease('sinusitis',null)}},
+{name:'Acute Bronchitis',desc:'Usually viral — supportive care, avoid antibiotics',cat:'adult',catClass:'cat-adult',action:()=>{showMgmt('adult');selectDisease('bronchitis',null)}},
+{name:'Allergic Rhinitis',desc:'Intranasal steroids, antihistamines, allergen avoidance',cat:'adult',catClass:'cat-adult',action:()=>{showMgmt('adult');selectDisease('allergic-rhinitis',null)}},
+// Neurology
+{name:'Tension Headache',desc:'NSAIDs, stress management, avoid analgesic overuse',cat:'adult',catClass:'cat-adult',action:()=>{showMgmt('adult');selectDisease('tension-ha',null)}},
+{name:'Migraine (Acute)',desc:'Triptans, NSAIDs, gepants, treat early',cat:'adult',catClass:'cat-adult',action:()=>{showMgmt('adult');selectDisease('migraine',null)}},
+{name:'Migraine Prophylaxis',desc:'Propranolol, topiramate, amitriptyline, CGRP mAbs',cat:'adult',catClass:'cat-adult',action:()=>{showMgmt('adult');selectDisease('migraine-proph',null)}},
+{name:'Vertigo (BPPV)',desc:'Epley manoeuvre, vestibular rehab, avoid vestibular suppressants long-term',cat:'adult',catClass:'cat-adult',action:()=>{showMgmt('adult');selectDisease('vertigo',null)}},
+// Hematology
+{name:'Iron Deficiency Anemia',desc:'Ferrous sulfate, IV iron if intolerant, find source of bleeding',cat:'adult',catClass:'cat-adult',action:()=>{showMgmt('adult');selectDisease('ida',null)}},
+// Lipids
+{name:'Hypertriglyceridemia',desc:'Fibrates, omega-3, lifestyle, treat if >500 mg/dL',cat:'adult',catClass:'cat-adult',action:()=>{showMgmt('adult');selectDisease('hypertrig',null)}},
+{name:'Hypercholesterolemia',desc:'Statin intensity by risk, ezetimibe, PCSK9 inhibitors for high risk',cat:'adult',catClass:'cat-adult',action:()=>{showMgmt('adult');selectDisease('hyperchol',null)}},];
 
 function openSearch(){
   document.getElementById('search-overlay').classList.add('open');

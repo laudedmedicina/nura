@@ -2594,6 +2594,18 @@ Dark
 <div class="flow-path-title">Vertigo & Dizziness</div>
 <div class="flow-path-desc">Peripheral vs Central. Differentiates BPPV, Meniere’s, Vestibular Neuritis, Migraine, and Red Flags.</div>
 </div>
+<div class="flow-path-card" onclick="startPathway('headache')">
+<div class="flow-path-title">Headache</div>
+<div class="flow-path-desc">Primary vs Secondary. Differentiates Tension, Migraine, Cluster, and Red-Flag causes requiring urgent workup.</div>
+</div>
+<div class="flow-path-card" onclick="startPathway('epigastric')">
+<div class="flow-path-title">Epigastric Pain</div>
+<div class="flow-path-desc">Functional vs Organic. Differentiates GERD, PUD, Gastritis, Biliary colic, and Alarm features.</div>
+</div>
+<div class="flow-path-card" onclick="startPathway('fatigue')">
+<div class="flow-path-title">Chronic Fatigue</div>
+<div class="flow-path-desc">Physiological vs Pathological. Screens for anaemia, thyroid, diabetes, depression, sleep disorders, and systemic disease.</div>
+</div>
 <!-- Add more pathways here in the future -->
 </div>
 </div>
@@ -3105,11 +3117,10 @@ function calcPedsDose(){
 // ═══════════════ APPROACH PAGE LOGIC ═══════════════
 let flowState = { step: 0, answers: [] };
 
-function startPathway(name) {
-    if(name !== 'vertigo') return;
+function startPathway(type) {
+    flowState = { type: type, step: 1, answers: [] };
     document.getElementById('approach-selector').style.display = 'none';
     document.getElementById('approach-active').style.display = 'block';
-    flowState = { step: 1, answers: [] };
     renderFlowStep();
 }
 
@@ -3206,6 +3217,213 @@ function showFlowResult(title, desc, severity) {
         </div>`;
     resultBox.style.display = 'block';
     resultBox.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+function renderFlowStep() {
+    const titleEl = document.getElementById('flow-title');
+    const descEl = document.getElementById('flow-desc');
+    const contentEl = document.getElementById('flow-content');
+    const resultBox = document.getElementById('flow-result-box');
+    
+    resultBox.style.display = 'none';
+    contentEl.innerHTML = '';
+
+    const pathwayTitles = {
+        vertigo: 'Vertigo Diagnostic Pathway',
+        headache: 'Headache Diagnostic Pathway',
+        epigastric: 'Epigastric Pain Pathway',
+        fatigue: 'Chronic Fatigue Pathway'
+    };
+    titleEl.textContent = pathwayTitles[flowState.type] || 'Diagnostic Pathway';
+
+    if (flowState.type === 'vertigo') {
+        // ── VERTIGO (unchanged) ──
+        if(flowState.step === 1) {
+            descEl.textContent = 'Step 1 of 3: Identify the temporal pattern';
+            titleEl.textContent = '1. Is the vertigo continuous or episodic?';
+            contentEl.innerHTML = `
+                <div style="display:flex; flex-wrap:wrap; gap:0.8rem; margin-top:1.5rem;">
+                    <button class="flow-step-btn" onclick="nextFlowStep('episodic')">Episodic (comes in distinct attacks)</button>
+                    <button class="flow-step-btn" onclick="nextFlowStep('continuous')">Continuous (lasts days/weeks)</button>
+                </div>`;
+        } 
+        else if(flowState.step === 2) {
+            descEl.textContent = 'Step 2 of 3: Identify triggers or associations';
+            if(flowState.answers[0] === 'episodic') {
+                titleEl.textContent = '2. Are episodes triggered or worsened by head position changes?';
+                contentEl.innerHTML = `
+                    <div style="display:flex; flex-wrap:wrap; gap:0.8rem; margin-top:1.5rem;">
+                        <button class="flow-step-btn" onclick="nextFlowStep('yes-pos')">Yes, clearly position-triggered</button>
+                        <button class="flow-step-btn" onclick="nextFlowStep('no-pos')">No, spontaneous/untriggered</button>
+                    </div>`;
+            } else {
+                titleEl.textContent = '2. Did it start suddenly, often following a recent viral illness?';
+                contentEl.innerHTML = `
+                    <div style="display:flex; flex-wrap:wrap; gap:0.8rem; margin-top:1.5rem;">
+                        <button class="flow-step-btn" onclick="nextFlowStep('yes-viral')">Yes, post-viral onset</button>
+                        <button class="flow-step-btn" onclick="nextFlowStep('no-viral')">No clear viral trigger</button>
+                    </div>`;
+            }
+        } 
+        else if(flowState.step === 3) {
+            descEl.textContent = 'Step 3 of 3: Final differentiation';
+            let a = flowState.answers[1];
+            if(a === 'yes-pos') {
+                showFlowResult('BPPV (Benign Paroxysmal Positional Vertigo)', '<strong>Key Features:</strong> Brief episodes (<1 min) triggered by rolling over, looking up, or bending. No hearing loss or neurological deficits.<br><br><strong>Next Step:</strong> Perform Dix-Hallpike test. Treat with Epley or Semont canalith repositioning manoeuvre.', 'low');
+            } else if(a === 'no-pos') {
+                titleEl.textContent = '3. Are episodes associated with hearing loss, tinnitus, or aural fullness?';
+                contentEl.innerHTML = `
+                    <div style="display:flex; flex-wrap:wrap; gap:0.8rem; margin-top:1.5rem;">
+                        <button class="flow-step-btn" onclick="showFlowResult('Meniere\'s Disease', '<strong>Key Features:</strong> Episodic vertigo (20 min–12 hrs), fluctuating sensorineural hearing loss, tinnitus, aural fullness.<br><br><strong>Next Step:</strong> Audiometry, low-salt diet, diuretics/betahistine, ENT referral.', 'moderate')">Yes, auditory symptoms present</button>
+                        <button class="flow-step-btn" onclick="showFlowResult('Vestibular Migraine', '<strong>Key Features:</strong> Vertigo with or without headache, photophobia/phonophobia, motion sensitivity. History of migraines common.<br><br><strong>Next Step:</strong> Migraine diary, trigger avoidance, prophylaxis if frequent (propranolol, topiramate, amitriptyline).', 'low')">No, primarily neurological/other</button>
+                    </div>`;
+            } else if(a === 'yes-viral') {
+                showFlowResult('Vestibular Neuritis / Labyrinthitis', '<strong>Key Features:</strong> Continuous vertigo lasting days, severe nausea/vomiting, often post-viral. Labyrinthitis includes concurrent hearing loss.<br><br><strong>Next Step:</strong> Supportive care, antiemetics (promethazine/prochlorperazine), short-course oral steroids. Refer if no improvement in 1–2 weeks.', 'moderate');
+            } else {
+                titleEl.textContent = '3. Are there focal neurological deficits (diplopia, dysarthria, severe ataxia, limb weakness)?';
+                contentEl.innerHTML = `
+                    <div style="display:flex; flex-wrap:wrap; gap:0.8rem; margin-top:1.5rem;">
+                        <button class="flow-step-btn" style="border-color:var(--emergency-border);color:var(--emergency)" onclick="showFlowResult('🚨 Central Vertigo (Stroke/TIA)', '<strong>RED FLAG:</strong> Vertigo with brainstem/cerebellar signs. HINTS exam highly sensitive.<br><br><strong>Next Step:</strong> URGENT neuroimaging (MRI brain), stroke protocol, admit to neurology. Do NOT discharge.', 'very-high')">Yes, neurological signs present</button>
+                        <button class="flow-step-btn" onclick="showFlowResult('Persistent Postural-Perceptual Dizziness (PPPD) / Other', '<strong>Key Features:</strong> Chronic non-spinning dizziness, worsened by upright posture, complex motion, or visual stimuli. Often follows an acute vestibular event.<br><br><strong>Next Step:</strong> Exclude other causes. Vestibular rehab, SSRIs/SNRIs, CBT.', 'moderate')">No focal deficits</button>
+                    </div>`;
+            }
+        }
+    }
+
+    else if (flowState.type === 'headache') {
+        // ── HEADACHE ──
+        if (flowState.step === 1) {
+            descEl.textContent = 'Step 1 of 3: Screen for red flags';
+            titleEl.textContent = '1. Are any of these present? Thunderclap onset, fever + neck stiffness, neurological deficits, new headache age > 50, papilloedema, worsening with Valsalva';
+            contentEl.innerHTML = `
+                <div style="display:flex; flex-wrap:wrap; gap:0.8rem; margin-top:1.5rem;">
+                    <button class="flow-step-btn" style="border-color:var(--emergency-border);color:var(--emergency)" onclick="nextFlowStep('red-flag')">Yes — one or more present</button>
+                    <button class="flow-step-btn" onclick="nextFlowStep('no-red-flag')">No red flags</button>
+                </div>`;
+        }
+        else if (flowState.step === 2) {
+            descEl.textContent = 'Step 2 of 3: Characterise the headache';
+            if (flowState.answers[0] === 'red-flag') {
+                showFlowResult('🚨 Secondary Headache — Urgent Workup Required', '<strong>RED FLAG:</strong> Possible subarachnoid haemorrhage, meningitis, hypertensive emergency, space-occupying lesion, or idiopathic intracranial hypertension.<br><br><strong>Next Step:</strong> Urgent CT head (non-contrast), LP if CT negative and SAH suspected. Neurological examination, BP measurement, fundoscopy. Do NOT discharge without clear diagnosis.', 'very-high');
+            } else {
+                titleEl.textContent = '2. What is the headache pattern?';
+                contentEl.innerHTML = `
+                    <div style="display:flex; flex-wrap:wrap; gap:0.8rem; margin-top:1.5rem;">
+                        <button class="flow-step-btn" onclick="nextFlowStep('bilateral-band')">Bilateral, band-like pressure, mild-moderate</button>
+                        <button class="flow-step-btn" onclick="nextFlowStep('unilateral-pulsating')">Unilateral, pulsating, moderate-severe, with nausea/light sensitivity</button>
+                        <button class="flow-step-btn" onclick="nextFlowStep('periorbital-severe')">Periorbital/temporal, excruciating, brief attacks (15–180 min), ipsilateral autonomic features</button>
+                    </div>`;
+            }
+        }
+        else if (flowState.step === 3) {
+            descEl.textContent = 'Step 3 of 3: Final characterisation';
+            let a = flowState.answers[1];
+            if (a === 'bilateral-band') {
+                titleEl.textContent = '3. Is it related to stress, posture, or screen time? Any tenderness of pericranial muscles?';
+                contentEl.innerHTML = `
+                    <div style="display:flex; flex-wrap:wrap; gap:0.8rem; margin-top:1.5rem;">
+                        <button class="flow-step-btn" onclick="showFlowResult('Tension-Type Headache (TTH)', '<strong>Key Features:</strong> Bilateral, pressing/tightening quality, mild-moderate intensity, not aggravated by routine activity. No nausea, no photophobia + phonophobia simultaneously.<br><br><strong>Next Step:</strong> Reassurance, lifestyle modification, paracetamol or NSAIDs PRN. Amitriptyline 10–75 mg nocte for chronic TTH (≥15 days/month).', 'low')">Yes, stress/posture-related with muscle tenderness</button>
+                        <button class="flow-step-btn" onclick="showFlowResult('Chronic Daily Headache / Medication Overuse Headache', '<strong>Key Features:</strong> Headache ≥ 15 days/month for > 3 months. Medication overuse (analgesics, triptans > 10–15 days/month) is the most common cause.<br><br><strong>Next Step:</strong> Analgesic withdrawal (bridge with naproxen or prednisolone). Preventive therapy: topiramate, amitriptyline, propranolol.', 'moderate')">Occurs daily or near-daily, worsened by analgesic use</button>
+                    </div>`;
+            } else if (a === 'unilateral-pulsating') {
+                showFlowResult('Migraine (with or without Aura)', '<strong>Key Features:</strong> Unilateral pulsating pain (4–72h), moderate-severe, aggravated by activity. Nausea/vomiting, photophobia AND phonophobia. Aura in ~30%: visual scotoma, paraesthesia.<br><br><strong>Acute:</strong> Triptan (sumatriptan 50–100 mg PO) + NSAID/paracetamol. Antiemetic if vomiting.<br><strong>Prophylaxis (if ≥4/month):</strong> Propranolol 40–80 mg BD, or topiramate 25–100 mg OD, or amitriptyline 10–75 mg nocte.', 'moderate');
+            } else if (a === 'periorbital-severe') {
+                showFlowResult('Cluster Headache', '<strong>Key Features:</strong> Strictly unilateral, excruciating periorbital/temporal pain (15–180 min). Ipsilateral: lacrimation, conjunctival injection, nasal congestion, ptosis, miosis. Occurs in clusters (weeks–months) with remission periods. More common in men.<br><br><strong>Acute:</strong> 100% O₂ via non-rebreather mask × 15 min, or sumatriptan 6 mg SC.<br><strong>Prophylaxis:</strong> Verapamil 240–480 mg/day. Short-term: prednisolone burst during cluster period.', 'moderate');
+            }
+        }
+    }
+
+    else if (flowState.type === 'epigastric') {
+        // ── EPIGASTRIC PAIN ──
+        if (flowState.step === 1) {
+            descEl.textContent = 'Step 1 of 3: Screen for alarm features';
+            titleEl.textContent = '1. Are any alarm features present? Dysphagia, unintentional weight loss, GI bleeding (haematemesis/melaena), progressive vomiting, new onset age > 55, palpable abdominal mass, iron-deficiency anaemia';
+            contentEl.innerHTML = `
+                <div style="display:flex; flex-wrap:wrap; gap:0.8rem; margin-top:1.5rem;">
+                    <button class="flow-step-btn" style="border-color:var(--emergency-border);color:var(--emergency)" onclick="nextFlowStep('alarm')">Yes — alarm feature present</button>
+                    <button class="flow-step-btn" onclick="nextFlowStep('no-alarm')">No alarm features</button>
+                </div>`;
+        }
+        else if (flowState.step === 2) {
+            descEl.textContent = 'Step 2 of 3: Characterise location and timing';
+            if (flowState.answers[0] === 'alarm') {
+                showFlowResult('🚨 Urgent Upper GI Endoscopy Required', '<strong>Alarm Feature Present:</strong> Warrants urgent gastroscopy (within 2 weeks) to exclude upper GI malignancy, oesophageal stricture, or complicated peptic ulcer disease.<br><br><strong>Next Step:</strong> Urgent referral for OGD. FBC (anaemia), LFTs, CEA/CA19-9 if malignancy suspected. Do not start empirical PPI as a substitute for endoscopy.', 'very-high');
+            } else {
+                titleEl.textContent = '2. Where exactly is the pain and what makes it better or worse?';
+                contentEl.innerHTML = `
+                    <div style="display:flex; flex-wrap:wrap; gap:0.8rem; margin-top:1.5rem;">
+                        <button class="flow-step-btn" onclick="nextFlowStep('burning-retrosternal')">Central/retrosternal burning, worse after meals and lying down, relieved by antacids</button>
+                        <button class="flow-step-btn" onclick="nextFlowStep('epigastric-hunger')">Epigastric gnawing pain, relieved by food or antacids, worse when hungry or at night</button>
+                        <button class="flow-step-btn" onclick="nextFlowStep('ruc-fatty')">Right upper quadrant, colicky, worse after fatty meals, may radiate to right shoulder</button>
+                        <button class="flow-step-btn" onclick="nextFlowStep('no-pattern')">Vague discomfort, bloating, fullness, nausea — no clear pattern</button>
+                    </div>`;
+            }
+        }
+        else if (flowState.step === 3) {
+            descEl.textContent = 'Step 3 of 3: Final assessment';
+            let a = flowState.answers[1];
+            if (a === 'burning-retrosternal') {
+                titleEl.textContent = '3. Is there evidence of H. pylori or recent NSAID use?';
+                contentEl.innerHTML = `
+                    <div style="display:flex; flex-wrap:wrap; gap:0.8rem; margin-top:1.5rem;">
+                        <button class="flow-step-btn" onclick="showFlowResult('GERD (Gastro-Oesophageal Reflux Disease)', '<strong>Key Features:</strong> Heartburn + regurgitation > 2×/week. Confirm clinically; empiric PPI trial is diagnostic.<br><br><strong>Next Step:</strong> PPI once daily × 4–8 weeks (e.g. omeprazole 20–40 mg). Lifestyle: elevate bed head, avoid late meals, reduce coffee/alcohol/fatty food. On-demand PPI for mild/intermittent symptoms. OGD if PPI fails.', 'low')">No H. pylori risk or NSAID use</button>
+                        <button class="flow-step-btn" onclick="showFlowResult('Peptic Ulcer Disease (NSAID/H. pylori-associated)', '<strong>Key Features:</strong> Ulceration of gastric or duodenal mucosa. NSAID use and H. pylori are the two main causes.<br><br><strong>Next Step:</strong> Test for H. pylori (stool antigen or UBT). If positive: bismuth quadruple therapy × 14 days. Stop NSAID; substitute paracetamol. PPI for mucosal healing. OGD to confirm healing of gastric ulcers.', 'moderate')">H. pylori positive or on NSAIDs</button>
+                    </div>`;
+            } else if (a === 'epigastric-hunger') {
+                showFlowResult('Peptic Ulcer Disease / Duodenitis', '<strong>Key Features:</strong> Duodenal ulcer: hunger pain relieved by food, nocturnal pain. Gastric ulcer: pain worsened by food (fear of eating → weight loss).<br><br><strong>Next Step:</strong> Test-and-treat for H. pylori (urea breath test or stool antigen). Empiric PPI BID × 4–6 weeks if high suspicion. OGD if no response in 4 weeks or alarm features develop.', 'moderate');
+            } else if (a === 'ruc-fatty') {
+                showFlowResult('Biliary Colic / Cholelithiasis', '<strong>Key Features:</strong> Episodic RUQ pain after fatty meals, 30 min–6 hours duration, may radiate to right scapula. Murphy\'s sign suggests acute cholecystitis.<br><br><strong>Next Step:</strong> Abdominal USS (first-line for gallstones). LFTs + bilirubin (if jaundice → CBD stone). Dietary fat restriction. Elective cholecystectomy. If cholecystitis: IV antibiotics (co-amoxiclav/cefuroxime + metronidazole), surgical review.', 'moderate');
+            } else if (a === 'no-pattern') {
+                showFlowResult('Functional Dyspepsia', '<strong>Key Features:</strong> Chronic/recurrent epigastric discomfort, bloating, early satiety, or nausea without structural cause. Diagnose after excluding organic disease (Rome IV criteria).<br><br><strong>Next Step:</strong> Test and treat H. pylori first. If negative: PPI trial × 4–8 weeks. If persistent: low-dose TCA (amitriptyline 10–25 mg nocte) or prokinetic (domperidone/itopride). Address anxiety/stress. Consider dietary review.', 'low');
+            }
+        }
+    }
+
+    else if (flowState.type === 'fatigue') {
+        // ── CHRONIC FATIGUE ──
+        if (flowState.step === 1) {
+            descEl.textContent = 'Step 1 of 3: Duration and red flags';
+            titleEl.textContent = '1. How long has the fatigue been present, and are there any of these: unintentional weight loss, night sweats, lymphadenopathy, persistent fever, haemoptysis?';
+            contentEl.innerHTML = `
+                <div style="display:flex; flex-wrap:wrap; gap:0.8rem; margin-top:1.5rem;">
+                    <button class="flow-step-btn" style="border-color:var(--emergency-border);color:var(--emergency)" onclick="nextFlowStep('red-flag')">Yes — constitutional/red flag symptoms present</button>
+                    <button class="flow-step-btn" onclick="nextFlowStep('no-red-flag-acute')">Fatigue < 4 weeks, no red flags</button>
+                    <button class="flow-step-btn" onclick="nextFlowStep('no-red-flag-chronic')">Fatigue ≥ 4 weeks, no red flags</button>
+                </div>`;
+        }
+        else if (flowState.step === 2) {
+            descEl.textContent = 'Step 2 of 3: Systemic screen';
+            if (flowState.answers[0] === 'red-flag') {
+                showFlowResult('🚨 Investigate for Serious Systemic Disease', '<strong>RED FLAG:</strong> Constitutional symptoms with fatigue warrant urgent investigation for malignancy, chronic infection (TB, HIV, endocarditis), autoimmune disease, or haematological disorder.<br><br><strong>Next Step:</strong> FBC + differential, ESR, CRP, LDH, protein electrophoresis, LFTs, U&E, TFTs, HIV screen, CXR. Urgent haematology or oncology referral if blood film abnormal or lymphadenopathy.', 'very-high');
+            } else if (flowState.answers[0] === 'no-red-flag-acute') {
+                showFlowResult('Likely Physiological or Post-Viral Fatigue', '<strong>Key Features:</strong> Short-duration fatigue (< 4 weeks) most commonly due to recent viral illness, overwork, poor sleep, or acute anaemia.<br><br><strong>Next Step:</strong> Basic bloods (FBC, TFTs, glucose, ferritin, CRP). Address identifiable triggers: sleep hygiene, activity pacing, adequate nutrition. Reassess in 4–6 weeks. If persisting beyond 4 weeks, proceed as chronic fatigue.', 'low');
+            } else {
+                titleEl.textContent = '2. Which of the following best fits on basic workup?';
+                contentEl.innerHTML = `
+                    <div style="display:flex; flex-wrap:wrap; gap:0.8rem; margin-top:1.5rem;">
+                        <button class="flow-step-btn" onclick="nextFlowStep('anaemia')">Low Hb / low ferritin / microcytic anaemia on FBC</button>
+                        <button class="flow-step-btn" onclick="nextFlowStep('thyroid')">TSH elevated or depressed (thyroid dysfunction)</button>
+                        <button class="flow-step-btn" onclick="nextFlowStep('glucose')">Elevated fasting glucose / HbA1c (undiagnosed diabetes)</button>
+                        <button class="flow-step-btn" onclick="nextFlowStep('depression')">PHQ-9 positive, low mood, anhedonia, sleep/appetite disturbance</button>
+                        <button class="flow-step-btn" onclick="nextFlowStep('bloods-normal')">All basic investigations normal</button>
+                    </div>`;
+            }
+        }
+        else if (flowState.step === 3) {
+            descEl.textContent = 'Step 3 of 3: Final diagnosis';
+            let a = flowState.answers[1];
+            if (a === 'anaemia') {
+                showFlowResult('Iron Deficiency Anaemia — Cause of Fatigue', '<strong>Key Features:</strong> Fatigue, exertional dyspnoea, pallor, pica, restless legs. Ferritin < 30 µg/L is diagnostic of iron depletion even with normal Hb.<br><br><strong>Next Step:</strong> Oral ferrous sulfate 200 mg BD–TID × 3 months. Recheck FBC at 4–6 weeks. Always investigate the source: dietary, menorrhagia, occult GI bleeding (FIT test, OGD/colonoscopy if indicated).', 'moderate');
+            } else if (a === 'thyroid') {
+                showFlowResult('Thyroid Dysfunction — Cause of Fatigue', '<strong>Key Features:</strong> Hypothyroidism: fatigue, weight gain, cold intolerance, constipation, dry skin. Hyperthyroidism: fatigue with weight loss, heat intolerance, palpitations, tremor.<br><br><strong>Next Step:</strong> Hypothyroid → levothyroxine, start 25–50 µg OD (50 µg if young/healthy), recheck TFTs in 6–8 weeks. Hyperthyroid → carbimazole 20–40 mg OD (titrate), refer endocrinology. Check anti-TPO in both.', 'moderate');
+            } else if (a === 'glucose') {
+                showFlowResult('Undiagnosed Type 2 Diabetes — Cause of Fatigue', '<strong>Key Features:</strong> Insidious fatigue, polyuria, polydipsia, recurrent infections, blurred vision. Osmotic symptoms often absent in early T2DM.<br><br><strong>Next Step:</strong> Confirm with repeat fasting glucose or HbA1c. Start metformin 500 mg OD and escalate. SGLT2i or GLP-1 RA if CVD/CKD/HF present. Arrange diabetes educator, dietary review, annual complication screening.', 'moderate');
+            } else if (a === 'depression') {
+                showFlowResult('Depression / Mood Disorder — Cause of Fatigue', '<strong>Key Features:</strong> Fatigue is the presenting complaint in > 60% of depressed patients in primary care. Low energy, hypersomnia or insomnia, poor concentration, anhedonia, hopelessness.<br><br><strong>Next Step:</strong> PHQ-9 ≥ 10 supports moderate depression. SSRI (e.g. sertraline 50 mg OD, escitalopram 10 mg OD) + structured psychotherapy (CBT). Sleep hygiene, exercise prescription. Refer psychiatry if PHQ-9 ≥ 20, suicidal ideation, or inadequate response.', 'moderate');
+            } else if (a === 'bloods-normal') {
+                showFlowResult('Myalgic Encephalomyelitis / Chronic Fatigue Syndrome (ME/CFS)', '<strong>Key Features:</strong> Profound fatigue ≥ 6 months, not relieved by rest, worsened by physical or mental exertion (post-exertional malaise is hallmark). Cognitive impairment, unrefreshing sleep, orthostatic intolerance.<br><br><strong>Next Step:</strong> Diagnosis of exclusion. Screen for sleep apnoea (Epworth/PSG), coeliac disease (TTG-IgA), autoimmune (ANA, anti-dsDNA). No curative treatment. Pacing (energy management), graded activity (carefully), CBT. Avoid pushing through fatigue. Refer CFS clinic if available.', 'moderate');
+            }
+        }
+    }
 }
 </script>
 </body>

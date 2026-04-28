@@ -230,6 +230,108 @@ h1.hero-title em{font-style:italic;color:var(--gold)}
 header{padding:0 1rem}
 .scores-content{padding:1.2rem}
 }
+
+/* ── TRADRUGS FAB ── */
+#tradrugs-fab{
+    position:fixed;bottom:2rem;right:2rem;z-index:400;
+    width:56px;height:56px;border-radius:50%;
+    background:linear-gradient(135deg,var(--gold-dark),var(--gold));
+    border:none;cursor:pointer;
+    box-shadow:0 4px 20px rgba(0,0,0,0.4),0 0 0 1px rgba(201,168,76,0.3);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;
+    transition:transform 0.2s,box-shadow 0.2s;
+    font-family:'DM Sans',sans-serif;
+}
+#tradrugs-fab:hover{transform:scale(1.07);box-shadow:0 6px 28px rgba(0,0,0,0.5),0 0 0 2px rgba(201,168,76,0.5)}
+#tradrugs-fab-label{font-size:0.48rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--deep);font-weight:600;line-height:1}
+#tradrugs-fab svg{width:20px;height:20px;fill:var(--deep)}
+
+/* ── TRADRUGS OVERLAY ── */
+#tradrugs-overlay{
+    display:none;position:fixed;inset:0;z-index:450;
+    background:rgba(0,0,0,0.7);backdrop-filter:blur(12px);
+    align-items:flex-start;justify-content:center;padding-top:6vh;
+}
+#tradrugs-overlay.open{display:flex}
+.tradrugs-panel{
+    background:var(--surface);
+    border:0.5px solid var(--border-hover);
+    border-radius:16px;
+    width:min(780px,94vw);
+    max-height:80vh;
+    overflow:hidden;
+    display:flex;flex-direction:column;
+    box-shadow:0 32px 80px rgba(0,0,0,0.5);
+}
+.tradrugs-header{
+    padding:1rem 1.4rem;
+    border-bottom:0.5px solid var(--border);
+    display:flex;align-items:center;gap:0.8rem;
+    background:var(--surface2);
+    flex-shrink:0;
+}
+.tradrugs-header-title{
+    font-family:'Cormorant Garamond',serif;
+    font-size:1.15rem;font-weight:400;letter-spacing:0.06em;
+    color:var(--gold);flex:1;
+}
+#tradrugs-search{
+    flex:1;background:var(--input-bg);border:0.5px solid var(--border);
+    border-radius:6px;outline:none;color:var(--text);
+    font-family:'DM Sans',sans-serif;font-size:0.85rem;
+    padding:0.45rem 0.85rem;transition:border 0.2s;
+}
+#tradrugs-search:focus{border-color:var(--border-hover)}
+#tradrugs-search::placeholder{color:var(--text-dim)}
+.tradrugs-close{
+    background:transparent;border:0.5px solid var(--border);
+    color:var(--text-muted);padding:0.3rem 0.65rem;border-radius:4px;
+    cursor:pointer;font-size:0.72rem;letter-spacing:0.05em;
+    font-family:'DM Sans',sans-serif;transition:all 0.2s;
+}
+.tradrugs-close:hover{color:var(--gold);border-color:var(--border-hover)}
+.tradrugs-body{overflow-y:auto;flex:1;padding:0.5rem 0}
+.tradrugs-category{
+    padding:0.4rem 1.4rem 0.2rem;
+    font-size:0.6rem;letter-spacing:0.18em;text-transform:uppercase;
+    color:var(--gold);font-weight:500;opacity:0.7;
+    border-top:0.5px solid var(--border);margin-top:0.5rem;
+}
+.tradrugs-category:first-child{border-top:none;margin-top:0}
+.tradrug-row{
+    display:grid;
+    grid-template-columns:1fr 1fr 1fr;
+    gap:0;
+    padding:0.55rem 1.4rem;
+    border-bottom:0.5px solid rgba(201,168,76,0.06);
+    cursor:default;transition:background 0.12s;align-items:center;
+}
+.tradrug-row:hover{background:var(--surface2)}
+.tradrug-trade{
+    font-family:'Cormorant Garamond',serif;
+    font-size:0.92rem;font-weight:500;color:var(--gold-light);
+    line-height:1.35;
+}
+.tradrug-scientific{
+    font-size:0.78rem;color:var(--text-muted);
+    font-style:italic;line-height:1.4;
+}
+.tradrug-dose{
+    font-size:0.76rem;color:var(--text);
+    line-height:1.4;text-align:right;
+    padding-left:0.5rem;
+}
+.tradrugs-col-heads{
+    display:grid;grid-template-columns:1fr 1fr 1fr;
+    padding:0.35rem 1.4rem;
+    font-size:0.6rem;letter-spacing:0.12em;text-transform:uppercase;
+    color:var(--text-dim);border-bottom:0.5px solid var(--border);
+    background:var(--surface2);flex-shrink:0;
+}
+.tradrugs-empty{
+    padding:3rem;text-align:center;
+    color:var(--text-dim);font-size:0.86rem;
+}
 </style>
 </head>
 <body>
@@ -2622,6 +2724,26 @@ Dark
     <div class="flow-path-title">Vomiting (Age-Based)</div>
     <div class="flow-path-desc">Acute vs chronic. Screens for obstruction, metabolic, CNS, infectious, and red-flag causes in children & adults.</div>
 </div>
+<div class="flow-path-card" onclick="startPathway('neuropathy')">
+  <div class="flow-path-title">Peripheral Neuropathy</div>
+  <div class="flow-path-desc">Symmetric vs Asymmetric. Differentiates DM, B12, CIDP, vasculitis, toxic causes, and urgent red flags.</div>
+  </div>
+  <div class="flow-path-card" onclick="startPathway('otalgia')">
+  <div class="flow-path-title">Otalgia (Ear Pain)</div>
+  <div class="flow-path-desc">Primary vs Referred. Differentiates AOM, OE, TMJ, mastoiditis, and serious referred causes.</div>
+  </div>
+  <div class="flow-path-card" onclick="startPathway('abdominalpain')">
+  <div class="flow-path-title">Abdominal Pain</div>
+  <div class="flow-path-desc">Acute vs Chronic. Localisation-based approach covering surgical emergencies, visceral, and functional causes.</div>
+  </div>
+  <div class="flow-path-card" onclick="startPathway('redeye')">
+    <div class="flow-path-title">Red Eye</div>
+    <div class="flow-path-desc">Vision-threatening vs Benign. Differentiates acute glaucoma, uveitis, keratitis, conjunctivitis, scleritis, and episcleritis with full management.</div>
+    </div>
+  <div class="flow-path-card" onclick="startPathway('fever')">
+<div class="flow-path-title">Fever</div>
+<div class="flow-path-desc">Acute vs Prolonged. Age-stratified triage covering infections, FUO, inflammatory, malignant causes, and empiric management with Egyptian trade names.</div>
+</div>
 <!-- Add more pathways here in the future -->
 </div>
 </div>
@@ -3222,6 +3344,7 @@ function showFlowResult(title, desc, severity) {
     const resultBox = document.getElementById('flow-result-box');
     let badgeClass = severity === 'very-high' ? 'risk-very-high' : severity === 'high' ? 'risk-high' : severity === 'moderate' ? 'risk-moderate' : 'risk-low';
     let badgeText = severity === 'very-high' ? 'Emergency Referral' : severity === 'high' ? 'High Risk' : severity === 'moderate' ? 'Moderate Certainty' : 'Likely Diagnosis';
+    const showFeverSafetyNetBtn = flowState && flowState.type === 'fever' && flowState.step !== 5;
     
     resultBox.innerHTML = `
         <div style="font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:400;color:var(--text);margin-bottom:0.5rem">${title}</div>
@@ -3229,10 +3352,54 @@ function showFlowResult(title, desc, severity) {
         <div class="score-result-interp" style="margin-top:1rem">${desc}</div>
         <div style="margin-top:1.5rem; display:flex; gap:1rem;">
             <button class="back-btn" onclick="resetApproach()">Start Over</button>
-            <button class="calc-btn" onclick="showPage('mgmt'); switchMgmtTab('adult', null); selectDisease('vertigo', document.querySelector('[data-disease=vertigo]'))">View Management Protocol</button>
+            ${showFeverSafetyNetBtn ? `<button class="back-btn" onclick="flowState.step=5; renderFlowStep()">Safety net</button>` : ``}
+            <button class="calc-btn" onclick="showPage('mgmt'); switchMgmtTab('adult', null)">View Management</button>
         </div>`;
     resultBox.style.display = 'block';
     resultBox.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+
+function showFeverPreset(key) {
+    if (!flowState || flowState.type !== 'fever') return;
+    switch (key) {
+        case 'sepsis':
+            showFlowResult(
+                '🚨 Sepsis / Septic Shock — Hour-1 Bundle',
+                '<strong>Definition (Sepsis-3, JAMA 2016):</strong> Life-threatening organ dysfunction caused by dysregulated host response to infection. SOFA ≥ 2 = organ dysfunction. Septic shock = sepsis + vasopressors to maintain MAP ≥ 65 mmHg + lactate > 2 mmol/L despite adequate fluids. qSOFA bedside screen (RR ≥ 22, altered mentation, SBP ≤ 100) — ≥ 2 = high risk.<br><br>' +
+                '<strong>🔴 Hour-1 Bundle (Surviving Sepsis Campaign 2021 — Critical Care Medicine):</strong><br>' +
+                '1. <strong>Measure lactate stat</strong> — repeat if > 2 mmol/L. Lactate > 4 = septic shock regardless of BP.<br>' +
+                '2. <strong>Blood cultures × 2 sets</strong> (aerobic + anaerobic, different sites) BEFORE antibiotics — do not delay antibiotics > 45 min for cultures.<br>' +
+                '3. <strong>Broad-spectrum IV antibiotics within 1 hour of recognition:</strong><br>' +
+                '&nbsp;&nbsp;• Community-acquired unknown source: Ceftriaxone (Rocephin 2 g IV OD) + metronidazole (Flagyl 500 mg IV TID) if abdominal source suspected.<br>' +
+                '&nbsp;&nbsp;• HAI / healthcare-associated: Piperacillin-tazobactam (Tazocin 4.5 g IV Q6h) ± amikacin (Biklin 15 mg/kg IV OD).<br>' +
+                '&nbsp;&nbsp;• Add vancomycin (Vancocin 25–30 mg/kg/day IV divided Q8–12h, target trough 15–20) if MRSA risk: IV line infection, skin/soft tissue, prior MRSA, healthcare exposure.<br>' +
+                '&nbsp;&nbsp;• Add antifungal: fluconazole (Diflucan 800 mg IV loading → 400 mg OD) or caspofungin (Cancidas 70 mg loading → 50 mg OD) if immunocompromised, prolonged ICU stay, total parenteral nutrition, or Candida colonisation at ≥ 2 sites.<br>' +
+                '4. <strong>IV crystalloid resuscitation:</strong> Lactated Ringer\'s preferred over 0.9% NaCl (SMART trial, NEJM 2018 — reduced MAKE30 events). 30 mL/kg over 3h. Reassess after every 500 mL bolus using dynamic fluid responsiveness: passive leg raise (PLR) + pulse pressure variation (PPV) or stroke volume variation. Avoid over-resuscitation (FENICE trial).<br>' +
+                '5. <strong>Vasopressors if MAP < 65 after fluids:</strong> Norepinephrine (Levophed 0.1–0.3 µg/kg/min IV via central line) — first-line (NEJM 2010 vs dopamine). Add vasopressin 0.03 units/min to reduce norepinephrine dose. Consider epinephrine as second vasopressor. Dopamine: only if bradycardia + no central access.<br>' +
+                '6. <strong>Corticosteroids</strong> if norepinephrine ≥ 0.25 µg/kg/min: Hydrocortisone (Solu-Cortef 200 mg/day IV continuous infusion or 50 mg IV Q6h) — ADRENAL trial (NEJM 2018): reduces vasopressor duration, no mortality benefit in unselected patients but recommended in refractory septic shock.<br>' +
+                '7. <strong>Source control within 6–12h:</strong> Drain abscess, remove infected catheter/device, treat anatomical focus.<br>' +
+                '8. <strong>Targets:</strong> MAP ≥ 65 mmHg, lactate clearance ≥ 10%/2h, urine output > 0.5 mL/kg/h, ScvO₂ ≥ 70%, SpO₂ > 94%. Mandatory ICU admission.',
+                'very-high'
+            );
+            break;
+        case 'meningitis':
+            showFlowResult(
+                '🚨 Bacterial Meningitis — Immediate Treatment',
+                '<strong>Key Features (AMBOSS / NEJM 2017 / NICE NG240 2023):</strong> Classic triad: fever + neck stiffness + photophobia/phonophobia in only 44% — absence does not exclude. Kernig\'s sign (inability to extend knee with hip flexed 90°), Brudzinski\'s sign (passive neck flexion → hip flexion). Jolt accentuation (worsening headache with horizontal head rotation at 2–3 Hz — sensitivity 97% for CSF pleocytosis, JAMA 1991). Non-blanching petechial/purpuric rash → Neisseria meningitidis (rapidly fatal — check every 15 min and mark lesion borders).<br><br>' +
+                '<strong>⚡ DO NOT delay antibiotics for CT or LP if clinical suspicion is high.</strong> Every 1-hour antibiotic delay increases mortality by 9% (NEJM 2016).<br><br>' +
+                '<strong>CT head first ONLY if:</strong> Papilloedema, focal neurological deficit, GCS < 13, new-onset seizure, immunocompromised — to exclude raised ICP before LP.<br><br>' +
+                '<strong>Treatment (IDSA 2004 — still standard):</strong><br>' +
+                '• <strong>Antibiotics immediately:</strong> Ceftriaxone (Rocephin 2 g IV Q12h). ADD ampicillin (Ampicil 2 g IV Q4h) if age > 50, immunocompromised, or pregnancy → covers Listeria monocytogenes.<br>' +
+                '• <strong>Dexamethasone</strong> (Dexamethasone 0.15 mg/kg IV Q6h × 4 days) — give before or with first antibiotic dose. Reduces hearing loss and neurological sequelae in S. pneumoniae meningitis (NEJM 2002 — de Gans trial). Stop if meningococcal or viral.<br>' +
+                '• <strong>CSF interpretation:</strong> Bacterial: WBC ↑↑ (>1000, neutrophilic), protein ↑ (>1 g/L), glucose ↓↓ (<40% serum), Gram stain positive 70–90%, culture gold standard. Viral: lymphocytic pleocytosis, normal/mildly ↑ protein, normal glucose. TB/fungal: lymphocytic, very high protein, low glucose (LP culture × 3, India ink, CrAg).<br>' +
+                '• Meningococcal: Notify public health. Ciprofloxacin 500 mg PO single dose OR rifampicin (Rimactane 600 mg BD × 2 days) for close contacts within 24h of diagnosis.<br>' +
+                '• ICU if GCS ≤ 8, seizures, herniation signs, haemodynamic instability.',
+                'very-high'
+            );
+            break;
+        default:
+            break;
+    }
 }
 function renderFlowStep() {
     const titleEl = document.getElementById('flow-title');
@@ -3247,7 +3414,9 @@ function renderFlowStep() {
         vertigo: 'Vertigo Diagnostic Pathway',
         headache: 'Headache Diagnostic Pathway',
         epigastric: 'Epigastric Pain Pathway',
-        fatigue: 'Chronic Fatigue Pathway'
+        fatigue: 'Chronic Fatigue Pathway',
+        redeye: 'Red Eye Diagnostic Pathway',
+        fever: 'Fever Diagnostic Pathway'
     };
     titleEl.textContent = pathwayTitles[flowState.type] || 'Diagnostic Pathway';
 
@@ -3714,7 +3883,1263 @@ function renderFlowStep() {
                 </div>`;
         }
     }
+    // ═══════════════════════════════════════════════
+    // PERIPHERAL NEUROPATHY
+    // ═══════════════════════════════════════════════
+    else if (flowState.type === 'neuropathy') {
+        if (flowState.step === 1) {
+            descEl.textContent = 'Step 1 of 4: Onset and red flags';
+            titleEl.textContent = '1. What is the mode of onset and are any red flags present? (rapid progression over days–weeks, asymmetric, cranial nerve involvement, bladder/bowel dysfunction, preceding GI/respiratory illness)';
+            contentEl.innerHTML = `
+                <div style="display:flex;flex-wrap:wrap;gap:0.8rem;margin-top:1.5rem;">
+                    <button class="flow-step-btn" style="border-color:var(--emergency-border);color:var(--emergency)" onclick="nextFlowStep('rapid-ascending')">Rapid ascending weakness + areflexia (days–weeks), preceded by infection</button>
+                    <button class="flow-step-btn" style="border-color:var(--emergency-border);color:var(--emergency)" onclick="nextFlowStep('rapid-asymm')">Rapid onset, asymmetric, mononeuropathy multiplex, systemic illness</button>
+                    <button class="flow-step-btn" onclick="nextFlowStep('chronic-symm')">Chronic, insidious, symmetric, length-dependent (feet first)</button>
+                    <button class="flow-step-btn" onclick="nextFlowStep('chronic-asymm')">Chronic but asymmetric, patchy, or multifocal</button>
+                </div>`;
+        }
+        else if (flowState.step === 2) {
+            descEl.textContent = 'Step 2 of 4: Characterise symptoms';
+            let a0 = flowState.answers[0];
+            if (a0 === 'rapid-ascending') {
+                showFlowResult('🚨 Guillain-Barré Syndrome (GBS) — URGENT', '<strong>Key Features (AMBOSS/EAN 2023):</strong> Progressive symmetric ascending weakness + areflexia evolving over days–4 weeks. Often post-Campylobacter, CMV, EBV, or COVID-19. CSF: albuminocytological dissociation (↑ protein, normal WBC).<br><br><strong>Red Flags → ICU:</strong> FVC &lt; 20 mL/kg, rapidly falling SpO₂, bulbar dysfunction, autonomic instability (BP swings, arrhythmia).<br><br><strong>Treatment:</strong> IVIg 0.4 g/kg/day × 5 days OR plasmapheresis × 5 sessions (equally effective). Do NOT use steroids (harmful in GBS). Supportive: DVT prophylaxis, pressure care, analgesia for pain (gabapentin Neurontin 300 mg TID). Physiotherapy. Neurologist admission mandatory.', 'very-high');
+            } else if (a0 === 'rapid-asymm') {
+                showFlowResult('🚨 Vasculitic / Inflammatory Mononeuritis Multiplex — Urgent Workup', '<strong>Key Features:</strong> Sequential or simultaneous involvement of ≥2 named peripheral nerves (e.g. common peroneal + ulnar). Associated with rheumatoid arthritis, SLE, polyarteritis nodosa, cryoglobulinaemia, diabetes, sarcoidosis, leprosy.<br><br><strong>Investigations:</strong> FBC, ESR, CRP, ANA, ANCA, RF, anti-CCP, cryoglobulins, HBsAg, HCV, HIV, nerve conduction studies. Nerve ± muscle biopsy if vasculitis suspected.<br><br><strong>Treatment:</strong> Treat underlying cause. Vasculitic neuropathy: high-dose prednisolone (Predsol 1 mg/kg/day) ± cyclophosphamide (Endoxan) — rheumatology/neurology co-management.', 'very-high');
+            } else if (a0 === 'chronic-symm') {
+                titleEl.textContent = '2. Characterise the sensory symptoms and risk factors';
+                contentEl.innerHTML = `
+                    <div style="display:flex;flex-wrap:wrap;gap:0.8rem;margin-top:1.5rem;">
+                        <button class="flow-step-btn" onclick="nextFlowStep('dm-risk')">Known DM / prediabetes / metabolic syndrome — burning, tingling, numbness feet</button>
+                        <button class="flow-step-btn" onclick="nextFlowStep('b12-risk')">Vegan diet, PPI/metformin use, bariatric surgery, elderly — numbness + ataxia</button>
+                        <button class="flow-step-btn" onclick="nextFlowStep('alcohol-toxic')">Chronic alcohol use or toxic exposure (chemo, isoniazid, heavy metals)</button>
+                        <button class="flow-step-btn" onclick="nextFlowStep('idiopathic-slow')">Slowly progressive, no clear cause, NCS shows demyelination</button>
+                    </div>`;
+            } else {
+                titleEl.textContent = '2. What is the distribution and associated features?';
+                contentEl.innerHTML = `
+                    <div style="display:flex;flex-wrap:wrap;gap:0.8rem;margin-top:1.5rem;">
+                        <button class="flow-step-btn" onclick="nextFlowStep('entrapment')">Single nerve, focal: wrist/elbow/fibular head compression — carpal tunnel, cubital tunnel, foot drop</button>
+                        <button class="flow-step-btn" onclick="nextFlowStep('hereditary')">Family history, high arches, hammer toes, onset childhood/young adult</button>
+                    </div>`;
+            }
+        }
+        else if (flowState.step === 3) {
+            descEl.textContent = 'Step 3 of 4: Investigations and aetiology';
+            let a1 = flowState.answers[1];
+            if (a1 === 'dm-risk') {
+                titleEl.textContent = '3. Is glycaemic control established? What does NCS show?';
+                contentEl.innerHTML = `
+                    <div style="display:flex;flex-wrap:wrap;gap:0.8rem;margin-top:1.5rem;">
+                        <button class="flow-step-btn" onclick="showFlowResult('Diabetic Peripheral Neuropathy (DPN)','<strong>Key Features (ADA 2024):</strong> Distal symmetric polyneuropathy is the most common form. Length-dependent: stocking-and-glove distribution. Burning, tingling, allodynia, numbness. Decreased vibration sense and ankle reflexes early.<br><br><strong>Investigations:</strong> HbA1c, fasting glucose, renal function, urine ACR, B12. NCS: axonal, mixed motor/sensory.<br><br><strong>Neuropathic Pain Treatment:</strong><br>1st line: Pregabalin (Lyrica 75–150 mg BD) or Duloxetine (Cymbalta 60 mg OD).<br>2nd line: Amitriptyline (Tryptanol 25–75 mg nocte) or Gabapentin (Neurontin 300–900 mg TID).<br>Add-on: Tramadol (Tramal 50–100 mg Q6–8h PRN) for breakthrough pain.<br><br><strong>Disease-modifying:</strong> Tight glycaemic control (HbA1c &lt; 7%). Alpha-lipoic acid (Thiogamma 600 mg OD) — antioxidant, evidence-based in DPN. Regular foot care, protective footwear, annual monofilament exam.','moderate')">Well-controlled DM, chronic course, burning/allodynia predominant</button>
+                        <button class="flow-step-btn" onclick="showFlowResult('Prediabetic / Impaired Glucose Tolerance Neuropathy','<strong>Key Features:</strong> Small-fibre neuropathy with burning pain may predate overt DM diagnosis. Normal standard NCS (large fibre). Confirm with skin punch biopsy (↓ intraepidermal nerve fibre density) or quantitative sensory testing.<br><br><strong>Treatment:</strong> Lifestyle intervention to prevent DM progression. Neuropathic pain: Pregabalin (Lyrica 75 mg BD) or Duloxetine (Cymbalta 60 mg OD). Alpha-lipoic acid (Thiogamma 600 mg OD).','low')">Prediabetic or recently diagnosed, predominantly pain/burning</button>
+                    </div>`;
+            } else if (a1 === 'b12-risk') {
+                showFlowResult('Vitamin B12 Deficiency Neuropathy', '<strong>Key Features (AMBOSS):</strong> Subacute combined degeneration of spinal cord: peripheral neuropathy + posterior column dysfunction (proprioception loss, sensory ataxia, Romberg positive) + pyramidal signs. Macrocytic anaemia may be absent in 30%.<br><br><strong>Investigations:</strong> Serum B12 (normal does not exclude — check methylmalonic acid + homocysteine if strong suspicion), FBC, anti-intrinsic factor antibodies.<br><br><strong>Treatment:</strong><br>If dietary (vegan): Oral cyanocobalamin (Neurobion forte 1000 µg OD or tabs 1000 µg OD).<br>If malabsorption / pernicious anaemia: IM hydroxocobalamin 1 mg on alternate days × 2 weeks → 1 mg every 3 months lifelong (Cobalamin amp — available in Egyptian pharmacies).<br>Folate: Folic acid 5 mg OD if deficient (Folicil / Folvite). Do NOT give folate alone before excluding B12 deficiency — may precipitate subacute combined degeneration.', 'moderate');
+            } else if (a1 === 'alcohol-toxic') {
+                showFlowResult('Alcoholic / Toxic Neuropathy', '<strong>Key Features (AMBOSS):</strong> Chronic alcohol: predominantly axonal sensorimotor neuropathy, often painful. Direct neurotoxicity + nutritional deficiency (B1, B6, B12, folate). Chemotherapy-induced (oxaliplatin, paclitaxel, vincristine): typically dose-dependent, often reversible on drug cessation. Isoniazid neuropathy: B6 (pyridoxine) deficiency mechanism.<br><br><strong>Treatment:</strong><br>Alcohol: Abstinence is the single most important step. Thiamine (B1) IV/IM 100–200 mg/day × 3–5 days if Wernicke suspected (Bevitine amp), then oral B-complex (Neurobion 3× daily). Multivitamin supplementation.<br>Isoniazid: Pyridoxine (Vitamin B6) 25–50 mg OD prophylactically with all TB patients (B6 tabs widely available).<br>Chemotherapy: Dose modification with oncologist. Duloxetine (Cymbalta 60 mg OD) has best evidence for CIPN pain (ASCO 2020).', 'moderate');
+            } else if (a1 === 'idiopathic-slow') {
+                showFlowResult('CIDP (Chronic Inflammatory Demyelinating Polyneuropathy)', '<strong>Key Features (EAN/PNS 2023):</strong> Progressive or relapsing proximal + distal weakness and sensory loss over ≥ 8 weeks. Areflexia. NCS: demyelinating pattern (prolonged distal latency, slow conduction velocity, conduction block, temporal dispersion). CSF: ↑ protein.<br><br><strong>Investigations:</strong> NCS/EMG, CSF, anti-nodal/paranodal antibodies (anti-NF155, anti-CNTN1). Exclude diabetes, paraprotein (SPEP/IPEP), HIV, hepatitis.<br><br><strong>Treatment:</strong> IVIg 2 g/kg over 2–5 days → maintenance every 3–6 weeks OR prednisolone 1 mg/kg/day (Predsol) with gradual taper OR plasmapheresis. Azathioprine (Imuran 2 mg/kg/day) as steroid-sparer. Neurologist-led management essential.', 'moderate');
+            } else if (a1 === 'entrapment') {
+                showFlowResult('Entrapment Neuropathy (CTS / Cubital Tunnel / Peroneal)', '<strong>Key Features:</strong> Carpal Tunnel: Nocturnal hand tingling/numbness (median nerve distribution), positive Phalen and Tinel. Cubital Tunnel: Ulnar nerve compression at elbow, 4th–5th finger numbness, intrinsic hand wasting. Peroneal (foot drop): Compression at fibular head, footdrop + lateral leg numbness.<br><br><strong>Investigations:</strong> NCS confirms (↑ distal latency at wrist for CTS, slowing at elbow for cubital). Ultrasound of nerve helpful.<br><br><strong>Treatment:</strong> CTS mild–moderate: wrist splint nocte, corticosteroid injection (Kenacort 40 mg) at carpal tunnel. Severe or failed conservative → surgical decompression. Cubital tunnel: elbow padding, avoid flexion; surgical transposition if severe. Foot drop: ankle-foot orthosis (AFO), address compressive cause.', 'low');
+            } else if (a1 === 'hereditary') {
+                showFlowResult('Hereditary Neuropathy — CMT / Other', '<strong>Key Features (AMBOSS):</strong> Charcot-Marie-Tooth (CMT) is the most common hereditary neuropathy. Slowly progressive distal weakness, high arches (pes cavus), hammer toes, stork-leg appearance, family history. CMT1A: PMP22 duplication (chromosome 17), demyelinating. CMT2: Axonal.<br><br><strong>Investigations:</strong> NCS/EMG, genetic panel (PMP22 duplication, GJB1, MPZ, MFN2). Refer neurology/genetics.<br><br><strong>Treatment:</strong> No disease-modifying therapy currently available. Supportive: physiotherapy, orthotic devices (AFOs), orthopaedic intervention for foot deformity. Avoid neurotoxic drugs (vincristine contraindicated in CMT). Annual respiratory assessment if severe.', 'low');
+            }
+        }
+    }
+
+    // ═══════════════════════════════════════════════
+    // OTALGIA
+    // ═══════════════════════════════════════════════
+    else if (flowState.type === 'otalgia') {
+        if (flowState.step === 1) {
+            descEl.textContent = 'Step 1 of 3: Screen for danger signs';
+            titleEl.textContent = '1. Are any danger signs present? (post-auricular swelling/erythema/tenderness, severe systemic illness/fever > 39°C, facial nerve palsy, pulsatile tinnitus, sudden hearing loss, immunocompromise/diabetes with severe otalgia)';
+            contentEl.innerHTML = `
+                <div style="display:flex;flex-wrap:wrap;gap:0.8rem;margin-top:1.5rem;">
+                    <button class="flow-step-btn" style="border-color:var(--emergency-border);color:var(--emergency)" onclick="nextFlowStep('danger')">Yes — danger sign present</button>
+                    <button class="flow-step-btn" onclick="nextFlowStep('no-danger')">No danger signs</button>
+                </div>`;
+        }
+        else if (flowState.step === 2) {
+            descEl.textContent = 'Step 2 of 3: Localise the source';
+            if (flowState.answers[0] === 'danger') {
+                titleEl.textContent = '2. What is the dominant danger pattern?';
+                contentEl.innerHTML = `
+                    <div style="display:flex;flex-wrap:wrap;gap:0.8rem;margin-top:1.5rem;">
+                        <button class="flow-step-btn" style="border-color:var(--emergency-border);color:var(--emergency)" onclick="showFlowResult('🚨 Acute Mastoiditis — Urgent ENT Referral','<strong>Key Features (NICE/AAO-HNS):</strong> Post-auricular erythema, swelling, tenderness, forward displacement of pinna. Fever. Usually complicates AOM. CT temporal bones shows coalescence or abscess.<br><br><strong>Risk:</strong> Intracranial extension → meningitis, sigmoid sinus thrombosis, epidural/subdural abscess, brain abscess.<br><br><strong>Treatment:</strong> IV admission mandatory. IV ceftriaxone (Rocephin 2 g OD) ± IV metronidazole (Flagyl 500 mg TID) if intracranial extension suspected. Myringotomy for middle ear drainage. Cortical mastoidectomy if no improvement in 48h or abscess. Urgent neurosurgery if intracranial complication.','very-high')">Post-auricular swelling/erythema, pinna displaced</button>
+                        <button class="flow-step-btn" style="border-color:var(--emergency-border);color:var(--emergency)" onclick="showFlowResult('🚨 Malignant (Necrotising) Otitis Externa — Urgent ENT','<strong>Key Features (AMBOSS):</strong> Elderly diabetic or immunocompromised patient. Severe, unrelenting otalgia, purulent discharge, granulation tissue at bony-cartilaginous junction of EAC. Can spread to skull base → cranial nerve palsies (VII, IX, X, XI, XII).<br><br><strong>Causative organism:</strong> Pseudomonas aeruginosa in ≥ 95%.<br><br><strong>Investigations:</strong> MRI skull base (preferred over CT for soft tissue extent), Tc-99m bone scan, swab C&S, HbA1c, ESR/CRP.<br><br><strong>Treatment:</strong> IV ciprofloxacin (Ciprobay 400 mg IV Q8–12h) × 6–8 weeks minimum, then oral ciprofloxacin (Ciprobay 750 mg BD). Glycaemic optimisation essential. No surgical debridement unless abscess. ESR/CRP used for treatment response monitoring.','very-high')">Diabetic/immunocompromised, severe otalgia, granulation tissue in EAC</button>
+                        <button class="flow-step-btn" style="border-color:var(--emergency-border);color:var(--emergency)" onclick="showFlowResult('🚨 Herpes Zoster Oticus (Ramsay Hunt Syndrome) — Urgent','<strong>Key Features (AMBOSS):</strong> VZV reactivation in geniculate ganglion. Triad: severe otalgia + herpetiform vesicles (pinna/EAC/tympanic membrane) + ipsilateral LMN facial palsy. May include SNHL, vertigo, tinnitus.<br><br><strong>Treatment:</strong> Antiviral + steroid within 72h improves facial nerve recovery. Acyclovir (Zovirax 800 mg 5×/day × 7 days) or valacyclovir + prednisolone (Predsol 1 mg/kg/day × 5 days then taper). Eye care (lubricating drops, tape) if incomplete eye closure. ENT + neurology referral. Prognosis for facial palsy worse than Bell\'s palsy.','very-high')">Vesicles on pinna/EAC, facial palsy</button>
+                    </div>`;
+            } else {
+                titleEl.textContent = '2. On otoscopy, what do you see?';
+                contentEl.innerHTML = `
+                    <div style="display:flex;flex-wrap:wrap;gap:0.8rem;margin-top:1.5rem;">
+                        <button class="flow-step-btn" onclick="nextFlowStep('aom')">Bulging, erythematous, immobile tympanic membrane ± perforation with purulent discharge</button>
+                        <button class="flow-step-btn" onclick="nextFlowStep('oe')">Erythematous, oedematous EAC, discharge, pain on tragal pressure / pinna movement, normal TM</button>
+                        <button class="flow-step-btn" onclick="nextFlowStep('ome')">Retracted or dull TM, air-fluid levels, no acute inflammation — mild ache only</button>
+                        <button class="flow-step-btn" onclick="nextFlowStep('normal-otoscopy')">Normal otoscopy — ear appears healthy</button>
+                    </div>`;
+            }
+        }
+        else if (flowState.step === 3) {
+            descEl.textContent = 'Step 3 of 3: Diagnosis and management';
+            let a = flowState.answers[1];
+            if (a === 'aom') {
+                showFlowResult('Acute Otitis Media (AOM)', '<strong>Key Features (AAO-HNS 2023 / NICE NG91):</strong> Most common in children (peak 6–24 months) but occurs in adults. Otalgia, fever, conductive hearing loss. Bulging TM is the most reliable sign.<br><br><strong>Watchful Waiting</strong> (mild, &gt; 2 yrs, unilateral, afebrile): Delayed antibiotic prescription × 48–72h. Analgesia: paracetamol (Panadol 1g Q6h) ± ibuprofen (Brufen 400 mg TID with food).<br><br><strong>Immediate Antibiotics</strong> (bilateral, &lt; 2 yrs, perforated, severe, immunocompromised, otorrhoea):<br>1st line: Amoxicillin (Amoxil 500 mg TID × 5–7 days).<br>2nd line (failure at 48–72h): Amoxicillin-clavulanate (Augmentin 625 mg TID × 5–7 days) or cefuroxime (Zinnat 500 mg BD).<br>Penicillin allergy: Azithromycin (Zithromax 500 mg OD × 3 days).<br><br><strong>Recurrent AOM (≥ 3 in 6 months):</strong> ENT referral for tympanostomy tubes (grommets). Pneumococcal + influenza vaccination.', 'moderate');
+            } else if (a === 'oe') {
+                showFlowResult('Acute Otitis Externa (Swimmer\'s Ear)', '<strong>Key Features (AAO-HNS 2014 — still current guideline):</strong> Pain on tragal pressure / pinna traction is pathognomonic. Organisms: Pseudomonas (most common), Staph aureus. Predisposed by moisture, trauma (cotton buds), hearing aid use.<br><br><strong>Treatment:</strong><br>Topical (first-line): Ciprofloxacin + dexamethasone ear drops (Ciprodex 4 drops TID × 7 days) OR acetic acid 2% drops (Otex) × 7–14 days.<br>If canal oedema: Insert ear wick (Pope wick) to allow drop delivery. Remove after 48h.<br>Systemic antibiotics ONLY if: cellulitis extending beyond EAC, fever, immunocompromise, or failed topical → oral ciprofloxacin (Ciprobay 500 mg BD × 7 days).<br>Patient education: Avoid water in ear, avoid cotton buds, dry ear with hair dryer after swimming. Acetic acid drops prophylaxis post-swimming.', 'low');
+            } else if (a === 'ome') {
+                showFlowResult('Otitis Media with Effusion (Glue Ear)', '<strong>Key Features:</strong> Conductive hearing loss + dull/retracted TM ± air-fluid level. Usually painless but can cause mild ache. Most common cause of hearing loss in children.<br><br><strong>Management:</strong> Watchful waiting × 3 months (most resolve spontaneously). Autoinflation device (Otovent balloon) can help. No role for antibiotics or corticosteroids (NICE NG91). Audiometry if > 3 months. Persistent OME (&gt; 3 months with hearing loss) → ENT for tympanostomy tubes (grommets). Address adenoid hypertrophy if recurrent.', 'low');
+            } else if (a === 'normal-otoscopy') {
+                showFlowResult('Referred Otalgia — Seek Primary Source', '<strong>Key Features (AMBOSS):</strong> 50% of adult otalgia is referred. The ear shares sensory innervation with multiple structures (CN V, VII, IX, X, C2–C3). Normal otoscopy mandates systematic search for the primary source.<br><br><strong>Common Referred Sources:</strong><br>• <strong>TMJ dysfunction:</strong> Pre-auricular pain, jaw clicking, tenderness on palpation of joint, bruxism — most common cause. Treat with soft diet, NSAIDs (Brufen 400 mg TID), bite guard, physiotherapy.<br>• <strong>Dental / periapical abscess:</strong> Examine all teeth and gingiva. Dental referral.<br>• <strong>Tonsillitis / peritonsillar abscess:</strong> Examine oropharynx — referred via CN IX. Antibiotics ± ENT drainage if PTA.<br>• <strong>Cervical spine disease:</strong> C2–C3 pathology (OA, disc, malignancy) → ear via Arnold\'s nerve.<br>• <strong>RED FLAG:</strong> Unexplained otalgia with normal ear in smoker/drinker ≥ 40 yrs → panendoscopy to exclude hypopharyngeal / laryngeal / base-of-tongue malignancy.', 'moderate');
+            }
+        }
+    }
+
+    // ═══════════════════════════════════════════════
+    // ABDOMINAL PAIN
+    // ═══════════════════════════════════════════════
+    else if (flowState.type === 'abdominalpain') {
+        if (flowState.step === 1) {
+            descEl.textContent = 'Step 1 of 4: Onset and surgical emergency screen';
+            titleEl.textContent = '1. What is the mode of onset and severity?';
+            contentEl.innerHTML = `
+                <div style="display:flex;flex-wrap:wrap;gap:0.8rem;margin-top:1.5rem;">
+                    <button class="flow-step-btn" style="border-color:var(--emergency-border);color:var(--emergency)" onclick="nextFlowStep('acute-severe')">Acute, severe (worst of life), or rapidly worsening — may have peritonism</button>
+                    <button class="flow-step-btn" onclick="nextFlowStep('acute-moderate')">Acute to subacute onset, moderate severity, localised</button>
+                    <button class="flow-step-btn" onclick="nextFlowStep('chronic-recurrent')">Chronic or recurrent pain (&gt; 3 months), may have symptom-free intervals</button>
+                </div>`;
+        }
+        else if (flowState.step === 2) {
+            descEl.textContent = 'Step 2 of 4: Localise the pain';
+            let a0 = flowState.answers[0];
+            if (a0 === 'acute-severe') {
+                titleEl.textContent = '2. What does the examination show?';
+                contentEl.innerHTML = `
+                    <div style="display:flex;flex-wrap:wrap;gap:0.8rem;margin-top:1.5rem;">
+                        <button class="flow-step-btn" style="border-color:var(--emergency-border);color:var(--emergency)" onclick="showFlowResult('🚨 Peritonitis / Bowel Perforation — Surgical Emergency','<strong>Key Features:</strong> Board-like rigidity, generalised guarding, rebound tenderness, absent bowel sounds. Patient lies still (movement worsens pain — unlike renal colic). Causes: perforated peptic ulcer (sudden epigastric → generalised), perforated diverticular disease, ischaemic bowel, perforated appendix.<br><br><strong>Investigations:</strong> Erect CXR (free air under diaphragm), CT abdomen with contrast (most sensitive), FBC, CRP, lactate, group & screen.<br><br><strong>Treatment:</strong> Nothing by mouth, IV access × 2, fluid resuscitation, urinary catheter. Analgesia (morphine IV — does NOT mask peritonism in RCTs). IV antibiotics: ceftriaxone (Rocephin 2 g IV OD) + metronidazole (Flagyl 500 mg IV TID). URGENT surgical consultation — laparotomy or laparoscopy. Inform ICU.','very-high')">Generalised peritonism, rigid abdomen, haemodynamic compromise</button>
+                        <button class="flow-step-btn" style="border-color:var(--emergency-border);color:var(--emergency)" onclick="showFlowResult('🚨 Mesenteric Ischaemia / Ischaemic Bowel','<strong>Key Features (AMBOSS):</strong> Classic triad: severe abdominal pain disproportionate to examination findings (early — soft abdomen!), bloody diarrhoea (later), history of AF/atherosclerosis/low cardiac output. Mortality &gt; 60% if diagnosis delayed.<br><br><strong>Investigations:</strong> Lactate (↑↑ — highly sensitive), CT angiography abdomen (gold standard), FBC (↑WBC), metabolic acidosis on ABG.<br><br><strong>Treatment:</strong> Immediate surgical referral. Anticoagulation: IV UFH bolus. Mesenteric embolectomy/thrombectomy or catheter-directed thrombolysis (SMA). Bowel resection if necrosis. Optimise cardiac output (AF cardioversion/rate control, vasopressors if shock).','very-high')">Pain out of proportion to exam, AF/atherosclerosis, bloody diarrhoea</button>
+                        <button class="flow-step-btn" style="border-color:var(--emergency-border);color:var(--emergency)" onclick="showFlowResult('🚨 Ruptured AAA — Immediate Surgical Emergency','<strong>Key Features:</strong> Elderly male, smoker, sudden severe central/back/flank pain, pulsatile abdominal mass, haemodynamic instability (hypotension, tachycardia). Classic triad in only 50%. May mimic renal colic.<br><br><strong>Do NOT delay:</strong> Permissive hypotension (target SBP 70–90 mmHg until OR). 2 large-bore IV lines, O negative blood. Immediate vascular surgery. CT only if haemodynamically stable. EVAR preferred over open repair if anatomy suitable.','very-high')">Elderly, pulsatile mass, haemodynamic instability, back/flank radiation</button>
+                    </div>`;
+            } else if (a0 === 'acute-moderate') {
+                titleEl.textContent = '2. Where is the pain primarily located?';
+                contentEl.innerHTML = `
+                    <div style="display:flex;flex-wrap:wrap;gap:0.8rem;margin-top:1.5rem;">
+                        <button class="flow-step-btn" onclick="nextFlowStep('rif')">Right iliac fossa / periumbilical migrating to RIF</button>
+                        <button class="flow-step-btn" onclick="nextFlowStep('ruc')">Right upper quadrant, post-prandial, may radiate to right shoulder</button>
+                        <button class="flow-step-btn" onclick="nextFlowStep('lif')">Left iliac fossa, older patient, fever, change in bowel habit</button>
+                        <button class="flow-step-btn" onclick="nextFlowStep('loin-radiation')">Loin to groin radiation, colicky, haematuria, restless patient</button>
+                        <button class="flow-step-btn" onclick="nextFlowStep('epigastric-acute')">Epigastric radiating to back, post-alcohol or fatty meal, vomiting</button>
+                    </div>`;
+            } else {
+                titleEl.textContent = '2. What is the dominant chronic pain pattern?';
+                contentEl.innerHTML = `
+                    <div style="display:flex;flex-wrap:wrap;gap:0.8rem;margin-top:1.5rem;">
+                        <button class="flow-step-btn" onclick="nextFlowStep('ibs-pattern')">Diffuse crampy pain, relieved by defecation, bloating, alternating bowel habit — no alarm features</button>
+                        <button class="flow-step-btn" onclick="nextFlowStep('ibd-pattern')">Chronic diarrhoea ± blood/mucus, weight loss, nocturnal symptoms, young patient</button>
+                        <button class="flow-step-btn" onclick="nextFlowStep('chronic-epigastric')">Chronic epigastric discomfort, early satiety, bloating, nausea</button>
+                        <button class="flow-step-btn" onclick="nextFlowStep('gynae')">Lower abdominal pain in female — cyclical relationship, dysmenorrhoea, dyspareunia</button>
+                    </div>`;
+            }
+        }
+        else if (flowState.step === 3) {
+            descEl.textContent = 'Step 3 of 4: Refine diagnosis';
+            let a1 = flowState.answers[1];
+
+            if (a1 === 'rif') {
+                titleEl.textContent = '3. Alvarado score and inflammatory markers?';
+                contentEl.innerHTML = `
+                    <div style="display:flex;flex-wrap:wrap;gap:0.8rem;margin-top:1.5rem;">
+                        <button class="flow-step-btn" onclick="showFlowResult('Acute Appendicitis','<strong>Key Features:</strong> Periumbilical pain migrating to RIF (McBurney\'s point), anorexia, nausea/vomiting, low-grade fever. Rovsing\'s sign, psoas sign. Alvarado score ≥ 7 = high probability.<br><br><strong>Investigations:</strong> FBC (↑WBC + neutrophilia), CRP (↑), CT abdomen (sensitivity 94%, specificity 95% — preferred over USS in adults). USS first in children and pregnant women.<br><br><strong>Treatment:</strong> NBM, IV fluids, IV morphine (Morphine amp) for analgesia — does not mask signs. Pre-op: ceftriaxone (Rocephin 1 g IV) + metronidazole (Flagyl 500 mg IV). Laparoscopic appendicectomy (gold standard). Uncomplicated appendicitis: antibiotic-only protocol (amoxicillin-clavulanate Augmentin 1.2 g IV TID × 3 days → oral × 7 days) is an alternative in selected patients (APPAC trial).','high')">High probability (Alvarado ≥ 7, ↑WBC, RIF tenderness)</button>
+                        <button class="flow-step-btn" onclick="showFlowResult('RIF Pain — Alternative Diagnoses','<strong>Differentials to exclude:</strong><br>• Ovarian pathology (cyst, torsion, ectopic): β-hCG, pelvic USS mandatory in females. Ovarian torsion → urgent gynaecology.<br>• Mesenteric adenitis: children/young adults, recent URTI, diffuse tender nodes on USS, self-limiting.<br>• Ileocaecal TB/Crohn\'s: chronic course, constitutional symptoms, skip lesions on CT/colonoscopy.<br>• Psoas abscess: fever, hip flexion contracture — CT confirms.<br><br><strong>Next Step:</strong> If Alvarado 4–6 (equivocal): CT abdomen + pelvis. Serial observations. Surgical review. Do not discharge without clear diagnosis.','moderate')">Equivocal (Alvarado 4–6) or atypical features</button>
+                    </div>`;
+            } else if (a1 === 'ruc') {
+                showFlowResult('Acute Biliary Colic / Acute Cholecystitis', '<strong>Key Features (Tokyo Guidelines 2018):</strong> Biliary Colic: episodic RUQ pain 30 min–6h, post-fatty meal, no fever, normal WBC. Cholecystitis: Murphy\'s sign positive, fever, ↑WBC, CRP — pain persists &gt; 6h.<br><br><strong>Investigations:</strong> USS abdomen (first-line: gallstones, wall thickening &gt; 3 mm, pericholecystic fluid, sonographic Murphy\'s). FBC, CRP, LFTs (↑ALP/GGT → CBD involvement), lipase.<br><br><strong>Treatment — Biliary Colic:</strong> Analgesia: diclofenac (Voltaren 75 mg IM) or ketorolac IM. Antispasmodic: hyoscine butylbromide (Buscopan 20 mg IM/IV). Elective laparoscopic cholecystectomy.<br><br><strong>Treatment — Cholecystitis (Tokyo Grade I–II):</strong> NBM, IV fluids, IV antibiotics (ampicillin-sulbactam Unasyn 3 g TID or ceftriaxone Rocephin 2 g OD + metronidazole Flagyl 500 mg TID). Early laparoscopic cholecystectomy within 72h preferred. Grade III (severe): ICU, delayed cholecystectomy, percutaneous cholecystostomy if high surgical risk.', 'moderate');
+            } else if (a1 === 'lif') {
+                showFlowResult('Acute Diverticulitis', '<strong>Key Features (WSES 2020):</strong> LIF pain (sigmoid most common), fever, ↑WBC/CRP, change in bowel habit. Palpable mass in 20%.<br><br><strong>Investigations:</strong> CT abdomen with contrast (gold standard): inflamed diverticulum, pericolic fat stranding. Hinchey classification guides severity. Do NOT perform colonoscopy in acute phase (perforation risk).<br><br><strong>Treatment — Mild (Hinchey I, outpatient):</strong> Oral antibiotics: co-amoxiclav (Augmentin 625 mg TID × 7–10 days) or ciprofloxacin (Ciprobay 500 mg BD) + metronidazole (Flagyl 500 mg TID). Low-residue diet. Return if worsening.<br><br><strong>Treatment — Moderate-Severe (Hinchey II–III):</strong> Admission, NBM, IV fluids, IV antibiotics (ceftriaxone Rocephin 2 g OD + metronidazole Flagyl 500 mg TID). CT-guided drainage if pericolic abscess. Surgery (Hartmann\'s) for peritonitis (Hinchey IV). Colonoscopy 6–8 weeks after resolution to exclude colon cancer.', 'moderate');
+            } else if (a1 === 'loin-radiation') {
+                showFlowResult('Ureteric / Renal Colic', '<strong>Key Features:</strong> Sudden severe colicky loin-to-groin pain, haematuria (macro or micro), restlessness (cannot lie still — distinguishes from peritonitis). Nausea/vomiting common. Stone at ureterovesical junction: dysuria, frequency.<br><br><strong>Investigations:</strong> Dipstick urinalysis (haematuria), urine culture (exclude infection/obstruction), FBC, U&E, creatinine. CT KUB non-contrast (gold standard, sensitivity 97%). USS if pregnant or child (radiation-free).<br><br><strong>Treatment — Acute Pain:</strong> Diclofenac (Voltaren 75 mg IM) — superior to opioids for ureteric colic. Ketorolac (Toradol 30 mg IV) alternative. Opioid rescue: tramadol (Tramal 100 mg IV) or morphine if NSAIDs contraindicated (eGFR &lt; 30).<br><br><strong>Medical Expulsive Therapy:</strong> Tamsulosin (Harnal 0.4 mg OD) × 4 weeks for distal ureteric stones ≤ 10 mm (facilitates spontaneous passage).<br><br><strong>Urgent Urology:</strong> Obstructed infected kidney (sepsis + stone) = emergency urological drainage (ureteric stent or nephrostomy). Stone &gt; 10 mm → urological intervention (SWL, ureteroscopy, PCNL).', 'moderate');
+            } else if (a1 === 'epigastric-acute') {
+                showFlowResult('Acute Pancreatitis', '<strong>Key Features (IAP/APA 2024):</strong> Epigastric pain radiating to back, worse lying flat, relieved leaning forward. Post-alcohol or gallstone trigger. Grey Turner / Cullen signs (haemorrhagic — late). Diagnosis: ≥ 2 of 3: (1) typical pain (2) lipase/amylase &gt; 3× ULN (3) CT findings.<br><br><strong>Severity:</strong> Revised Atlanta: mild (no organ failure), moderate (transient OF &lt; 48h), severe (persistent OF &gt; 48h). BISAP score at admission.<br><br><strong>Treatment:</strong> NBM, aggressive IV fluid resuscitation (Lactated Ringer\'s preferred: 250–500 mL/hr for first 12–24h — superior to NS in IAP 2024). Analgesia: IV morphine (Morphine amp) or IV ketorolac (Toradol). Antiemetics: metoclopramide (Primperan 10 mg IV). No routine antibiotics unless infected necrosis suspected (fever + CT evidence &gt; 7 days). Early feeding (within 24h) if tolerated. Early ERCP (within 24h) if cholangitis (cholestatic jaundice + fever + AOM). Step-up approach for necrotising pancreatitis: endoscopic/percutaneous drainage before surgery.', 'high');
+            } else if (a1 === 'ibs-pattern') {
+                showFlowResult('Irritable Bowel Syndrome (IBS)', '<strong>Key Features (Rome IV 2016):</strong> Recurrent abdominal pain ≥ 1 day/week × 3 months, associated with ≥ 2 of: related to defecation, change in stool frequency, change in stool form. Subtypes: IBS-C, IBS-D, IBS-M.<br><br><strong>Investigations:</strong> Diagnosis of exclusion. FBC, CRP, coeliac serology (TTG-IgA), faecal calprotectin (to differentiate from IBD — &lt; 50 µg/g favours IBS). Colonoscopy if alarm features or age &gt; 45.<br><br><strong>Treatment:</strong><br>Dietary: Low FODMAP diet × 4–8 weeks then reintroduce.<br>IBS-D: Loperamide (Imodium 2 mg PRN), rifaximin (Xifaxan 550 mg TID × 14 days).<br>IBS-C: Macrogol (Movicol sachets OD–TID), linaclotide (Constella 290 µg OD before breakfast).<br>Pain: Mebeverine (Duspatalin 135 mg TID before meals) or hyoscine butylbromide (Buscopan 20 mg TID). Low-dose amitriptyline (Tryptanol 10–30 mg nocte) for refractory pain. Psychotherapy/CBT.', 'low');
+            } else if (a1 === 'ibd-pattern') {
+                showFlowResult('Inflammatory Bowel Disease (IBD) — Crohn\'s / UC', '<strong>Key Features:</strong> UC: bloody diarrhoea, urgency, tenesmus, continuous colonic inflammation from rectum. Crohn\'s: skip lesions anywhere from mouth to anus, transmural, strictures/fistulae, perianal disease, weight loss.<br><br><strong>Investigations:</strong> Faecal calprotectin ↑↑ (sensitive for mucosal inflammation). FBC (anaemia, ↑PLT), CRP/ESR, albumin. Colonoscopy + biopsy (gold standard). CT/MRI enterography for Crohn\'s small bowel extent.<br><br><strong>Treatment — UC mild-moderate:</strong> Oral + rectal mesalazine (Pentasa 4 g/day). Moderate-severe: IV hydrocortisone (Hydrocort 100 mg QID) or prednisolone (Predsol 40 mg OD).<br><strong>Treatment — Crohn\'s:</strong> Prednisolone (Predsol 40 mg OD) for induction. Azathioprine (Imuran 2–2.5 mg/kg/day) for maintenance. Biological therapy (anti-TNF): infliximab (Remicade/Remsima IV), adalimumab (Humira SC) for moderate-severe or fistulising disease. Gastroenterologist-led.', 'moderate');
+            } else if (a1 === 'chronic-epigastric') {
+                showFlowResult('Functional Dyspepsia / GERD / PUD', '<strong>Approach to Chronic Epigastric Pain:</strong><br><br><strong>Step 1 — Alarm features?</strong> Dysphagia, weight loss, GI bleeding, age &gt; 55, mass → urgent OGD.<br><strong>Step 2 — Test for H. pylori:</strong> Urea breath test or stool antigen (off PPI × 2 weeks). If positive → bismuth quadruple therapy (PPI BD + bismuth Pyloride QID + metronidazole Flagyl 500 mg TID + tetracycline 500 mg QID × 14 days).<br><strong>Step 3 — PPI trial:</strong> Omeprazole (Losec 20–40 mg OD) or pantoprazole (Pantoloc 40 mg OD) × 4–8 weeks.<br><strong>Step 4 — Refractory FD:</strong> Low-dose amitriptyline (Tryptanol 10–25 mg nocte) — best evidence for epigastric pain syndrome. Prokinetics: itopride (Ganaton 50 mg TID before meals) for postprandial distress syndrome. Psychological intervention.', 'low');
+            } else if (a1 === 'gynae') {
+                showFlowResult('Female Lower Abdominal Pain — Gynaecological Causes', '<strong>Systematic Approach:</strong> Always check β-hCG first to exclude ectopic pregnancy (surgical emergency).<br><br><strong>Cyclical pain:</strong><br>• Primary dysmenorrhoea: Naproxen (Naprosyn 500 mg BD) from 1–2 days before expected menses. Combined OCP if contraception also needed.<br>• Endometriosis: Chronic cyclical pelvic pain + dyspareunia + infertility. Laparoscopy diagnostic gold standard. GnRH analogues, progestins (Provera 10 mg OD), dienogest (Visanne 2 mg OD), surgical excision.<br><br><strong>Non-cyclical / Acute:</strong><br>• Ovarian cyst: USS. Simple &lt; 5 cm → watchful waiting. Torsion (sudden severe pain, N/V, adnexal tenderness): urgent USS Doppler → emergency laparoscopy (detorsion within 6h preserves ovary).<br>• PID (pelvic inflammatory disease): Bilateral lower pain + vaginal discharge + cervical motion tenderness + fever. Treat empirically: ceftriaxone (Rocephin 500 mg IM × 1) + doxycycline (Vibramycin 100 mg BD × 14 days) + metronidazole (Flagyl 400 mg BD × 14 days).', 'moderate');
+            }
+        }
+    }
+
+    // ═══════════════════════════════════════════════
+    // RED EYE
+    // ═══════════════════════════════════════════════
+    else if (flowState.type === 'redeye') {
+
+        // ── STEP 1: Vision and pain screen ──
+        if (flowState.step === 1) {
+            descEl.textContent = 'Step 1 of 4 — Immediate vision and pain triage';
+            titleEl.textContent = '1. Is visual acuity reduced AND / OR is there significant ocular pain (not just irritation)?';
+            contentEl.innerHTML = `
+                <div style="display:flex;flex-wrap:wrap;gap:0.8rem;margin-top:1.5rem;">
+                    <button class="flow-step-btn" style="border-color:var(--emergency-border);color:var(--emergency)"
+                        onclick="nextFlowStep('va-pain-yes')">
+                        Yes — reduced VA and/or significant pain (aching, deep, or photophobia)
+                    </button>
+                    <button class="flow-step-btn"
+                        onclick="nextFlowStep('va-pain-no')">
+                        No — vision normal, discomfort only (gritty, itchy, mild burning)
+                    </button>
+                </div>`;
+        }
+
+        // ── STEP 2 ──
+        else if (flowState.step === 2) {
+            descEl.textContent = 'Step 2 of 4 — Characterise the pattern';
+            let a0 = flowState.answers[0];
+
+            if (a0 === 'va-pain-yes') {
+                titleEl.textContent = '2. What is the dominant clinical picture?';
+                contentEl.innerHTML = `
+                    <div style="display:flex;flex-wrap:wrap;gap:0.8rem;margin-top:1.5rem;">
+                        <button class="flow-step-btn" style="border-color:var(--emergency-border);color:var(--emergency)"
+                            onclick="nextFlowStep('glaucoma')">
+                            Sudden severe pain, halos around lights, fixed mid-dilated pupil, rock-hard eye, nausea/vomiting
+                        </button>
+                        <button class="flow-step-btn"
+                            onclick="nextFlowStep('uveitis')">
+                            Deep aching pain, photophobia, perilimbal (ciliary) flush, small/irregular pupil, blurred vision
+                        </button>
+                        <button class="flow-step-btn"
+                            onclick="nextFlowStep('keratitis')">
+                            Severe pain, photophobia, foreign-body sensation, corneal opacity/ulcer, contact lens wearer or trauma
+                        </button>
+                        <button class="flow-step-btn"
+                            onclick="nextFlowStep('scleritis')">
+                            Severe boring/deep pain, tender globe, dark red/violaceous hue, associated systemic autoimmune disease
+                        </button>
+                    </div>`;
+            } else {
+                titleEl.textContent = '2. What are the predominant symptoms and signs?';
+                contentEl.innerHTML = `
+                    <div style="display:flex;flex-wrap:wrap;gap:0.8rem;margin-top:1.5rem;">
+                        <button class="flow-step-btn"
+                            onclick="nextFlowStep('conjunctivitis-type')">
+                            Discharge (watery, mucoid, or purulent), gritty/burning sensation, bilateral or sequential, lids stuck in morning
+                        </button>
+                        <button class="flow-step-btn"
+                            onclick="nextFlowStep('episcleritis')">
+                            Localised sectoral redness, mild discomfort (not true pain), blanches with phenylephrine, no discharge, normal VA
+                        </button>
+                        <button class="flow-step-btn"
+                            onclick="nextFlowStep('subconj')">
+                            Sudden bright red patch, no pain, no discharge, normal VA — noticed on waking or by others
+                        </button>
+                        <button class="flow-step-btn"
+                            onclick="nextFlowStep('dry-eye-blepharitis')">
+                            Bilateral chronic grittiness/burning, worse in morning or end of day, lid margin crusting, frothy discharge
+                        </button>
+                    </div>`;
+            }
+        }
+
+        // ── STEP 3 ──
+        else if (flowState.step === 3) {
+            descEl.textContent = 'Step 3 of 4 — Refine diagnosis';
+            let a1 = flowState.answers[1];
+
+            if (a1 === 'glaucoma') {
+                showFlowResult('🚨 Acute Angle-Closure Glaucoma (AACG) — Ophthalmic Emergency',
+                    '<strong>Key Features (AMBOSS / EGS 2021):</strong> IOP typically 40–80 mmHg. Fixed, mid-dilated, non-reactive pupil. Corneal oedema (steamy appearance). Ciliary flush. Nausea/vomiting may lead to misdiagnosis as GI or neurological emergency. Precipitated by dim lighting, mydriatic drugs, stress.<br><br>' +
+                    '<strong>Risk factors:</strong> Hyperopia (short axial length), Asian ethnicity, female, elderly, family history, shallow anterior chamber.<br><br>' +
+                    '<strong>⚡ Immediate Management (before ophthalmology arrives):</strong><br>' +
+                    '1. <strong>IOP-lowering drops stat:</strong><br>' +
+                    '&nbsp;&nbsp;• Timolol 0.5% (Timoptic) 1 drop → wait 5 min<br>' +
+                    '&nbsp;&nbsp;• Brimonidine 0.2% (Alphagan) 1 drop → wait 5 min<br>' +
+                    '&nbsp;&nbsp;• Dorzolamide 2% (Trusopt) 1 drop<br>' +
+                    '2. <strong>Systemic IOP reduction:</strong> Acetazolamide (Diamox) 500 mg IV stat (or 500 mg oral if no vomiting) — caution: contraindicated in sulfa allergy and sickle cell.<br>' +
+                    '3. <strong>Osmotic agent</strong> if IOP still high: IV mannitol 20% (Osmitrol) 1–2 g/kg over 30–60 min.<br>' +
+                    '4. <strong>Pilocarpine 2%</strong> (Pilocar) 1 drop once IOP begins to fall (ineffective at IOP &gt; 50 mmHg — iris sphincter ischaemic).<br>' +
+                    '5. Supine positioning (increases trabecular flow). Analgesia: IV ketorolac or morphine.<br><br>' +
+                    '<strong>Definitive Treatment:</strong> Laser peripheral iridotomy (LPI) — performed by ophthalmologist once IOP controlled. Prophylactic LPI to fellow eye. URGENT same-day ophthalmology referral — irreversible optic nerve damage within hours.',
+                    'very-high');
+            }
+
+            else if (a1 === 'uveitis') {
+                titleEl.textContent = '3. Is this a first episode or recurrent? Any systemic disease?';
+                contentEl.innerHTML = `
+                    <div style="display:flex;flex-wrap:wrap;gap:0.8rem;margin-top:1.5rem;">
+                        <button class="flow-step-btn"
+                            onclick="showFlowResult('Anterior Uveitis (Iritis / Iridocyclitis)',
+                            '<strong>Key Features (AAO PPP 2021):</strong> Perilimbal (ciliary) flush, photophobia, miosis or irregular pupil (posterior synechiae), keratic precipitates (KPs) on slit lamp, cells and flare in anterior chamber. Hypopyon in severe cases (HLA-B27, Behçet, endophthalmitis).<br><br>' +
+                            '<strong>Aetiology:</strong> 50% idiopathic. Associated conditions: HLA-B27 (ankylosing spondylitis, reactive arthritis, IBD-related, psoriatic arthritis), sarcoidosis, herpetic (HSV/VZV), Behçet disease, Vogt-Koyanagi-Harada, TB, syphilis, Lyme.<br><br>' +
+                            '<strong>Investigations (first episode):</strong> HLA-B27, ANA, ANCA, ACE (sarcoid), chest X-ray, VDRL/TPHA (syphilis), TB screen (Quantiferon), FBC, ESR, CRP.<br><br>' +
+                            '<strong>Treatment:</strong><br>' +
+                            '1. <strong>Topical steroids:</strong> Prednisolone acetate 1% (Pred Forte) drops 1 drop Q1–2h initially, taper over 4–6 weeks.<br>' +
+                            '2. <strong>Cycloplegic/mydriatic:</strong> Cyclopentolate 1% (Cyclogyl) 1 drop TID — prevents posterior synechiae, relieves ciliary spasm pain.<br>' +
+                            '3. <strong>IOP monitoring:</strong> Steroid-induced glaucoma risk — check IOP at 2 weeks.<br>' +
+                            '4. Periocular/systemic steroids if posterior involvement or poor response.<br>' +
+                            '5. Treat underlying systemic cause. Ophthalmology follow-up mandatory.',
+                            'moderate')">
+                            First episode or isolated — no clear systemic cause yet
+                        </button>
+                        <button class="flow-step-btn"
+                            onclick="showFlowResult('Recurrent / Chronic Uveitis — Systemic Association Likely',
+                            '<strong>Key Features:</strong> Recurrent anterior uveitis (≥2 episodes) or chronic uveitis (&gt;3 months) mandates thorough systemic workup and rheumatology/ophthalmology co-management.<br><br>' +
+                            '<strong>High-yield associations by pattern:</strong><br>' +
+                            '• Unilateral recurrent: HLA-B27 spondyloarthropathy (AS, ReA, PsA, IBD) — most common<br>' +
+                            '• Bilateral granulomatous: Sarcoidosis (mutton-fat KPs, Busacca nodules), VKH, TB, syphilis<br>' +
+                            '• Posterior/panuveitis: Toxoplasma (retinochoroiditis — commonest in Egypt), CMV (immunocompromised), Behçet (hypopyon + retinal vasculitis)<br>' +
+                            '• Juvenile idiopathic arthritis (JIA): Chronic anterior, white quiet eye, ANA+<br><br>' +
+                            '<strong>Treatment (acute flare same as above):</strong> Prednisolone acetate 1% (Pred Forte) + cyclopentolate (Cyclogyl). Systemic immunosuppression for recurrent/chronic: methotrexate (Methofar 15–25 mg/week), mycophenolate (CellCept 1–1.5 g BD), or anti-TNF biologics (adalimumab Humira — FDA-approved for non-infectious uveitis). Rheumatology co-management.',
+                            'moderate')">
+                            Recurrent, bilateral, or known systemic autoimmune disease
+                        </button>
+                    </div>`;
+            }
+
+            else if (a1 === 'keratitis') {
+                titleEl.textContent = '3. What is the likely aetiology?';
+                contentEl.innerHTML = `
+                    <div style="display:flex;flex-wrap:wrap;gap:0.8rem;margin-top:1.5rem;">
+                        <button class="flow-step-btn" style="border-color:var(--emergency-border);color:var(--emergency)"
+                            onclick="showFlowResult('🚨 Bacterial Keratitis — Corneal Ulcer',
+                            '<strong>Key Features (AAO 2022):</strong> Severe pain, photophobia, purulent discharge, white/grey corneal infiltrate with surrounding haze. Contact lens wear is the #1 risk factor. Also: trauma, topical steroid misuse, dry eye. Organisms: Pseudomonas (contact lens), Staph aureus, Streptococcus.<br><br>' +
+                            '<strong>Investigations:</strong> Corneal scraping for Gram stain, KOH, culture (before antibiotics). Confocal microscopy if Acanthamoeba suspected.<br><br>' +
+                            '<strong>Treatment (SAME-DAY ophthalmology):</strong><br>' +
+                            '• Intensive topical fluoroquinolone: Moxifloxacin 0.5% (Vigamox) or Ciprofloxacin 0.3% (Ciloxan) 1 drop Q30–60 min (day and night for first 48h) then Q1–2h.<br>' +
+                            '• No steroids until organism identified and responding to antibiotics.<br>' +
+                            '• Remove contact lens permanently until healed.<br>' +
+                            '• Cycloplegic: Cyclopentolate 1% (Cyclogyl) TID for comfort.<br>' +
+                            '• Admit if central ulcer, large (&gt;2 mm), sight-threatening, or non-compliant patient.<br>' +
+                            '• Antibiotic-resistant or worsening: Add fortified drops (tobramycin + cefazolin compounded) — prepared by hospital pharmacy.',
+                            'very-high')">
+                            Contact lens wearer, purulent discharge, white corneal infiltrate
+                        </button>
+                        <button class="flow-step-btn"
+                            onclick="showFlowResult('Herpetic Keratitis (HSV / HZV)',
+                            '<strong>Key Features (AMBOSS / AAO 2022):</strong> HSV: Dendritiform (branching) epithelial ulcer — PATHOGNOMONIC on fluorescein staining. Reduced corneal sensation (hypoesthesia). Recurrent episodes. HZV: Hutchinson\'s sign (vesicles on nose tip) predicts ocular involvement — pseudodendrites, stromal keratitis, uveitis.<br><br>' +
+                            '<strong>⚠️ DO NOT use topical steroids for epithelial HSV keratitis — worsens disease.</strong><br><br>' +
+                            '<strong>Treatment — HSV Epithelial Keratitis:</strong><br>' +
+                            '• Topical antiviral: Acyclovir 3% eye ointment (Zovirax ophthalmic) 5× daily × 10–14 days.<br>' +
+                            '• OR Oral acyclovir (Zovirax 400 mg 5×/day × 10 days) — equally effective, better compliance.<br>' +
+                            '• Prophylaxis for recurrent disease: Oral acyclovir 400 mg BD long-term (HEDS trial evidence).<br><br>' +
+                            '<strong>Treatment — HSV Stromal Keratitis / Disciform:</strong><br>' +
+                            '• Topical prednisolone acetate (Pred Forte) under ophthalmology supervision PLUS systemic acyclovir (Zovirax 400 mg 5×/day). Never topical steroids without antiviral cover.<br><br>' +
+                            '<strong>Treatment — HZV Ophthalmicus:</strong><br>' +
+                            '• Oral valacyclovir (Zelitrex 1 g TID × 7 days) within 72h of rash onset + ophthalmology referral.',
+                            'high')">
+                            Dendritic ulcer on fluorescein, reduced corneal sensation, history of cold sores
+                        </button>
+                        <button class="flow-step-btn"
+                            onclick="showFlowResult('Acanthamoeba Keratitis',
+                            '<strong>Key Features (AMBOSS):</strong> Severe pain disproportionate to signs (early). Ring infiltrate (late — pathognomonic). Contact lens use in tap water/swimming. Frequently misdiagnosed as HSV or bacterial. Median delay to diagnosis: 3 weeks.<br><br>' +
+                            '<strong>Investigations:</strong> Corneal confocal microscopy (best non-invasive test), corneal scraping for KOH + culture on non-nutrient agar with E. coli overlay, PCR.<br><br>' +
+                            '<strong>Treatment (prolonged — months):</strong><br>' +
+                            '• PHMB 0.02% (polyhexamethylene biguanide) + Chlorhexidine 0.02% eye drops — Q1h day and night for first week, then taper over months. Prepared by specialist pharmacy (not commercially available in Egypt — requires compounding).<br>' +
+                            '• Propamidine 0.1% (Brolene drops — available in some Egyptian pharmacies) as adjunct.<br>' +
+                            '• No steroids. No contact lens. Pain management: oral analgesics.<br>' +
+                            '• Penetrating keratoplasty if scarring severe. Prognosis guarded — months of treatment required.',
+                            'very-high')">
+                            Contact lens + tap water exposure, pain out of proportion, ring infiltrate
+                        </button>
+                    </div>`;
+            }
+
+            else if (a1 === 'scleritis') {
+                showFlowResult('Scleritis — Urgent Ophthalmology Referral',
+                    '<strong>Key Features (AMBOSS / ACR 2023):</strong> True ocular pain (boring, deep, radiates to face/jaw), tender to palpation, violaceous/dark-red hue (does NOT blanch with phenylephrine — distinguishes from episcleritis), may reduce VA if posterior involvement. Associated systemic autoimmune disease in 50%: RA (most common), GPA (Wegener\'s), SLE, relapsing polychondritis, IBD, sarcoidosis. Necrotising scleritis = highest risk — scleral thinning/perforation risk.<br><br>' +
+                    '<strong>Investigations:</strong> FBC, ESR, CRP, RF, anti-CCP, ANA, ANCA (c-ANCA/PR3 for GPA), complement, VDRL/TPHA, CXR, urine dipstick. Urgent ophthalmology + rheumatology referral.<br><br>' +
+                    '<strong>Treatment:</strong><br>' +
+                    '• <strong>Diffuse/nodular (non-necrotising):</strong> Oral NSAIDs first-line: naproxen (Naprosyn 500 mg BD) or indomethacin (Indocid 50 mg TID with food) × 2–4 weeks.<br>' +
+                    '• If NSAID failure or necrotising: Oral prednisolone (Predsol 1 mg/kg/day) with taper.<br>' +
+                    '• Necrotising or systemic vasculitic scleritis: Immunosuppression — methotrexate (Methofar 15–25 mg/week) or rituximab (Mabthera) for GPA.<br>' +
+                    '• <strong>Topical steroids are ineffective for scleritis</strong> (too superficial). Avoid subconjunctival injections (risk of scleral perforation in necrotising disease).',
+                    'high');
+            }
+
+            else if (a1 === 'conjunctivitis-type') {
+                titleEl.textContent = '3. What type of discharge and associated features?';
+                contentEl.innerHTML = `
+                    <div style="display:flex;flex-wrap:wrap;gap:0.8rem;margin-top:1.5rem;">
+                        <button class="flow-step-btn"
+                            onclick="showFlowResult('Viral Conjunctivitis',
+                            '<strong>Key Features (AMBOSS / AAO 2023):</strong> Watery/serous discharge, follicular reaction on palpebral conjunctiva, preauricular lymphadenopathy (pathognomonic — check always), unilateral then bilateral spread, often recent URTI. Adenovirus = most common (80%). Highly contagious (14-day isolation from pools, contact).<br><br>' +
+                            '<strong>Epidemic keratoconjunctivitis (EKC — adenovirus 8/19/37):</strong> Severe with subepithelial corneal infiltrates → reduced VA. Pseudomembranes on tarsal conjunctiva.<br><br>' +
+                            '<strong>Treatment:</strong> Self-limiting (7–14 days). Symptomatic: cool compresses, lubricating drops (Systane / Refresh Tears / Optive — widely available in Egypt). Topical antibiotic not indicated for viral conjunctivitis.<br>' +
+                            '• Povidone-iodine 0.6% drops: emerging evidence for adenoviral EKC — reduces duration (not yet standard guideline).<br>' +
+                            '• Topical steroid (Pred Forte) ONLY by ophthalmologist for pseudomembranes or subepithelial infiltrates with VA loss.<br>' +
+                            '• Strict hand hygiene, separate towels, avoid touching eyes. Refer if no improvement at 7 days or vision affected.',
+                            'low')">
+                            Watery discharge, preauricular lymph node, recent URTI
+                        </button>
+                        <button class="flow-step-btn"
+                            onclick="showFlowResult('Bacterial Conjunctivitis',
+                            '<strong>Key Features (AMBOSS / AAO 2023):</strong> Mucopurulent or purulent discharge, lids stuck in morning, conjunctival injection. Usually unilateral initially. Organisms: Staph aureus (adult), H. influenzae / S. pneumoniae (children), Moraxella.<br><br>' +
+                            '<strong>⚠️ Hyperacute bacterial conjunctivitis:</strong> Copious purulent discharge within hours — suspect Neisseria gonorrhoeae (STI) → URGENT ophthalmology, systemic antibiotics (ceftriaxone Rocephin 1 g IM single dose). Also chlamydial PCR.<br><br>' +
+                            '<strong>Treatment:</strong><br>' +
+                            '• Mild–moderate: Usually self-limiting in 7–10 days. Topical antibiotics shorten duration and reduce transmission:<br>' +
+                            '&nbsp;&nbsp;– Tobramycin 0.3% drops (Tobrex) 1 drop Q4h × 5–7 days.<br>' +
+                            '&nbsp;&nbsp;– OR Moxifloxacin 0.5% (Vigamox) 1 drop TID × 5 days.<br>' +
+                            '&nbsp;&nbsp;– OR Chloramphenicol 0.5% drops (Chloromycetin) 1 drop Q2h initially then Q6h — widely available and low cost in Egypt.<br>' +
+                            '• Warm compresses + lid hygiene. Contact lens wearers: discontinue until resolved.',
+                            'low')">
+                            Mucopurulent discharge, lids stuck, no preauricular node
+                        </button>
+                        <button class="flow-step-btn"
+                            onclick="showFlowResult('Allergic Conjunctivitis',
+                            '<strong>Key Features (AMBOSS / ARIA 2023):</strong> Intense bilateral itching (hallmark — if no itch, reconsider diagnosis), watery discharge, chemosis (conjunctival oedema), papillary reaction on upper tarsal conjunctiva, seasonal variation, personal/family history of atopy. Associated allergic rhinitis very common.<br><br>' +
+                            '<strong>Vernal Keratoconjunctivitis (VKC):</strong> Young males, hot climates (common in Egypt), giant cobblestone papillae on upper tarsal conjunctiva, shield corneal ulcer — sight-threatening. Refer ophthalmology urgently.<br><br>' +
+                            '<strong>Treatment — Seasonal Allergic Conjunctivitis:</strong><br>' +
+                            '• Topical antihistamine/mast cell stabiliser combination (best tolerated): Olopatadine 0.1% (Pataday) 1 drop BD — first-line, widely effective.<br>' +
+                            '• Alternative: Ketotifen 0.025% (Zaditen eye drops) 1 drop BD — available in Egypt.<br>' +
+                            '• Topical NSAID: Ketorolac 0.5% (Acular) for refractory itching.<br>' +
+                            '• Cold compresses, avoid allergens.<br>' +
+                            '• Oral antihistamine (cetirizine Zirtec 10 mg OD, loratadine Claritine 10 mg OD) if concurrent rhinitis.<br>' +
+                            '• VKC: Topical ciclosporin 0.05–1% (Restasis/Ikervis) under ophthalmology — steroid-sparing. Short-term topical steroids for severe flares only.',
+                            'low')">
+                            Intense bilateral itching, chemosis, watery discharge, seasonal or atopic
+                        </button>
+                        <button class="flow-step-btn" style="border-color:var(--emergency-border);color:var(--emergency)"
+                            onclick="showFlowResult('🚨 Neonatal Conjunctivitis (Ophthalmia Neonatorum) — URGENT',
+                            '<strong>Key Features (WHO 2023):</strong> Any conjunctivitis in first 28 days of life. Copious purulent discharge within 3–5 days of birth → Neisseria gonorrhoeae (risk of corneal perforation and blindness within hours). Onset 5–14 days → Chlamydia trachomatis (most common in resource-limited settings).<br><br>' +
+                            '<strong>Investigations:</strong> Conjunctival swab Gram stain (GC: intracellular diplococci), culture, chlamydial PCR/NAAT. Screen mother for STIs.<br><br>' +
+                            '<strong>Treatment — Gonococcal:</strong> Ceftriaxone (Rocephin) 50 mg/kg IV/IM single dose (max 250 mg) + saline eye irrigation.<br>' +
+                            '<strong>Treatment — Chlamydial:</strong> Oral erythromycin (Erythrocin) 50 mg/kg/day divided QID × 14 days (topical alone insufficient).<br>' +
+                            '<strong>Prophylaxis:</strong> Erythromycin 0.5% ointment to both eyes at birth (standard in Egypt). Treat mother and partner for GC/chlamydia simultaneously.',
+                            'very-high')">
+                            Neonate (first 28 days of life), any discharge
+                        </button>
+                    </div>`;
+            }
+
+            else if (a1 === 'episcleritis') {
+                showFlowResult('Episcleritis',
+                    '<strong>Key Features (AMBOSS):</strong> Localised or diffuse superficial injection of episcleral vessels. Sectoral (most common) or diffuse. Mild discomfort — not true pain. Blanches with 2.5–10% phenylephrine (distinguishes from scleritis — scleritis does NOT blanch). Vision and pupil normal. Usually self-limiting (1–3 weeks).<br><br>' +
+                    '<strong>Associations:</strong> 30% associated with systemic disease (RA, IBD, gout, rosacea, atopy) — recurrent episodes warrant systemic workup (RF, anti-CCP, ANA, uric acid, ESR, CRP).<br><br>' +
+                    '<strong>Treatment:</strong><br>' +
+                    '• Mild: Lubricating drops (Systane / Optive) for comfort. Reassurance — usually resolves spontaneously.<br>' +
+                    '• Moderate: Topical NSAID drops: Ketorolac 0.5% (Acular) or diclofenac 0.1% (Voltaren Ophthalmic) QID × 1–2 weeks.<br>' +
+                    '• Oral NSAIDs if topical insufficient: Ibuprofen (Brufen 400 mg TID) or naproxen (Naprosyn 500 mg BD) × 1–2 weeks.<br>' +
+                    '• <strong>Topical steroids are generally NOT first-line for episcleritis</strong> (risk of steroid-induced cataract/glaucoma, and disease usually self-limiting). Reserve for nodular episcleritis not responding to NSAIDs — under ophthalmologist supervision.',
+                    'low');
+            }
+
+            else if (a1 === 'subconj') {
+                showFlowResult('Subconjunctival Haemorrhage',
+                    '<strong>Key Features (AMBOSS):</strong> Rupture of small subconjunctival vessels → bright red sharply demarcated patch. Vision completely normal. No pain (may have mild irritation). Spontaneous or after Valsalva (coughing, sneezing, straining, vomiting). Usually unilateral.<br><br>' +
+                    '<strong>Benign and self-limiting:</strong> Resolves in 1–3 weeks without treatment (blood absorbs). Reassure patient — alarming appearance but harmless.<br><br>' +
+                    '<strong>When to investigate:</strong><br>' +
+                    '• Recurrent (≥2 episodes): Check BP (hypertension is a common cause), FBC (thrombocytopenia), coagulation screen (PT/APTT/INR), blood glucose.<br>' +
+                    '• On anticoagulants (warfarin — Marevan, apixaban — Eliquis, rivaroxaban — Xarelto): Check INR if on warfarin — supratherapeutic INR is common cause.<br>' +
+                    '• Bilateral spontaneous: More likely coagulopathy — full haematological workup.<br>' +
+                    '• Traumatic: Exclude penetrating injury (seidel test), check VA and IOP.<br><br>' +
+                    '<strong>Treatment:</strong> Lubricating drops for comfort. No specific treatment needed. Address modifiable causes (control BP, review anticoagulation if indicated).',
+                    'low');
+            }
+
+            else if (a1 === 'dry-eye-blepharitis') {
+                titleEl.textContent = '3. Which is the dominant pattern?';
+                contentEl.innerHTML = `
+                    <div style="display:flex;flex-wrap:wrap;gap:0.8rem;margin-top:1.5rem;">
+                        <button class="flow-step-btn"
+                            onclick="showFlowResult('Dry Eye Disease (DED)',
+                            '<strong>Key Features (TFOS DEWS II 2017):</strong> Multifactorial disease causing instability of the tear film. Symptoms: burning, grittiness, foreign body sensation, paradoxical tearing, blurred vision that clears with blinking. Worse in dry environments, screen time, air conditioning, contact lens wear. Schirmer\'s test &lt;10 mm/5 min, TBUT &lt;10 sec.<br><br>' +
+                            '<strong>Risk factors:</strong> Female sex, age &gt;50, meibomian gland dysfunction (MGD), systemic disease (Sjögren\'s syndrome — anti-SSA/SSB, RA, diabetes), medications (antihistamines, antidepressants, isotretinoin, beta-blockers), refractive surgery (LASIK).<br><br>' +
+                            '<strong>Treatment (stepwise — TFOS DEWS II):</strong><br>' +
+                            '• <strong>Step 1 (all patients):</strong> Preservative-free lubricating drops (Refresh Optive preservative-free / Systane Ultra PF / Hylo-Comod) Q2–6h. Gel at night (Lacri-Lube / VitA-POS ointment). Omega-3 supplements (fish oil 1–2 g/day). Lid hygiene. Reduce screen time, humidifier, avoid fans.<br>' +
+                            '• <strong>Step 2:</strong> Topical ciclosporin 0.05–0.1% (Restasis or Ikervis emulsion) — anti-inflammatory, reduces T-cell mediated damage. Effect at 3–6 months. Topical lifitegrast 5% (Xiidra) if available.<br>' +
+                            '• <strong>Step 3:</strong> Punctal plugs (temporary: collagen; permanent: silicone). Intense Pulsed Light (IPL) for MGD.<br>' +
+                            '• <strong>Step 4:</strong> Autologous serum drops 20–50% (prepared from patient\'s own blood — available at ophthalmology centres in Cairo/Alexandria). Scleral contact lenses. Systemic secretagogues.<br>' +
+                            '• Screen for Sjögren\'s (anti-SSA/SSB, RF, ANA) in severe or bilateral.',
+                            'low')">
+                            Burning/grittiness worse with screens/AC, no lid crusting, worse in evening
+                        </button>
+                        <button class="flow-step-btn"
+                            onclick="showFlowResult('Blepharitis (Anterior / Posterior / MGD)',
+                            '<strong>Key Features (AAO PPP 2023):</strong> Chronic bilateral lid margin inflammation. <strong>Anterior:</strong> Lid margin erythema, collarette scaling around lash bases (Staphylococcal) or flaky dandruff-like scales (seborrhoeic — associated with seborrhoeic dermatitis/rosacea). <strong>Posterior (MGD):</strong> Meibomian gland orifice plugging, thickened/turbid meibum, frothy tear film, telangiectatic lid margins.<br><br>' +
+                            '<strong>Treatment (chronic — requires sustained maintenance):</strong><br>' +
+                            '• <strong>Warm compresses:</strong> 39–42°C × 5–10 min OD–BD (melts inspissated meibum). Commercial warm compress mask (Bruder mask) or warm flannel.<br>' +
+                            '• <strong>Lid massage:</strong> Immediately after warm compress — express meibomian glands toward lid margin.<br>' +
+                            '• <strong>Lid scrubs:</strong> Diluted baby shampoo (1:10) or commercial wipes (Blephaclean / Lid-Care wipes — available in Egyptian pharmacies) — clean lash bases BD.<br>' +
+                            '• <strong>Topical antibiotic if infected:</strong> Azithromycin 1% gel (Azasite) OD × 4 weeks — also improves meibomian gland function.<br>' +
+                            '• <strong>Oral doxycycline (tetracycline class):</strong> Low-dose doxycycline (Vibramycin 40–100 mg OD × 3 months) for MGD/rosacea-associated blepharitis — anti-inflammatory mechanism, not antimicrobial.<br>' +
+                            '• <strong>Demodex-associated blepharitis:</strong> Cylindrical collarettes on lashes (pathognomonic). Tea tree oil 50% lid scrubs (TTO — diluted) OD × 6 weeks. Ivermectin 1% cream (Soolantra) applied to lid margins OD × 6 weeks. Oral ivermectin (Stromectol 200 µg/kg × 2 doses 1 week apart) for severe/widespread infestation.<br>' +
+                            '• Concurrent dry eye: Preservative-free lubricating drops (Hylo-Comod / Refresh PF).',
+                            'low')">
+                            Lid margin crusting, lash collarettes, frothy discharge, morning predominant
+                        </button>
+                    </div>`;
+            }
+        }
+
+        // ── STEP 4: Final safety net ──
+        else if (flowState.step === 4) {
+            descEl.textContent = 'Step 4 of 4 — Safety net';
+            showFlowResult('Red Eye — Safety Net Checklist',
+                '<strong>Before discharging any red eye:</strong><br><br>' +
+                '✅ Visual acuity documented in both eyes<br>' +
+                '✅ IOP checked if any doubt about glaucoma<br>' +
+                '✅ Cornea examined with fluorescein staining if any pain or contact lens history<br>' +
+                '✅ Pupil reaction and shape assessed<br>' +
+                '✅ Anterior chamber depth estimated (penlight — shallow AC → AACG risk)<br><br>' +
+                '<strong>🚨 Mandatory same-day ophthalmology referral if ANY of:</strong><br>' +
+                '• Reduced visual acuity not explained by discharge<br>' +
+                '• Corneal opacity, ulcer, or infiltrate<br>' +
+                '• Irregular, fixed, or mid-dilated pupil<br>' +
+                '• IOP &gt; 21 mmHg<br>' +
+                '• Hypopyon (pus in anterior chamber)<br>' +
+                '• Penetrating injury suspected<br>' +
+                '• Chemical injury (alkali/acid) — copious irrigation FIRST, refer second<br>' +
+                '• Neonatal conjunctivitis<br>' +
+                '• Post-operative eye',
+                'moderate');
+        }
+    }
+// ═══════════════════════════════════════════════
+    // FEVER
+    // ═══════════════════════════════════════════════
+    else if (flowState.type === 'fever') {
+
+// ── STEP 1: Haemodynamic triage ──
+if (flowState.step === 1) {
+    descEl.textContent = 'Step 1 of 5 — Immediate haemodynamic and danger triage';
+    titleEl.textContent = '1. Are any high-risk features present? (HR > 100, RR > 22, SBP < 90 mmHg, SpO₂ < 94%, altered consciousness, non-blanching rash, cold/mottled extremities, rigors)';
+    contentEl.innerHTML = `
+        <div style="display:flex;flex-wrap:wrap;gap:0.8rem;margin-top:1.5rem;">
+            <button class="flow-step-btn" style="border-color:var(--emergency-border);color:var(--emergency)"
+                onclick="nextFlowStep('unstable')">
+                Yes — haemodynamically unstable or high-risk feature present
+            </button>
+            <button class="flow-step-btn"
+                onclick="nextFlowStep('stable')">
+                No — haemodynamically stable, appears non-toxic
+            </button>
+        </div>`;
 }
+
+// ── STEP 2 ──
+else if (flowState.step === 2) {
+    descEl.textContent = 'Step 2 of 5 — Pattern and duration';
+    let a0 = flowState.answers[0];
+
+    if (a0 === 'unstable') {
+        titleEl.textContent = '2. What is the dominant picture in this unstable febrile patient?';
+        contentEl.innerHTML = `
+            <div style="display:flex;flex-wrap:wrap;gap:0.8rem;margin-top:1.5rem;">
+                <button class="flow-step-btn" style="border-color:var(--emergency-border);color:var(--emergency)"
+                    onclick="showFeverPreset('sepsis')">
+                    Suspected sepsis / septic shock — known or suspected infection source + organ dysfunction
+                </button>
+                <button class="flow-step-btn" style="border-color:var(--emergency-border);color:var(--emergency)"
+                    onclick="showFeverPreset('meningitis')">
+                    Neck stiffness, photophobia, altered consciousness, petechial rash
+                </button>
+                <button class="flow-step-btn" style="border-color:var(--emergency-border);color:var(--emergency)"
+                    onclick="showFlowResult('🚨 Neutropenic Fever — Oncological Emergency',
+                    \'<strong>Definition (IDSA 2010, updated 2023):</strong> Single oral temperature ≥ 38.3°C or ≥ 38.0°C sustained > 1h in a patient with ANC < 500 cells/µL or expected nadir < 500 within 48h. Occurs in ~80% of patients with haematological malignancies receiving chemotherapy.<br><br>\' +
+                    \'<strong>Risk Stratification — MASCC Score (≥ 21 = low risk):</strong><br>\' +
+                    \'Burden of illness: no/mild symptoms +5, moderate +3 | No hypotension +5 | No COPD +4 | Solid tumour / no prior fungal +4 | No dehydration +3 | Outpatient +3 | Age < 60 +2.<br><br>\' +
+                    \'<strong>HIGH RISK (MASCC < 21, or haem malignancy, HSCT, prolonged neutropenia > 7 days, hepatic/renal impairment, mucositis grade 3–4, clinical instability):</strong><br>\' +
+                    \'• Anti-pseudomonal beta-lactam STAT: Piperacillin-tazobactam (Tazocin 4.5 g IV Q6h) — first-line. OR cefepime (Maxipime 2 g IV Q8h). OR meropenem (Meronem 1 g IV Q8h) if prior ESBL/carbapenem-susceptible organism colonisation.<br>\' +
+                    \'• ADD vancomycin (Vancocin) if: catheter-related infection, severe mucositis, haemodynamic instability, skin/soft tissue infection, known MRSA colonisation.<br>\' +
+                    \'• ADD antifungal (caspofungin Cancidas 70 mg loading → 50 mg IV OD) if: fever persists > 4–7 days on antibiotics, clinical deterioration, prior azole prophylaxis (use echinocandin), high Aspergillus risk (HSCT, prolonged steroids) → voriconazole (Vfend 6 mg/kg IV Q12h × 2 doses → 4 mg/kg Q12h).<br>\' +
+                    \'• G-CSF (filgrastim Neupogen 5 µg/kg SC OD) for prolonged neutropenia with complications — discuss with oncologist.<br><br>\' +
+                    \'<strong>LOW RISK (MASCC ≥ 21, solid tumour, well-appearing, no comorbidities):</strong> Oral ciprofloxacin (Ciprobay 500 mg BD) + amoxicillin-clavulanate (Augmentin 875/125 mg TID) — NEJM 1999 Kern trial validates oral outpatient in low-risk NF. Continue until ANC > 500 and afebrile ≥ 48h.\',
+                    \'very-high\')">
+                    Known malignancy on chemotherapy, ANC likely suppressed
+                </button>
+                <button class="flow-step-btn" style="border-color:var(--emergency-border);color:var(--emergency)"
+                    onclick="showFlowResult('🚨 Fever in Returned Traveller — Malaria Until Proven Otherwise',
+                    \'<strong>Key Principle (UpToDate 2024 / WHO 2023):</strong> Any fever within 3 months of travel to a malaria-endemic area is <em>P. falciparum</em> malaria until excluded. P. falciparum can cause cerebral malaria, ARDS, AKI, and death within 24–48h — never manage as outpatient.<br><br>\' +
+                    \'<strong>Parallel differential diagnosis in returned traveller:</strong><br>\' +
+                    \'• Dengue: Abrupt fever + severe headache + retro-orbital pain + myalgia + rash (maculopapular, islands of white in sea of red). Leucopenia + thrombocytopenia + elevated haematocrit. NS1 antigen (days 1–5), IgM/IgG serology (after day 5). No specific antiviral — supportive, avoid NSAIDs/aspirin (bleeding risk).<br>\' +
+                    \'• Typhoid: Stepwise fever, relative bradycardia, rose spots, splenomegaly — blood culture gold standard.<br>\' +
+                    \'• Chikungunya: Fever + severe bilateral symmetrical polyarthritis + rash. PCR acute phase, IgM serology. Supportive; NSAIDs for joint pain.<br>\' +
+                    \'• Viral haemorrhagic fever (Crimean-Congo — present in Egypt): Fever + haemorrhage + thrombocytopenia + hepatitis. STRICT ISOLATION. Notify ID/public health immediately. Ribavirin (Virazole) IV under specialist guidance.<br><br>\' +
+                    \'<strong>Malaria Investigations (same-day, urgent):</strong> Thick and thin blood films × 3 (Q12–24h if negative), malaria RDT (PfHRP2/pLDH), FBC, LFTs, bilirubin, glucose, creatinine, lactate.<br><br>\' +
+                    \'<strong>Treatment:</strong><br>\' +
+                    \'• Uncomplicated P. falciparum: Artemether-lumefantrine (Coartem 4 tabs BD × 3 days with fatty food).<br>\' +
+                    \'• Severe malaria (any organ dysfunction, parasitaemia > 5%, cerebral malaria, ARDS, AKI): IV artesunate (Artesun 2.4 mg/kg IV at 0, 12, 24h then OD × ≥ 3 days — WHO 2023 — superior to quinine, AQUAMAT trial LANCET 2010) → oral ACT step-down when tolerating orally. ICU. Glucose monitoring Q4h (hypoglycaemia common). Exchange transfusion if parasitaemia > 10% + complications.\',
+                    \'very-high\')">
+                    Recent travel to endemic area — malaria, dengue, typhoid, VHF
+                </button>
+            </div>`;
+    }
+
+    else {
+        titleEl.textContent = '2. How long has the fever been present?';
+        contentEl.innerHTML = `
+            <div style="display:flex;flex-wrap:wrap;gap:0.8rem;margin-top:1.5rem;">
+                <button class="flow-step-btn" onclick="nextFlowStep('acute-fever')">
+                    Acute — less than 7 days
+                </button>
+                <button class="flow-step-btn" onclick="nextFlowStep('subacute-fever')">
+                    Subacute — 7 to 21 days
+                </button>
+                <button class="flow-step-btn" onclick="nextFlowStep('fuo')">
+                    Prolonged — more than 3 weeks, temperature > 38.3°C on most days, undiagnosed after initial evaluation
+                </button>
+            </div>`;
+    }
+}
+
+// ── STEP 3 ──
+else if (flowState.step === 3) {
+    descEl.textContent = 'Step 3 of 5 — Host factors and focal assessment';
+    let a1 = flowState.answers[1];
+
+    if (a1 === 'acute-fever') {
+        titleEl.textContent = '3. What is the patient\'s age group and immune status?';
+        contentEl.innerHTML = `
+            <div style="display:flex;flex-wrap:wrap;gap:0.8rem;margin-top:1.5rem;">
+                <button class="flow-step-btn" onclick="nextFlowStep('neonate')">
+                    Neonate (0–28 days) or young infant (29 days – 3 months)
+                </button>
+                <button class="flow-step-btn" onclick="nextFlowStep('child')">
+                    Child 3 months – 12 years
+                </button>
+                <button class="flow-step-btn" onclick="nextFlowStep('adult-focal')">
+                    Adult (> 12 years), immunocompetent — proceed to focal assessment
+                </button>
+                <button class="flow-step-btn" onclick="nextFlowStep('immunocomp')">
+                    Adult — immunocompromised (HIV, steroids, biologics, transplant, haematological malignancy, cirrhosis, uncontrolled DM)
+                </button>
+                <button class="flow-step-btn" onclick="nextFlowStep('elderly')">
+                    Elderly (> 65 years)
+                </button>
+            </div>`;
+    }
+
+    else if (a1 === 'subacute-fever') {
+        titleEl.textContent = '3. What is the dominant clinical pattern at 7–21 days?';
+        contentEl.innerHTML = `
+            <div style="display:flex;flex-wrap:wrap;gap:0.8rem;margin-top:1.5rem;">
+                <button class="flow-step-btn"
+                    onclick="showFlowResult('Typhoid Fever (Enteric Fever)',
+                    \'<strong>Key Features (AMBOSS / UpToDate 2024 / WHO 2023):</strong> Salmonella typhi or paratyphi. Classic stepwise rising fever (week 1: 38→40°C), relative bradycardia (pulse-temperature dissociation — Faget\'s sign), frontal headache, malaise. Week 1: constipation. Week 2: diarrhoea (pea-soup), rose spots (salmon-pink blanching macules on trunk — 30%, fleeting). Splenomegaly. Week 3 complications: intestinal perforation (surgical emergency — sudden peritonism), haemorrhage, encephalopathy (rare but lethal).<br><br>\' +
+                    \'<strong>Investigations:</strong> Blood culture (gold standard — sensitivity 80% week 1, falls to 30% by week 3; use 10 mL blood per bottle). Bone marrow culture (90% sensitive even after antibiotics — for difficult cases). FBC: leucopenia with relative lymphocytosis (classic), anaemia, thrombocytopenia. ↑LFTs (hepatitis-like picture in 40%). Widal test — poor specificity (baseline titres high in endemic Egypt; ≥ 4-fold rise or O agglutinin titre ≥ 1:160 supportive only). Typhidot IgM rapid test — more practical.<br><br>\' +
+                    \'<strong>Treatment (WHO 2023 / UpToDate 2024):</strong><br>\' +
+                    \'• Uncomplicated: Azithromycin (Zithromax 1 g OD × 5 days) — preferred first-line for community-acquired in Egypt due to lower resistance rates vs fluoroquinolones. OR cefixime (Suprax 400 mg OD × 14 days) for MDR strains.<br>\' +
+                    \'• Fluoroquinolone-susceptible: Ciprofloxacin (Ciprobay 500 mg BD × 10–14 days) — check nalidixic acid susceptibility first (resistance predicts reduced FQ efficacy).<br>\' +
+                    \'• Severe / complicated / hospital-acquired: Ceftriaxone (Rocephin 2–3 g IV OD × 10–14 days).<br>\' +
+                    \'• Typhoid encephalopathy with shock: Dexamethasone 3 mg/kg IV → 1 mg/kg Q6h × 48h (Hoffman NEJM 1984 — reduces mortality in severe disease).<br>\' +
+                    \'• Perforation: NBM, IV ceftriaxone + metronidazole (Flagyl 500 mg IV TID), emergency surgical consultation.\',
+                    \'high\')">
+                    Stepwise fever, relative bradycardia, headache, splenomegaly, constipation/diarrhoea — suspect typhoid
+                </button>
+                <button class="flow-step-btn"
+                    onclick="showFlowResult('Infective Endocarditis (IE)',
+                    \'<strong>Key Features (ESC Guidelines 2023 / JAMA 2022 review):</strong> Fever + new or changing murmur = IE until proven otherwise. Modified Duke Criteria (≥ 2 major, or 1 major + 3 minor, or 5 minor = definite IE).<br><br>\' +
+                    \'<strong>Major criteria:</strong> (1) Positive blood cultures with typical organisms (Viridans streptococci, S. aureus, Enterococcus, HACEK group) — 2 separate sets; (2) Endocardial involvement on echo (vegetation, abscess, new dehiscence of prosthetic valve, new valvular regurgitation).<br><br>\' +
+                    \'<strong>Minor criteria:</strong> Predisposing heart condition or IVDU, fever ≥ 38°C, vascular phenomena (emboli, Janeway lesions, mycotic aneurysm), immunological phenomena (Osler\'s nodes, Roth spots, RF positive), positive blood culture not meeting major criteria.<br><br>\' +
+                    \'<strong>Peripheral stigmata (AMBOSS):</strong> Osler\'s nodes (painful, finger/toe pads — immune complex), Janeway lesions (painless, palms/soles — septic emboli), Roth spots (retinal haemorrhages with pale centre), splinter haemorrhages, clubbing (chronic), splenomegaly.<br><br>\' +
+                    \'<strong>Investigations:</strong> Blood cultures × 3 sets (≥ 1h apart, different venepuncture sites) before antibiotics — NEVER delay for one set. TTE (sensitivity 60–75%) → TOE mandatory if prosthetic valve, poor TTE window, no vegetation on TTE but high suspicion (sensitivity 90–100%). FBC (↑WBC, normocytic anaemia, ↑PLT), CRP/ESR ↑↑, urinalysis (haematuria, casts — immune complex nephritis), RF positive in 50%, complement ↓.<br><br>\' +
+                    \'<strong>Treatment (ESC 2023):</strong><br>\' +
+                    \'• Native valve empiric: Ampicillin-sulbactam (Unasyn 3 g IV Q6h) + gentamicin (Gentamycin 3 mg/kg IV OD) × 4–6 weeks. OR flucloxacillin (Floxapen 2 g IV Q4h) + gentamicin if staphylococcal.<br>\' +
+                    \'• Prosthetic valve / MRSA risk: Vancomycin (Vancocin 30 mg/kg/day IV in 2 divided doses, target AUC/MIC 400–600) + gentamicin + rifampicin (Rimactane 300 mg PO BD — add after 3–5 days of bacteraemia control).<br>\' +
+                    \'• Total IV duration: 4–6 weeks native valve; 6 weeks prosthetic. Cardiac surgery indications: heart failure (most common), uncontrolled infection, prevention of embolism (vegetation > 10 mm + embolic event). Multidisciplinary Endocarditis Team (cardiologist + cardiac surgeon + ID) — ESC 2023 strongly recommends.\',
+                    \'high\')">
+                    Fever > 7 days, new murmur, embolic signs, IV drug use, prosthetic valve, poor dentition — suspect IE
+                </button>
+                <button class="flow-step-btn"
+                    onclick="showFlowResult('Brucellosis',
+                    \'<strong>Key Features (AMBOSS / UpToDate 2024):</strong> Undulant fever (waves separated by afebrile periods — pathognomonic), drenching night sweats (&quot;wet sheets&quot;), profound malaise and myalgia, arthralgia. Sacroiliitis (most common focal complication — up to 40% — low back pain + SI joint tenderness), spondylodiscitis (lumbar most common), orchitis/epididymo-orchitis (males, 20%). Hepatosplenomegaly, lymphadenopathy. Neurobrucellosis (2–5%): meningitis, radiculopathy.<br><br>\' +
+                    \'<strong>Epidemiology:</strong> Endemic in Egypt — livestock (sheep, goats, cattle, camels), occupational exposure (veterinarians, farmers, slaughterhouse workers), unpasteurised dairy products (labneh, white cheese).<br><br>\' +
+                    \'<strong>Investigations:</strong> Blood culture — Castañeda biphasic method, hold 6 weeks (slow-growing intracellular). Serology: Rose Bengal plate test (screening — sensitivity > 95%, rapid), Standard Agglutination Test (SAT/Wright\'s) — titre ≥ 1:160 or ≥ 4-fold rise = significant; anti-Brucella IgG (ELISA) superior. Brucella PCR (blood/tissue) increasingly available and highly specific. FBC: leucopenia, relative lymphocytosis, anaemia, thrombocytopenia. ↑ESR, ↑CRP, mildly ↑LFTs.<br><br>\' +
+                    \'<strong>Treatment — combination mandatory to prevent relapse (WHO 2023 / UpToDate 2024):</strong><br>\' +
+                    \'• <strong>Standard (lowest relapse rate):</strong> Doxycycline (Vibramycin 100 mg BD × 6 weeks) + IM streptomycin (1 g OD × first 2–3 weeks) — WHO preferred regimen.<br>\' +
+                    \'• <strong>All-oral alternative:</strong> Doxycycline (Vibramycin 100 mg BD × 6 weeks) + rifampicin (Rimactane 600–900 mg OD × 6 weeks) — higher relapse rate (~10% vs 5%) but widely used in Egypt due to streptomycin availability issues.<br>\' +
+                    \'• <strong>Spondylitis / neurobrucellosis:</strong> Triple therapy — doxycycline + rifampicin + TMP-SMX (Bactrim DS 960 mg BD) × 12 weeks minimum. MRI spine for spondylodiscitis extent.<br>\' +
+                    \'• Children &lt; 8 years: TMP-SMX (Bactrim) + rifampicin (Rimactane) × 6 weeks. Pregnancy: rifampicin + TMP-SMX (after first trimester). Relapse (20–30%): re-treat with same regimen for 6 weeks.\',
+                    \'moderate\')">
+                    Undulant fever, night sweats, arthralgia, sacroiliitis, livestock/dairy exposure — suspect brucellosis
+                </button>
+                <button class="flow-step-btn"
+                    onclick="showFlowResult('Visceral Leishmaniasis (Kala-Azar)',
+                    \'<strong>Key Features (AMBOSS / WHO 2022):</strong> Endemic in Upper Egypt (Governorates of Aswan, Luxor, Sohag) and Nile Delta. Vector: Phlebotomus papatasi sandfly. Insidious onset over weeks–months. Classic pentad: prolonged irregular fever + progressive massive splenomegaly (can reach pelvis — most prominent sign) + hepatomegaly + weight loss / wasting + pancytopenia (↓Hb, ↓WBC, ↓PLT). Hypoalbuminaemia + polyclonal hypergammaglobulinaemia (reversed albumin:globulin ratio). Skin hyperpigmentation (kala-azar = black fever). Secondary bacterial infections (pneumonia, TB, dysentery) common and lethal. Can be reactivated in HIV coinfection.<br><br>\' +
+                    \'<strong>Investigations:</strong> rK39 rapid immunochromatographic test (sensitivity 95–98% in Egypt — first-line, cheap, point-of-care). Leishmania PCR (blood/bone marrow) — most sensitive and specific. Bone marrow aspirate (trephine + aspirate): Leishman-Donovan (LD) bodies in macrophages — sensitivity 70–85%. Splenic aspirate: highest sensitivity (98%) but risk of haemorrhage — specialist centres only. FBC (pancytopenia), albumin ↓, globulins ↑↑, ↑ESR, ↑LDH, ↑ferritin, ↑LFTs.<br><br>\' +
+                    \'<strong>Treatment (Egyptian MOH Protocol / WHO 2022):</strong><br>\' +
+                    \'• <strong>Liposomal amphotericin B (AmBisome) — first-line where available:</strong> 3 mg/kg IV days 1–5, 14, 21 (total 21 mg/kg). Best efficacy + safety; low nephrotoxicity vs conventional amphotericin.<br>\' +
+                    \'• <strong>Meglumine antimoniate (Glucantime) — standard Egyptian protocol:</strong> 20 mg/kg/day IM × 28–30 days. Monitor: ECG (QTc prolongation — stop if QTc > 500 ms), LFTs, amylase (pancreatitis), creatinine. ECG twice weekly during treatment.<br>\' +
+                    \'• <strong>Miltefosine (oral) — increasing availability in Egypt:</strong> 2.5 mg/kg/day PO × 28 days (max 150 mg/day). Avoid in pregnancy and women of childbearing potential without contraception (teratogenic). GI side effects common (nausea — take with food).<br>\' +
+                    \'• <strong>HIV-VL coinfection:</strong> Liposomal amphotericin B preferred. Start/optimise ART after 2 weeks of antileishmanial. Secondary prophylaxis with amphotericin B monthly if CD4 < 200. Mandatory national reporting — Leishmania Control Programme (GOTHI).\',
+                    \'high\')">
+                    Prolonged fever, massive splenomegaly, pancytopenia, wasting — Upper Egypt exposure — suspect kala-azar
+                </button>
+            </div>`;
+    }
+
+    else if (a1 === 'fuo') {
+        titleEl.textContent = '3. FUO — What category best fits after initial basic workup?';
+        contentEl.innerHTML = `
+            <div style="display:flex;flex-wrap:wrap;gap:0.8rem;margin-top:1.5rem;">
+                <button class="flow-step-btn"
+                    onclick="showFlowResult('FUO — Infectious Causes (~30%, Most Common Category)',
+                    \'<strong>FUO Definition (Revised Durack &amp; Street 1991 / UpToDate 2024):</strong> Fever > 38.3°C on ≥ 3 occasions over ≥ 3 weeks with no diagnosis after ≥ 3 outpatient visits or 3 days of inpatient investigation. Classic FUO in immunocompetent adults: 30% infectious, 25% non-infectious inflammatory, 20% malignancy, 25% undiagnosed.<br><br>\' +
+                    \'<strong>Most important infectious causes in Egypt / MENA (UpToDate 2024):</strong><br>\' +
+                    \'• <strong>Tuberculosis (most common worldwide cause of FUO):</strong> Miliary TB and extrapulmonary TB (lymph node, pleural, peritoneal, genitourinary, bone) are the elusive forms. Fever + night sweats + weight loss + ↑ESR + ↑ALP ± ↑LDH. CXR ± HRCT chest (miliary pattern: 1–2 mm nodules), IGRA (Quantiferon-TB Gold Plus) — preferred over TST in BCG-vaccinated; sputum AFB × 3 + culture (weeks) + GeneXpert MTB/RIF (rapid). Bone marrow biopsy if cytopenias. Adenosine deaminase (ADA) elevated in pleural/peritoneal TB. TX: 2RHEZ → 4RH (rifampicin Rimactane + isoniazid INH + pyrazinamide Zinamide + ethambutol Myambutol).<br>\' +
+                    \'• <strong>Infective Endocarditis:</strong> Serial TOE, 3 blood culture sets held 6 weeks.<br>\' +
+                    \'• <strong>Brucellosis:</strong> Rose Bengal + SAT serology, hold blood cultures 6 weeks.<br>\' +
+                    \'• <strong>Visceral Leishmaniasis:</strong> rK39 rapid test, PCR, bone marrow aspirate.<br>\' +
+                    \'• <strong>Hepatic abscess:</strong> Amoebic (common in Egypt — E. histolytica, right lobe, USS single large abscess, amoebic serology, metronidazole Flagyl 750 mg TID × 10 days) vs pyogenic (polymicrobial, multiple, CT-guided drainage + IV antibiotics).<br>\' +
+                    \'• <strong>HIV:</strong> 4th-gen HIV Ag/Ab combo test. Primary infection (ARS) or AIDS-defining illness (PCP, toxoplasmosis, MAC, CMV).<br>\' +
+                    \'• <strong>Occult abscess / collection:</strong> Subphrenic, pelvic, psoas — CT abdomen/pelvis with IV contrast (sensitivity 95%). CT-PET if CT negative.<br><br>\' +
+                    \'<strong>Minimum FUO Infectious Workup:</strong> FBC + film, ESR, CRP, LFTs, creatinine, LDH, urine C&S, blood cultures × 3 (hold 6 weeks), CXR, IGRA (TB), HIV 4th gen, HBsAg/HCV Ab, brucella serology, rK39, EBV/CMV serology, ANA, ANCA, RF, ferritin, CT chest/abdomen/pelvis with contrast, CT-PET (most useful single imaging for FUO — identifies cryptic lymphoma, occult abscess, vasculitis, FDG-avid malignancy).\',
+                    \'moderate\')">
+                    Weight loss, night sweats, lymphadenopathy, ↑ESR — infectious workup
+                </button>
+                <button class="flow-step-btn"
+                    onclick="showFlowResult('FUO — Non-Infectious Inflammatory / Autoimmune (~25%)',
+                    \'<strong>Key Diagnoses (AMBOSS / JAMA 2022 / UpToDate 2024):</strong><br><br>\' +
+                    \'• <strong>Adult-onset Still\'s Disease (AOSD — Yamaguchi criteria):</strong> Quotidian (daily) high fever spike (≥ 39°C, typically evening) + evanescent salmon-coloured macular rash coinciding with fever (pathognomonic — examine at fever peak) + arthritis + sore throat. Hepatosplenomegaly, lymphadenopathy, serositis. ANA/RF negative (seronegative). <strong>Ferritin often > 10,000 ng/mL</strong> — highly specific for AOSD and macrophage activation syndrome (MAS). Glycosylated ferritin fraction &lt; 20% of total ferritin is more specific. TX: NSAIDs (high-dose naproxen Naprosyn 1 g BD) → prednisolone (Predsol 0.5–1 mg/kg/day) → methotrexate (Methofar 10–25 mg/week) or leflunomide → IL-1 blockade: anakinra (Kineret 100 mg SC OD) or canakinumab (Ilaris) — highly effective. IL-6 blockade: tocilizumab (Actemra 8 mg/kg IV Q4 weeks).<br>\' +
+                    \'• <strong>Systemic Lupus Erythematosus (SLE):</strong> Butterfly/malar rash (spares nasolabial folds), discoid rash, photosensitivity, oral ulcers, non-scarring alopecia, serositis (pleuritis/pericarditis), arthritis, nephritis (proteinuria > 500 mg/24h, RBC casts), haematological (haemolytic anaemia, leucopenia, thrombocytopenia), neuropsychiatric. ANA ↑ (sensitive 95%, not specific), anti-dsDNA ↑ (specific for SLE, correlates with activity), anti-Sm (highly specific), complement ↓ (C3/C4 consumption during flares). TX: Hydroxychloroquine (Plaquenil 200–400 mg OD) — backbone for all SLE. Steroids for flares. Mycophenolate (CellCept 2–3 g/day) for lupus nephritis induction + maintenance.<br>\' +
+                    \'• <strong>Giant Cell Arteritis (GCA):</strong> Age > 50 years (never in younger), temporal headache, jaw claudication, scalp tenderness over temporal artery, visual loss/amaurosis fugax (ophthalmic artery occlusion — EMERGENCY). ↑ESR > 50 mm/h (sensitivity 83%), ↑CRP. Temporal artery biopsy (gold standard — granulomatous inflammation with giant cells; do within 2 weeks of starting steroids). MRI/PET for large vessel involvement. TX: START PREDNISOLONE IMMEDIATELY (do not wait for biopsy) — 40–60 mg/day (visual symptoms: IV methylprednisolone Solu-Medrol 1 g × 3 days first). Taper over 12–24 months. Tocilizumab (Actemra) SC weekly — steroid-sparing (GiACTA trial NEJM 2017).<br>\' +
+                    \'• <strong>Drug Fever:</strong> Any drug started in prior 3 months. Hallmark: patient appears well despite high fever (disproportionate wellness). Relative bradycardia. Eosinophilia (50%). Most common offenders: beta-lactams, sulfonamides, phenytoin (Epanutin), allopurinol (Zyloric), hydralazine, procainamide, isoniazid, carbamazepine (Tegretol). Remove drug — fever resolves within 48–72h. Supportive; steroids for DRESS syndrome.\',
+                    \'moderate\')">
+                    Rash, arthritis, serositis, very high ferritin, seronegative — suspect inflammatory/autoimmune
+                </button>
+                <button class="flow-step-btn"
+                    onclick="showFlowResult('FUO — Malignancy (~20%)',
+                    \'<strong>Key Diagnoses (AMBOSS / JAMA 2022 FUO review / UpToDate 2024):</strong><br><br>\' +
+                    \'• <strong>Lymphoma (most common malignant cause of FUO):</strong> Hodgkin\'s (younger, bimodal — 20s and > 55, Reed-Sternberg cells) vs Non-Hodgkin\'s (older, more varied). B symptoms: drenching night sweats, unintentional weight loss > 10% in 6 months, fever > 38°C — present in up to 70% of Hodgkin\'s. Pel-Ebstein fever (regular cycles of fever and afebrile periods — rare but classic for Hodgkin\'s). Painless rubbery lymphadenopathy, splenomegaly, mediastinal mass (Hodgkin\'s). ↑LDH (tumour burden/cell lysis), ↑β2-microglobulin, ↑ESR, ↑uric acid, ↑ferritin. CT-PET (Deauville criteria) — gold standard for staging and FUO evaluation. Excisional lymph node biopsy (not FNA — architecture essential for diagnosis and subtyping). Bone marrow trephine biopsy.<br>\' +
+                    \'• <strong>Leukaemia:</strong> FBC + differential: blasts on peripheral film → bone marrow aspirate + trephine, flow cytometry, cytogenetics (FISH), molecular studies. Pancytopenia or hyperleukocytosis. LDH ↑↑.<br>\' +
+                    \'• <strong>Renal Cell Carcinoma (Hypernephroma):</strong> Classic &quot;surgical triad&quot; (haematuria + flank pain + palpable mass) in < 10%. Fever is a paraneoplastic phenomenon. Polycythaemia (ectopic EPO production) OR anaemia. ↑Ca²⁺ (PTHrP). CT abdomen/pelvis with triphasic contrast — hypervascular lesion. Refer urology/oncology.<br>\' +
+                    \'• <strong>Hepatocellular Carcinoma (HCC):</strong> Very high prevalence in Egypt (HCV-related cirrhosis the leading aetiology). AFP > 400 ng/mL highly specific. Triphasic CT liver (arterial enhancement + portal washout = LI-RADS 5). Ultrasound screening every 6 months in all cirrhotic patients. Refer hepatology + oncology (BCLC staging for treatment).<br>\' +
+                    \'• <strong>Atrial Myxoma:</strong> Mimics endocarditis and systemic vasculitis — fever + emboli + constitutional symptoms + obstructive cardiac symptoms (positional dyspnoea/syncope). TTE: mobile pedunculated mass in left atrium (most common). Surgical excision curative.\',
+                    \'high\')">
+                    Weight loss, drenching night sweats, ↑LDH, lymphadenopathy — suspect malignancy
+                </button>
+                <button class="flow-step-btn"
+                    onclick="showFlowResult('FUO — Miscellaneous / No Diagnosis (~25%)',
+                    \'<strong>Key Conditions (AMBOSS / UpToDate 2024):</strong><br><br>\' +
+                    \'• <strong>Familial Mediterranean Fever (FMF):</strong> Most common autoinflammatory disease; autosomal recessive (MEFV gene mutations — M694V most common in Egypt). Highly prevalent in Egyptians, Arab, Armenian, Sephardic Jewish populations. Recurrent self-limiting attacks (12–72h) of fever + serositis: acute peritonitis (mimics acute abdomen — laparoscopy avoided by knowing diagnosis), pleuritis, pericarditis, monoarthritis. Erysipelas-like erythema on lower legs (pathognomonic — painful, well-demarcated). Untreated → AA amyloidosis (proteinuria → nephrotic syndrome → CKD). <strong>Colchicine (Colcichine 0.5–1 mg BD lifelong)</strong> — prevents attacks (85–90% effective) and amyloidosis (Egyptian FMF registry data). Genetic testing (MEFV sequencing) confirmatory but not always available; clinical diagnosis acceptable with FMF score (Livneh criteria). IL-1 blockade (anakinra, canakinumab) for colchicine-resistant FMF.<br>\' +
+                    \'• <strong>PFAPA Syndrome (children):</strong> Periodic Fever, Aphthous stomatitis, Pharyngitis, Adenitis. Predictable cycles every 3–8 weeks. Single dose prednisolone (Predsol 1–2 mg/kg PO) aborts attack within hours. Tonsillectomy curative in many.<br>\' +
+                    \'• <strong>Factitious Fever:</strong> Young female healthcare worker. Thermometer manipulation or self-inflicted infection/injection. Suspect when fever never witnessed by staff, clinical well-being disproportionate to pyrexia, multiple investigations negative. Supervised temperature measurement (witnessed oral/rectal or IR tympanic) with simultaneous urine temperature. Psychiatric evaluation and multidisciplinary approach.<br>\' +
+                    \'• <strong>Undiagnosed FUO:</strong> ~25% remain undiagnosed despite exhaustive workup — prognosis generally good in this group (most resolve spontaneously). Avoid empiric antibiotics and steroids without diagnosis (can mask lymphoma, worsen infections). Watchful waiting with serial reassessment every 4–6 weeks. CT-PET most useful imaging investigation for undiagnosed FUO — changes management in 56% of cases (JAMA Intern Med meta-analysis).\',
+                    \'low\')">
+                    Recurrent self-limiting episodic fevers, serositis, Arab/Mediterranean ancestry — or no diagnosis after full workup
+                </button>
+            </div>`;
+    }
+}
+
+// ── STEP 4 ──
+else if (flowState.step === 4) {
+    descEl.textContent = 'Step 4 of 5 — Focused management';
+    let a2 = flowState.answers[2];
+
+    if (a2 === 'neonate') {
+        showFlowResult('🚨 Fever in Neonate / Young Infant — High-Risk Protocol',
+            '<strong>Key Principles (AAP Clinical Practice Guideline 2021 / NICE NG143 2021):</strong> Fever in a neonate (0–28 days) = bacterial sepsis until proven otherwise — no clinical appearance reliably excludes serious bacterial infection (SBI) in this age group. Temperature ≥ 38.0°C (rectal) in 0–28 days mandates full workup.<br><br>' +
+            '<strong>Neonates 0–28 days — Full Septic Workup (ALL patients):</strong><br>' +
+            '• Labs: FBC + differential, CRP, procalcitonin (PCT — superior early biomarker in neonates: PCT ≥ 0.5 ng/mL at 0–24h or ≥ 2 ng/mL at 24–48h = high risk), blood cultures × 2, urine culture (catheter/suprapubic — not bag specimen), CSF (cells, protein, glucose, Gram stain, bacterial culture, HSV PCR, enterovirus PCR), CXR if respiratory symptoms. LFTs if HSV risk.<br>' +
+            '• Empiric IV antibiotics: Ampicillin (Ampicil 50 mg/kg IV Q6–8h for meningitis dosing Q4h) + gentamicin (Gentamycin 4–5 mg/kg IV Q24h). ADD IV acyclovir (Zovirax 20 mg/kg IV Q8h × 21 days) immediately if: maternal HSV history, cutaneous/mucosal vesicles, seizures (especially focal), abnormal LFTs, CSF pleocytosis ± haemorrhagic, clinical deterioration. HSV neonatal encephalitis: mortality 30% untreated; acyclovir reduces to < 6%.<br><br>' +
+            '<strong>Infants 29 days – 3 months (AAP 2021 Stepped Risk Stratification):</strong><br>' +
+            '• Stratification tools: PECARN rule (urinalysis, ANC, PCT) identifies low-risk infants 29–60 days. Step-by-step algorithm incorporates WBC 5,000–15,000, ANC ≤ 4,000, PCT &lt; 0.5 ng/mL, CRP &lt; 20 mg/L, urinalysis negative.<br>' +
+            '• Low risk: Ceftriaxone (Rocephin 50 mg/kg IM × 1) + strict 24h follow-up OR admit for observation without antibiotics in selected settings. LP not mandatory if low risk and no antibiotics given.<br>' +
+            '• High risk / not meeting low-risk criteria / ill-appearing: Admit, full septic workup including LP (mandatory before IV antibiotics), empiric IV ceftriaxone or ampicillin + gentamicin. All infants started on IV antibiotics MUST have LP first.',
+            'very-high');
+    }
+
+    else if (a2 === 'child') {
+        showFlowResult('Fever in Children 3 months – 12 years',
+            '<strong>Key Principles (NICE NG143 2021 / AAP 2023 / UpToDate 2024):</strong> Use the NICE Traffic Light System for triage:<br><br>' +
+            '<strong>🔴 Red (HIGH RISK — immediate assessment and treatment):</strong><br>' +
+            '• Colour: Pale/mottled/ashen/blue skin<br>' +
+            '• Activity: No response to social cues, does not wake/stay awake, weak/high-pitched/continuous cry<br>' +
+            '• Respiratory: RR > 60 (&lt;2m), > 50 (2–12m), > 40 (1–5y); grunting; severe retractions; SpO₂ &lt; 95%<br>' +
+            '• Circulation: CRT ≥ 3s, reduced urine output, dry mucous membranes<br>' +
+            '• Other: Non-blanching rash, bulging fontanelle, neck stiffness, focal neurology, seizure (if first/prolonged/focal), bile-stained vomiting, temperature ≥ 38°C &lt; 3 months age<br><br>' +
+            '<strong>🟡 Amber (INTERMEDIATE — safety-net and close follow-up):</strong> Prolonged capillary refill 3–4s, dry mucous membranes, reduced urine output, fever > 5 days, RR > 40 in &lt;12m or > 30 in &gt;12m, rigors, swollen joint.<br><br>' +
+            '<strong>Common focal causes by age:</strong><br>' +
+            '• &lt;3y: Viral URTI (most common — RSV/adenovirus/rhinovirus), AOM (bulging TM), UTI (MUST urine dip every child &lt;3y with unexplained fever — UTI is the most missed SBI), roseola infantum (HHV-6 — high fever 3–5 days, then rash appears as fever breaks), febrile seizure (complex if focal/prolonged/multiple in 24h — LP mandatory).<br>' +
+            '• 3–12y: Tonsillitis/pharyngitis (Centor score ≥ 3: phenoxymethylpenicillin V Phenoxymethyl 250–500 mg QID × 10 days or amoxicillin Amoxil 50 mg/kg/day TID × 10 days if GAS confirmed; avoid amoxicillin if EBV suspected — maculopapular rash), pneumonia (tachypnoea + crackles → CXR; amoxicillin Amoxil 90 mg/kg/day TID × 5–7 days for CAP in children), UTI.<br><br>' +
+            '<strong>Fever management:</strong> Paracetamol (Panadol syrup 15 mg/kg Q4–6h PRN, max 5 doses/24h) OR ibuprofen (Brufen 10 mg/kg Q6–8h PRN, only > 3 months). Do NOT alternate routinely (no evidence of superiority — PITCH trial, BMJ 2008). Tepid sponging NOT recommended (NICE). Antipyretics do NOT prevent febrile seizures.',
+            'moderate');
+    }
+
+    else if (a2 === 'adult-focal') {
+        titleEl.textContent = '4. What is the dominant focal finding in this acutely febrile adult?';
+        contentEl.innerHTML = `
+            <div style="display:flex;flex-wrap:wrap;gap:0.8rem;margin-top:1.5rem;">
+                <button class="flow-step-btn"
+                    onclick="showFlowResult('Community-Acquired Pneumonia (CAP) / Influenza / COVID-19',
+                    \'<strong>CAP (IDSA/ATS 2019 / BTS 2023 / AMBOSS):</strong> Fever + productive cough + dyspnoea + lobar consolidation on CXR / CT chest. Severity: CURB-65 (Confusion, Urea > 7, RR ≥ 30, BP &lt; 90/60, Age ≥ 65 — 1 point each).<br>\' +
+                    \'• CURB-65 0–1 (mild): Outpatient. Amoxicillin (Amoxil 1 g TID × 5 days) + azithromycin (Zithromax 500 mg OD × 3–5 days) for atypical cover (Mycoplasma, Legionella, Chlamydophila). OR doxycycline (Vibramycin 100 mg BD × 5 days) if penicillin-allergic.<br>\' +
+                    \'• CURB-65 2 (moderate): Consider admission. Same antibiotics IV: amoxicillin-clavulanate (Augmentin 1.2 g IV TID) + azithromycin (Zithromax 500 mg IV/PO OD).<br>\' +
+                    \'• CURB-65 ≥ 3 (severe): Admit (ICU if ≥ 5). IV co-amoxiclav (Augmentin 1.2 g TID) + IV clarithromycin (Klacid 500 mg BD). OR IV levofloxacin (Tavanic 750 mg OD) monotherapy for penicillin allergy. Add oseltamivir if concurrent influenza suspected.<br><br>\' +
+                    \'<strong>Influenza (UpToDate 2024):</strong> Abrupt onset, high fever (39–40°C), severe myalgia (&quot;hit by a truck&quot;), headache, dry cough. Rapid influenza molecular test (RIDT). Oseltamivir (Tamiflu 75 mg BD × 5 days) within 48h — reduces duration by ~1 day, reduces severity and hospitalisation in high-risk groups. High-risk groups (give oseltamivir regardless of timing): age > 65, pregnancy, BMI > 40, immunocompromised, chronic cardiopulmonary disease. Hospitalised severe influenza: oseltamivir dose doubled (150 mg BD) considered in some guidelines (controversial — UpToDate).<br><br>\' +
+                    \'<strong>COVID-19 (WHO 2023 / NIH 2024):</strong> Fever + cough + anosmia/dysgeusia/fatigue. PCR/rapid antigen. Mild outpatient: nirmatrelvir-ritonavir (Paxlovid 300/100 mg BD × 5 days) within 5 days of symptoms in high-risk groups — 89% reduction in hospitalisation (EPIC-HR trial, NEJM 2022). Hospitalised moderate (SpO₂ 94–95%): O₂ supplementation, dexamethasone (Dexamethasone 6 mg PO/IV OD × 10 days — RECOVERY trial NEJM 2021), remdesivir (Veklury 200 mg IV day 1 → 100 mg OD × 5 days) if within 7 days + requires O₂. Severe (ICU/mechanical ventilation): prone positioning, therapeutic anticoagulation (enoxaparin Clexane 1 mg/kg SC Q12h if D-dimer > 6×ULN), tocilizumab (Actemra 8 mg/kg IV × 1) if rapidly escalating O₂ requirements + CRP > 75 (RECOVERY/REMAP-CAP).\',
+                    \'moderate\')">
+                    Cough, dyspnoea, pleuritic chest pain, rhinorrhoea
+                </button>
+                <button class="flow-step-btn"
+                    onclick="showFlowResult('Urinary Tract Infection / Pyelonephritis',
+                    \'<strong>Key Principles (ESCMID 2022 / EAU Guidelines 2023 / UpToDate 2024):</strong><br><br>\' +
+                    \'<strong>Cystitis (lower UTI — no systemic features):</strong> Dysuria + frequency + urgency. Urine dipstick (LE + Nitrite — sensitivity 75%, specificity 82%). MSU C&S if: male, pregnancy, recurrent, failed treatment, atypical symptoms. TX female: Nitrofurantoin (Macrobid 100 mg BD × 5 days — first-line, avoid if eGFR < 30) or fosfomycin trometamol (Monuril 3 g sachet × 1 dose — high patient adherence, widely available in Egypt) or TMP-SMX (Bactrim 960 mg BD × 3 days if local resistance &lt;20%).<br><br>\' +
+                    \'<strong>Pyelonephritis / Febrile UTI:</strong> Fever + CVA tenderness (Murphy\'s percussion sign of kidney) ± nausea/vomiting. Urine C&S (MSU). FBC (↑WBC, neutrophilia), CRP ↑, blood cultures if septic features (positive in 20–30%). Renal USS urgently if: no improvement 72h, obstruction risk (stone, DM, immunocompromised, single kidney), emphysematous pyelonephritis (DM — gas in renal parenchyma on CT — high mortality, urgent urology).<br>\' +
+                    \'• Mild-moderate (outpatient): Ciprofloxacin (Ciprobay 500 mg BD × 7–10 days) if local resistance &lt;10%. OR TMP-SMX (Bactrim 960 mg BD × 14 days) if susceptible. Oral beta-lactams inferior (EAU 2023).<br>\' +
+                    \'• Severe (inpatient IV → oral step-down): Ceftriaxone (Rocephin 1–2 g IV OD) → oral ciprofloxacin when afebrile ≥ 48h and tolerating orally (total 10–14 days). ESBL-producing organism: meropenem (Meronem 1 g IV Q8h) → oral switch with susceptibility guidance. Urology consult for obstruction, abscess, or emphysematous pyelonephritis.\',
+                    \'moderate\')">
+                    Dysuria, frequency, flank pain, CVA tenderness
+                </button>
+                <button class="flow-step-btn"
+                    onclick="showFlowResult('Skin and Soft Tissue Infection / Septic Arthritis',
+                    \'<strong>Key Conditions (IDSA SSTI Guidelines 2014 / UpToDate 2024):</strong><br><br>\' +
+                    \'• <strong>Cellulitis (non-purulent):</strong> Spreading erythema, warmth, oedema without fluctuance or abscess. Predominantly Streptococcus (Group A/B/G). Mark borders with skin marker (Betadine pen) at presentation — spreads beyond mark in 24h = treatment failure. Mild-moderate outpatient: Cefalexin (Keflex 500 mg QID × 5 days) or amoxicillin-clavulanate (Augmentin 625 mg TID × 5 days). Penicillin allergy: clindamycin (Dalacin 300 mg TID). Severe / failed oral / systemic: IV cefazolin (Cefazol 2 g IV Q8h) → oral step-down when improving. Elevation of affected limb mandatory (reduces oedema and antibiotic penetration delay).<br>\' +
+                    \'• <strong>Purulent SSTI (abscess, furunculosis):</strong> MRSA is the dominant pathogen (CA-MRSA). Incision and drainage (I&D) is primary treatment — antibiotics adjunctive for systemic features. If antibiotics needed: TMP-SMX (Bactrim DS 960 mg BD × 5 days — IDSA first-line for CA-MRSA SSTI, NEJM 2017 Daum trial) or doxycycline (Vibramycin 100 mg BD × 5 days). Severe/systemic: IV vancomycin (Vancocin).<br>\' +
+                    \'• <strong>Necrotising Fasciitis:</strong> Systemic toxicity disproportionate to local signs (early), severe pain → paradoxical pain relief (nerve destruction — late), skin necrosis/bullae/crepitus, gas on CT. &quot;Finger test&quot; (surgical): no resistance to blunt dissection along fascia = positive. LRINEC score ≥ 6 (CRP, WBC, Hb, Na, creatinine, glucose). SURGICAL EMERGENCY — debridement within 6h reduces mortality from 70% to 20% (UpToDate). IV meropenem + clindamycin (Dalacin 900 mg IV TID — antitoxin effect, inhibits M-protein/TSST-1 production) + vancomycin (MRSA cover). IVIG 1–2 g/kg IV × 1–3 days for streptococcal toxic shock syndrome. HBO (hyperbaric oxygen) as adjunct where available.<br>\' +
+                    \'• <strong>Septic Arthritis:</strong> Fever + single red hot swollen joint = septic arthritis until proven otherwise. Arthrocentesis (joint aspiration) is mandatory — joint fluid WBC > 50,000 with PMN predominance = septic (> 100,000 virtually diagnostic). Gram stain + culture (positive 50–75%), synovial glucose ↓, protein ↑. Empiric IV antibiotics: flucloxacillin (Floxapen 2 g IV Q4h) for native joint (Staph aureus most common). IV ceftriaxone (Rocephin 1 g IV OD) if gonococcal suspected (young sexually active + polyarthralgia + skin lesions). Urgent orthopaedic washout (arthroscopic lavage) if no improvement in 24–48h. Duration: 2–6 weeks total IV then oral.\',
+                    \'moderate\')">
+                    Skin erythema/swelling, fluctuant collection, hot joint
+                </button>
+                <button class="flow-step-btn"
+                    onclick="showFlowResult('Undifferentiated Acute Febrile Illness — No Obvious Focus',
+                    \'<strong>Approach (AMBOSS / UpToDate 2024):</strong><br><br>\' +
+                    \'<strong>Minimum workup for acute fever without localising signs:</strong> FBC + differential (leucocytosis + neutrophilia → bacterial; leucopenia + lymphocytosis → viral; eosinophilia → parasitic/allergic/drug/fungal; atypical lymphocytes → EBV/CMV/toxoplasmosis), CRP (> 100 suggests bacterial), ESR, LFTs (hepatitis, brucellosis, malaria), renal function, urine dipstick, blood cultures × 2 if: temperature > 38.5°C, rigors, appears toxic, immunocompromised, CXR if respiratory symptoms at all.<br><br>\' +
+                    \'<strong>Add if indicated by history/epidemiology:</strong><br>\' +
+                    \'• Malaria film + RDT: Any travel or residence in Upper Egypt / endemic area.<br>\' +
+                    \'• Dengue NS1 + serology: Travel to SE Asia, Sub-Saharan Africa, South America, Caribbean.<br>\' +
+                    \'• Brucella serology: Livestock exposure, unpasteurised dairy.<br>\' +
+                    \'• HIV 4th-gen: Any sexual risk, IV drug use, transfusion recipient.<br>\' +
+                    \'• Hepatitis B/C serology: Jaundice, hepatomegaly, IV drug use, medical procedure exposure.<br><br>\' +
+                    \'<strong>Viral syndrome (most common cause of acute fever in adults):</strong> Leucopenia or normal WBC, lymphocytosis, atypical lymphocytes, negative cultures, CRP mildly elevated (typically &lt;40 mg/L in uncomplicated viral illness). Self-limiting 5–7 days. TX: Supportive — paracetamol (Panadol 1 g Q6h PRN), NSAIDs if no contraindication, adequate PO hydration (2–3 L/day). AVOID empiric antibiotics — no benefit, increases resistance and C. difficile risk. Safety-net: return if fever > 5 days, new rash (especially non-blanching), neck stiffness, respiratory distress, confusion, or any clinical worsening.\',
+                    \'low\')">
+                    No focal signs — undifferentiated acute febrile illness
+                </button>
+            </div>`;
+    }
+
+    else if (a2 === 'immunocomp') {
+        showFlowResult('Fever in the Immunocompromised Adult',
+            '<strong>Key Principles (AMBOSS / IDSA 2023 / UpToDate 2024):</strong> Immunocompromised patients have profoundly blunted inflammatory responses — fever may be the ONLY manifestation of severe, life-threatening infection. Classic signs (purulence, consolidation, peritonism) are frequently absent. Low threshold for empiric broad-spectrum antibiotics.<br><br>' +
+            '<strong>HIV/AIDS — CD4-stratified risk (UpToDate 2024):</strong><br>' +
+            '• CD4 > 500: Standard bacterial infections (pneumonia, UTI, cellulitis) as per immunocompetent.<br>' +
+            '• CD4 200–500: TB, bacterial pneumonia, oral/oesophageal candidiasis (fluconazole Diflucan 150 mg OD), herpes zoster (acyclovir Zovirax 800 mg 5×/day × 7 days), EBV-lymphoma (↑LDH, CT-PET, lymph node biopsy).<br>' +
+            '• CD4 &lt; 200: Pneumocystis jirovecii Pneumonia (PCP): insidious dyspnoea + dry cough + bilateral ground-glass opacities (CXR/HRCT) + ↑LDH + ↑β-D-glucan. Pulse oximetry desaturation on exercise (PaO₂ < 70 = add adjunctive prednisolone). TX: TMP-SMX (Bactrim IV/PO high dose: 15–20 mg/kg/day TMP divided Q6–8h × 21 days → oral prophylaxis: Bactrim SS OD lifelong if CD4 < 200). IV pentamidine (Pentam 4 mg/kg OD) if TMP-SMX intolerant.<br>' +
+            '• CD4 &lt; 100: Toxoplasma encephalitis (ring-enhancing brain lesions, anti-Toxo IgG positive, MRI brain, empiric treatment: pyrimethamine + sulfadiazine + leucovorin × 6 weeks → maintenance). Cryptococcal meningitis (serum CrAg, India ink LP): liposomal amphotericin B (AmBisome 3–4 mg/kg IV OD) + flucytosine (Ancobon 100 mg/kg/day QID) × 2 weeks → fluconazole (Diflucan 400 mg OD) × 8 weeks → 200 mg OD lifelong. LP therapeutic pressure relief if opening pressure > 25 cmH₂O (daily LP or external drain). CMV end-organ disease: ganciclovir (Cymevene 5 mg/kg IV BD × 21 days).<br>' +
+            '• CD4 &lt; 50: MAC (Mycobacterium avium complex): fever + profuse diarrhoea + massive hepatosplenomegaly + pancytopenia + ↑ALP. Blood AFB culture (specific). TX: azithromycin (Zithromax 500–600 mg OD) + ethambutol (Myambutol 15 mg/kg OD) ± rifabutin.<br><br>' +
+            '<strong>General empiric approach to febrile immunocompromised:</strong> Blood cultures × 3 (bacterial + fungal), urine culture, CXR, CT chest/abdomen/pelvis, β-D-glucan + galactomannan (aspergillosis), CMV PCR, CrAg (if HIV), TB screen (IGRA/BAL if respiratory). Empiric: piperacillin-tazobactam (Tazocin 4.5 g IV Q6h) → escalate to meropenem (Meronem 1 g IV Q8h) if deterioration at 48–72h. Add antifungal (caspofungin Cancidas or fluconazole Diflucan) early if no response or fungal risk factors.',
+            'very-high');
+    }
+
+    else if (a2 === 'elderly') {
+        showFlowResult('Fever in the Elderly (> 65 years)',
+            '<strong>Key Principles (BGS 2023 / UpToDate 2024 / JAMA 2023 review):</strong><br><br>' +
+            '<strong>Adjusted fever threshold:</strong> Baseline oral temperature in elderly averages 36.2°C (vs 37°C in young adults). Fever in elderly = oral temperature ≥ 37.8°C OR a rise of ≥ 1.3°C above baseline (JAMA IM 2020). Rectal temperature is most accurate. Hypothermia (< 36°C) may paradoxically indicate severe sepsis in elderly — do not be reassured by absence of fever.<br><br>' +
+            '<strong>Atypical presentations are the rule, not the exception:</strong><br>' +
+            '• Delirium/acute confusion (most common and frequently the ONLY presentation of sepsis in elderly — always investigate cause of new delirium)<br>' +
+            '• Falls, functional decline, reduced mobility<br>' +
+            '• Anorexia, nausea without localising GI symptoms<br>' +
+            '• New urinary incontinence (suggests UTI)<br>' +
+            '• Tachycardia without subjective fever<br><br>' +
+            '<strong>Most common infections in elderly (in order of frequency):</strong><br>' +
+            '1. <strong>UTI</strong> — most common. IMPORTANT: Asymptomatic bacteriuria is common in elderly (50% women in care homes) and should NOT be treated unless symptomatic. Treat only with NEW urinary symptoms OR systemic signs. Nitrofurantoin (Macrobid 100 mg BD × 5 days) if eGFR > 30; fosfomycin (Monuril 3 g × 1) is safe; avoid fluoroquinolones if QTc prolonged or at falls risk (neurotoxicity).<br>' +
+            '2. <strong>Pneumonia</strong> — may present without cough, with only confusion, tachypnoea, and SpO₂ decline. CXR mandatory. CURB-65: age ≥ 65 = 1 point automatically. Aspiration pneumonia common (dysphagia, neurological disease).<br>' +
+            '3. <strong>Skin/soft tissue</strong> — inspect sacrum, heels, toes, and all pressure areas meticulously. Pressure ulcer infection (Braden Scale for risk). Cellulitis in leg oedema (bilateral chronic stasis → can be bilateral).<br>' +
+            '4. <strong>Intra-abdominal</strong> — appendicitis/diverticulitis/cholecystitis may present without peritonism (blunted pain perception). CT abdomen/pelvis mandatory if suspected — do not rely on clinical exam alone in elderly.<br>' +
+            '5. <strong>Endocarditis and TB</strong> — important in subacute or prolonged fever in elderly.<br><br>' +
+            '<strong>Drug/prescribing caution in febrile elderly:</strong><br>' +
+            '• Paracetamol (Panadol 500 mg–1 g Q6h) — preferred antipyretic (avoid NSAIDs: GI bleeding, AKI, fluid retention).<br>' +
+            '• Gentamicin (Gentamycin): significant nephrotoxicity and ototoxicity risk — dose adjust for eGFR, single daily dosing preferred, monitor levels.<br>' +
+            '• Fluoroquinolones: QTc prolongation, tendinopathy (especially Achilles), CNS toxicity (confusion/seizures) — use cautiously.<br>' +
+            '• Avoid nitrofurantoin if eGFR &lt; 30 (ineffective + peripheral neuropathy risk).',
+            'moderate');
+    }
+}
+
+// ── STEP 5: Safety net ──
+else if (flowState.step === 5) {
+    descEl.textContent = 'Step 5 of 5 — Safety net';
+    showFlowResult('Fever — Universal Safety Net Checklist',
+        '<strong>Before discharging any febrile patient:</strong><br><br>' +
+        '✅ Temperature, HR, RR, BP, SpO₂ and GCS documented and normal<br>' +
+        '✅ Urine dipstick in all children &lt; 3 years and elderly with fever<br>' +
+        '✅ Blood cultures taken if: T > 38.5°C, rigors, toxic appearance, immunocompromised, suspected bacteraemia<br>' +
+        '✅ Malaria film/RDT performed if any travel history or Upper Egypt/endemic resident<br>' +
+        '✅ Pregnancy test (urine β-hCG) in all females 12–55 years with unexplained fever<br>' +
+        '✅ qSOFA documented: RR, GCS, SBP — if ≥ 2, admit and treat as sepsis<br><br>' +
+        '<strong>🚨 Mandatory admission criteria:</strong><br>' +
+        '• Any sepsis criteria (qSOFA ≥ 2, lactate > 2 mmol/L, new organ dysfunction)<br>' +
+        '• Neonate or infant &lt; 3 months with any fever ≥ 38.0°C<br>' +
+        '• Immunocompromised (HIV, chemotherapy, steroids, transplant) with fever ≥ 38.3°C<br>' +
+        '• Suspected meningitis, endocarditis, necrotising fasciitis, or orbital cellulitis<br>' +
+        '• Traveller with positive malaria RDT or high-risk travel history<br>' +
+        '• Non-blanching petechial or purpuric rash with fever — regardless of BP or GCS<br>' +
+        '• Inability to maintain oral hydration, vomiting all fluids<br>' +
+        '• No safe follow-up possible within 24h<br><br>' +
+        '<strong>Safety-net advice for all discharged febrile patients:</strong> Return immediately if fever persists beyond 5 days, new rash appears (especially non-blanching), neck stiffness or photophobia develops, breathing becomes difficult, unable to keep fluids down, confusion or unusual behaviour, or any rapid clinical deterioration at any time.',
+        'moderate');
+}
+}
+}
+</script>
+<!-- ── TRADRUGS FAB ── -->
+<button id="tradrugs-fab" onclick="openTradrugs()" title="Trade Drug Reference">
+  <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path d="M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2zm-7 14l-5-5 1.41-1.41L12 14.17l7.59-7.59L21 8l-9 9z"/>
+  </svg>
+  <span id="tradrugs-fab-label">Drugs</span>
+</button>
+
+<!-- ── TRADRUGS OVERLAY ── -->
+<div id="tradrugs-overlay" onclick="closeTradrugsOutside(event)">
+  <div class="tradrugs-panel">
+      <div class="tradrugs-header">
+          <div class="tradrugs-header-title">TraDrugs — Egyptian Trade Reference</div>
+          <input id="tradrugs-search" type="text" placeholder="Search trade name, scientific name, or indication…" oninput="filterTradrugs(this.value)">
+          <button class="tradrugs-close" onclick="closeTradrugs()">CLOSE</button>
+      </div>
+      <div class="tradrugs-col-heads">
+          <span>Trade Name</span>
+          <span>Scientific Name / Notes</span>
+          <span style="text-align:right">Dose</span>
+      </div>
+      <div class="tradrugs-body" id="tradrugs-body"></div>
+  </div>
+</div>
+
+<script>
+const TRADRUGS_DATA = [
+  // ── VITAMINS / IMMUNOMODULATORS ──
+  { cat:'Vitamins & Immunomodulators', trade:'C-Retard®', sci:'Vitamin C (sustained-release)', dose:'500–1000 mg OD', ind:'URTI support, immunity' },
+  { cat:'Vitamins & Immunomodulators', trade:'Immuno-MASH®', sci:'Vitamin C combination', dose:'500–1000 mg OD', ind:'URTI support, immunity' },
+  { cat:'Vitamins & Immunomodulators', trade:'Redoxon®', sci:'Vitamin C (effervescent)', dose:'1 tab OD', ind:'Fatigue, infections' },
+  { cat:'Vitamins & Immunomodulators', trade:'Immulant Plus®', sci:'Immunomodulator complex', dose:'As directed', ind:'Immune support' },
+  { cat:'Vitamins & Immunomodulators', trade:'Zinc-Plus®', sci:'Zinc sulfate', dose:'1 tab OD', ind:'URTI support, immunity' },
+  { cat:'Vitamins & Immunomodulators', trade:'Limitless C-Zinc®', sci:'Vitamin C + Zinc', dose:'1 tab OD', ind:'URTI support, immunity' },
+  { cat:'Vitamins & Immunomodulators', trade:'Neurobion®', sci:'Vitamins B1 + B6 + B12', dose:'1 tab OD', ind:'Neuropathy, fatigue' },
+  { cat:'Vitamins & Immunomodulators', trade:'Devarol-S®', sci:'Vitamin D3 (cholecalciferol)', dose:'200,000 IU IM single dose', ind:'Vitamin D deficiency' },
+  { cat:'Vitamins & Immunomodulators', trade:'Broncho-Vaxom® (Adults)', sci:'Bacterial lysate immunostimulant', dose:'7 mg OD × 10 days/month', ind:'Prevention of recurrent URTI' },
+
+  // ── SALINE IRRIGATION ──
+  { cat:'Saline Nasal Irrigation', trade:'Rhino Rinse®', sci:'Isotonic saline rinse', dose:'OD–BD', ind:'Rhinitis, post-nasal drip' },
+  { cat:'Saline Nasal Irrigation', trade:'NeilMed® Sachets', sci:'Isotonic buffered saline', dose:'With distilled water BD', ind:'Nasal irrigation, sinusitis' },
+  { cat:'Saline Nasal Irrigation', trade:'Alka-Misr®', sci:'Alkaline saline nasal rinse', dose:'BD', ind:'Nasal irrigation' },
+  { cat:'Saline Nasal Irrigation', trade:'Neti Pot Saline Solution', sci:'Isotonic saline', dose:'OD', ind:'Nasal irrigation' },
+
+  // ── NASAL SPRAYS ──
+  { cat:'Nasal Sprays', trade:'Otrivin® Spray', sci:'Xylometazoline 0.1%', dose:'1 spray/nostril BID — max 5 days', ind:'Nasal congestion (decongestant)' },
+  { cat:'Nasal Sprays', trade:'Nasonex® Spray', sci:'Mometasone furoate 50 mcg', dose:'2 sprays/nostril OD (or 1 BD)', ind:'Allergic rhinitis, nasal polyps' },
+  { cat:'Nasal Sprays', trade:'Avamys®', sci:'Fluticasone furoate 27.5 mcg', dose:'2 sprays/nostril OD', ind:'Allergic rhinitis' },
+  { cat:'Nasal Sprays', trade:'Ticanase Plus® 125/50 mcg', sci:'Triamcinolone + Ipratropium', dose:'1 spray/nostril BID', ind:'Allergic + vasomotor rhinitis' },
+
+  // ── COMBINATION TOPICAL CREAMS ──
+  { cat:'Combination Topical Creams', trade:'Polyderm Cream®', sci:'Steroid + antibiotic + antifungal', dose:'Apply BID', ind:'Mixed skin infections; risk of dermal atrophy with prolonged use' },
+  { cat:'Combination Topical Creams', trade:'Pandermal Cream®', sci:'Steroid + antibiotic combination', dose:'Apply BID', ind:'Infected eczema, intertrigo' },
+  { cat:'Combination Topical Creams', trade:'Dermatin-Crot Cream®', sci:'Clotrimazole 1% + Hydrocortisone 1%', dose:'Apply BID × max 7 days', ind:'Flexural dermatitis, candidal intertrigo' },
+  { cat:'Combination Topical Creams', trade:'Fusi-Zon Cream®', sci:'Fusidic acid + Hydrocortisone', dose:'Apply BID', ind:'Infected eczema, flexures' },
+
+  // ── TOPICAL STEROIDS ──
+  { cat:'Topical Steroids', trade:'Dermatop Cream®', sci:'Prednicarbate 0.25% (moderate potency)', dose:'Apply OD–BID', ind:'Eczema, dermatitis' },
+  { cat:'Topical Steroids', trade:'Borgasone Cream®', sci:'Mometasone furoate 0.1% (moderate-potent)', dose:'Apply OD', ind:'Eczema, psoriasis, dermatitis' },
+  { cat:'Topical Steroids', trade:'Dermovate Cream® 0.05%', sci:'Clobetasol propionate (highly potent)', dose:'Apply OD–BID × max 2 weeks', ind:'Severe eczema/psoriasis; avoid flexures and face' },
+  { cat:'Topical Steroids', trade:'Perderm 0.05% Cream®', sci:'Betamethasone (mildly potent formulation)', dose:'Apply OD–BID', ind:'Safe for flexures; mild-moderate eczema' },
+  { cat:'Topical Steroids', trade:'Topisonide 0.05% Cream®', sci:'Fluocinonide (potent)', dose:'Apply BID', ind:'Inflammatory dermatoses' },
+
+  // ── ANALGESIA / ANTISPASMODIC ──
+  { cat:'Analgesia & Antispasmodics', trade:'Ketolac®', sci:'Ketorolac tromethamine 10 mg', dose:'10 mg Q4–6h PO; 30 mg IM/IV (max 5 days)', ind:'Acute pain, renal colic, dysmenorrhoea' },
+  { cat:'Analgesia & Antispasmodics', trade:'Buscopan®', sci:'Hyoscine butylbromide 10 mg', dose:'20 mg IM/IV stat; 10–20 mg TID–QID PO', ind:'Visceral spasm, biliary colic, IBS' },
+
+  // ── UROLOGY / RENAL / GOUT ──
+  { cat:'Urology, Renal & Gout', trade:'Tamsulin®', sci:'Tamsulosin HCl 0.4 mg MR', dose:'0.4 mg OD (30 min after same meal daily)', ind:'BPH, ureteric stone expulsion (MET)' },
+  { cat:'Urology, Renal & Gout', trade:'Zyloric®', sci:'Allopurinol 100 mg / 300 mg', dose:'100–300 mg OD (start low; increase after acute resolved)', ind:'Chronic gout prevention, uric acid nephropathy' },
+  { cat:'Urology, Renal & Gout', trade:'Adenuric®', sci:'Febuxostat 80 mg / 120 mg', dose:'80 mg OD; may increase to 120 mg OD', ind:'Chronic gout (allopurinol intolerant or failure)' },
+  { cat:'Urology, Renal & Gout', trade:'Uralyt-U®', sci:'Potassium citrate + Sodium citrate (granules)', dose:'As directed by urinary pH titration (target pH 6.2–6.8)', ind:'Uric acid stones, cystine stones, urinary alkalinisation' },
+  { cat:'Urology, Renal & Gout', trade:'Epimag Eff.®', sci:'Magnesium citrate (effervescent)', dose:'1 sachet OD–BD in water', ind:'Hypomagnesaemia, calcium oxalate stone prevention' },
+  { cat:'Urology, Renal & Gout', trade:'Citrocid Mag Plus®', sci:'Potassium citrate + Magnesium citrate', dose:'1–2 tabs BD–TID with meals', ind:'Calcium oxalate / uric acid stone prevention' },
+  { cat:'Urology, Renal & Gout', trade:'Esidrex®', sci:'Hydrochlorothiazide (HCTZ) 25 mg', dose:'12.5–25 mg OD', ind:'Hypertension, calcium stone prevention, oedema' },
+  { cat:'Urology, Renal & Gout', trade:'Aldactazide®', sci:'Spironolactone 25 mg + HCTZ 25 mg', dose:'1–2 tabs OD', ind:'Hypertension, oedema, resistant ascites' },
+
+  // ── GIT / ANTIEMETICS ──
+  { cat:'GIT & Antiemetics', trade:'Primperan®', sci:'Metoclopramide 10 mg', dose:'10 mg TID PO/IM/IV (max 5 days oral)', ind:'Nausea, vomiting, gastroparesis, GERD' },
+  { cat:'GIT & Antiemetics', trade:'Zofran®', sci:'Ondansetron 4 mg / 8 mg', dose:'4–8 mg TID PO/IV/IM', ind:'Chemotherapy-induced & post-op nausea/vomiting' },
+  { cat:'GIT & Antiemetics', trade:'Granitryl®', sci:'Granisetron 1 mg / 2 mg', dose:'1–2 mg OD–BD PO; 1 mg IV slow infusion', ind:'Chemotherapy-induced nausea/vomiting' },
+  { cat:'GIT & Antiemetics', trade:'Motilium®', sci:'Domperidone 10 mg', dose:'10 mg TID (30 min before meals); max 30 mg/day', ind:'Nausea, gastroparesis, GERD — short courses only (QTc risk)' },
+  { cat:'GIT & Antiemetics', trade:'Spasulance®', sci:'Mebeverine HCl 200 mg MR', dose:'200 mg BD (20 min before meals)', ind:'IBS, bowel spasm, functional dyspepsia' },
+  { cat:'GIT & Antiemetics', trade:'Eucarbon®', sci:'Charcoal + Senna + Fennel + Rhubarb', dose:'2–3 tabs TID with water', ind:'Flatulence, mild constipation, intestinal dysbiosis' },
+  { cat:'GIT & Antiemetics', trade:'Enterogermina®', sci:'Bacillus clausii spores 2×10⁹', dose:'1 vial TID (shake well, take between meals)', ind:'Antibiotic-associated diarrhoea, gut dysbiosis restoration' },
+  { cat:'GIT & Antiemetics', trade:'Creon® 25,000', sci:'Pancreatin 25,000 Ph.Eur. units (lipase)', dose:'1–2 caps with each main meal; 1 with snacks — swallow whole', ind:'Exocrine pancreatic insufficiency (chronic pancreatitis, CF, post-pancreatectomy)' },
+// ── DIARRHOEA / GIT INFECTIONS ──
+{ cat:'Diarrhoea & GIT Infections', trade:'ORS®', sci:'Oral Rehydration Salts', dose:'After each loose stool (200–400 mL per episode)', ind:'Acute diarrhoea, dehydration' },
+    { cat:'Diarrhoea & GIT Infections', trade:'Zinc (elemental)', sci:'Zinc sulfate / gluconate 20 mg', dose:'20 mg OD × 10–14 days', ind:'Acute diarrhoea in children (WHO protocol)' },
+    { cat:'Diarrhoea & GIT Infections', trade:'Cipro®', sci:'Ciprofloxacin 500 mg', dose:'500 mg BID × 3–5 days', ind:'Bacterial gastroenteritis, traveller\'s diarrhoea' },
+    { cat:'Diarrhoea & GIT Infections', trade:'Flagyl®', sci:'Metronidazole 500 mg', dose:'500 mg TID × 7–10 days', ind:'Giardia, amoeba, anaerobic infections, C. difficile (alt)' },
+    { cat:'Diarrhoea & GIT Infections', trade:'Humatin®', sci:'Paromomycin 250 mg', dose:'250 mg TID × 7 days (luminal agent)', ind:'Intestinal amoebiasis, Giardia — luminal clearance after systemic Flagyl' },
+    { cat:'Diarrhoea & GIT Infections', trade:'Nanazoxide®', sci:'Nitazoxanide 500 mg', dose:'500 mg BID × 3 days (adults)', ind:'Cryptosporidiosis, Giardia, rotavirus diarrhoea' },
+    { cat:'Diarrhoea & GIT Infections', trade:'Amrizole®', sci:'Metronidazole 500 mg', dose:'500 mg BID–TID × 7–10 days', ind:'Amoebic dysentery, Giardia, bacterial vaginosis' },
+
+    // ── IBS / FUNCTIONAL GIT ──
+    { cat:'IBS & Functional GIT', trade:'Duspatalin®', sci:'Mebeverine HCl 135 mg', dose:'135 mg TID (20 min before meals)', ind:'IBS, bowel spasm, functional dyspepsia' },
+    { cat:'IBS & Functional GIT', trade:'Fluxopride®', sci:'Mosapride citrate 5 mg', dose:'5 mg TID (before meals)', ind:'Gastroparesis, functional dyspepsia, GERD-related bloating' },
+    { cat:'IBS & Functional GIT', trade:'Alverinspasm®', sci:'Simethicone 80 mg (anti-flatulent)', dose:'2 caps TID after meals', ind:'Bloating, flatulence, post-op gas pain' },
+    { cat:'IBS & Functional GIT', trade:'Coloverin D® / A Tab®', sci:'Pinaverium bromide 50 mg (D) / Alverine (A)', dose:'1 tab TID (before meals)', ind:'IBS, colonic spasm, functional bowel disorders' },
+    { cat:'IBS & Functional GIT', trade:'Xifaxan®', sci:'Rifaximin 550 mg', dose:'550 mg TID × 14 days', ind:'Non-constipation IBS (IBS-D), SIBO, hepatic encephalopathy prevention' },
+    { cat:'IBS & Functional GIT', trade:'Spasulance® Films', sci:'Mebeverine HCl 200 mg (orodispersible)', dose:'1 film TID (dissolve on tongue before meals)', ind:'IBS, bowel spasm — convenient orodispersible form' },
+
+    // ── CONSTIPATION / LAXATIVES ──
+    { cat:'Constipation & Laxatives', trade:'Duphalac®', sci:'Lactulose 10 g/15 mL', dose:'15–30 mL OD–BID (titrate to 2–3 soft stools/day)', ind:'Constipation, hepatic encephalopathy (higher doses)' },
+    { cat:'Constipation & Laxatives', trade:'Movicol® Sachets', sci:'Macrogol 3350 + electrolytes', dose:'1–3 sachets OD (dissolved in 125 mL water each)', ind:'Chronic constipation, faecal impaction (up to 8 sachets/day for disimpaction)' },
+    { cat:'Constipation & Laxatives', trade:'Glycerin Suppositories', sci:'Glycerol 2 g / 4 g', dose:'1 suppository PR when needed (retain 15–30 min)', ind:'Acute constipation, faecal impaction, bowel preparation' },
+
+    // ── H. PYLORI ERADICATION ──
+    { cat:'H. Pylori Eradication', trade:'Zurcal® + Amoxil® + Klacid®', sci:'Pantoprazole 40 mg + Amoxicillin 1 g + Clarithromycin 500 mg', dose:'Each BID × 14 days (standard triple therapy)', ind:'H. pylori eradication — first-line (where clarithromycin resistance < 15%)' },
+    { cat:'H. Pylori Eradication', trade:'Zurcal® + Flagyl® + Tetracycline® + De-Nol®', sci:'Pantoprazole 40 mg BID + Metronidazole 500 mg TID + Tetracycline 500 mg QID + Bismuth subcitrate 120 mg QID', dose:'14 days (bismuth quadruple — rescue / second-line)', ind:'H. pylori eradication — second-line, high metronidazole resistance areas, penicillin allergy' },
+    { cat:'H. Pylori Eradication', trade:'Zurcal®', sci:'Pantoprazole 20–40 mg', dose:'20–40 mg BID (during eradication); 20–40 mg OD maintenance', ind:'PPI backbone for all H. pylori regimens; GERD, PUD maintenance' },
+    { cat:'H. Pylori Eradication', trade:'De-Nol®', sci:'Bismuth subcitrate 120 mg', dose:'120 mg QID (30 min before meals + HS)', ind:'H. pylori quadruple therapy, gastroprotection, PUD' },
+
+    // ── ACID REFLUX / GERD / MUCOSAL PROTECTION ──
+    { cat:'Acid Reflux, GERD & Mucosal Protection', trade:'Zurcal®', sci:'Pantoprazole 20 mg / 40 mg', dose:'20–40 mg OD (before breakfast) for GERD/PUD; 40 mg BID for H. pylori', ind:'GERD, peptic ulcer, ZE syndrome, H. pylori regimens' },
+    { cat:'Acid Reflux, GERD & Mucosal Protection', trade:'Controloc®', sci:'Pantoprazole 40 mg', dose:'40 mg OD before breakfast', ind:'GERD, erosive oesophagitis, PUD prophylaxis' },
+    { cat:'Acid Reflux, GERD & Mucosal Protection', trade:'Gaviscon®', sci:'Calcium carbonate + Sodium alginate + Sodium bicarbonate', dose:'10–20 mL after meals and at bedtime (HS)', ind:'GERD, heartburn, reflux — alginate barrier (non-systemic, safe in pregnancy)' },
+    { cat:'Acid Reflux, GERD & Mucosal Protection', trade:'Rennie® Chewable Tabs', sci:'Calcium carbonate 680 mg + Magnesium carbonate 80 mg', dose:'1–2 tabs chewed TID (after meals and HS) PRN', ind:'Heartburn, indigestion, hyperacidity — rapid symptom relief' },
+
+    // ── ORAL HEALTH ──
+    { cat:'Oral Health & Stomatitis', trade:'Hexitol®', sci:'Chlorhexidine gluconate 0.2% mouthwash', dose:'100 mL (10 mL) BID — rinse 1 min, do not swallow', ind:'Gingivitis, aphthous ulcers, oral hygiene, post-dental prophylaxis' },
+    { cat:'Oral Health & Stomatitis', trade:'Miconaz Oral Gel®', sci:'Miconazole 20 mg/mL oral gel', dose:'2.5 mL (½ tsp) QID — apply after meals and HS', ind:'Oral candidiasis (thrush), angular cheilitis' },
+    { cat:'Oral Health & Stomatitis', trade:'Oracure Gel®', sci:'Triamcinolone acetonide 0.1% in adhesive base', dose:'Apply thin film TID–QID after meals and HS (do not rub)', ind:'Aphthous ulcers, oral mucositis, lichen planus' },
+    { cat:'Oral Health & Stomatitis', trade:'Aftamed® Mouthwash', sci:'Hyaluronic acid + Allantoin + Aloe vera', dose:'Rinse TID after meals × 7–10 days', ind:'Aphthous ulcers, oral mucositis, post-dental healing' },
+
+    // ── URINARY TRACT INFECTIONS ──
+    { cat:'Urinary Tract Infections', trade:'Mepa-Furan®', sci:'Nitrofurantoin macrocrystals 100 mg', dose:'100 mg BID × 5–7 days (with food)', ind:'Uncomplicated lower UTI (cystitis) — avoid if eGFR < 30' },
+    { cat:'Urinary Tract Infections', trade:'Proximol Eff. Granules®', sci:'Phosphorated urinary analgesic / antispasmodic combination', dose:'1 sachet dissolved in water TID', ind:'Dysuria, urinary burning, lower UTI symptoms relief' },
+    { cat:'Urinary Tract Infections', trade:'Septrin D.S®', sci:'Trimethoprim 160 mg + Sulfamethoxazole 800 mg (Co-trimoxazole)', dose:'1 DS tab BID × 3–7 days (cystitis); 14 days (pyelonephritis)', ind:'UTI, PCP prophylaxis/treatment, Nocardia, Toxoplasma (with pyrimethamine)' },
+    { cat:'Urinary Tract Infections', trade:'Monurol®', sci:'Fosfomycin trometamol 3 g sachet', dose:'3 g sachet × single dose (dissolve in water, take on empty stomach)', ind:'Uncomplicated lower UTI — single-dose, high adherence; safe in pregnancy (2nd/3rd trimester)' },
+    { cat:'Urinary Tract Infections', trade:'Cipro®', sci:'Ciprofloxacin 500 mg', dose:'500 mg BID × 7–10 days (pyelonephritis); 3 days (cystitis, if susceptible)', ind:'UTI, pyelonephritis, complicated UTI — check local resistance before use' },
+    { cat:'Urinary Tract Infections', trade:'Rocephin®', sci:'Ceftriaxone sodium 1 g / 2 g', dose:'1–2 g IV/IM OD (severe UTI / pyelonephritis)', ind:'Severe pyelonephritis, urosepsis, complicated UTI requiring IV therapy' },
+// ── ANTIFUNGALS (TOPICAL & SYSTEMIC) ──
+{ cat:'Antifungals — Topical & Systemic', trade:'Canesten® Cream', sci:'Clotrimazole 1% cream', dose:'Apply BID × 2–4 weeks', ind:'Tinea (corporis/cruris/pedis), candidal intertrigo, vulvovaginal candidiasis' },
+    { cat:'Antifungals — Topical & Systemic', trade:'Lamisil® 1% Cream', sci:'Terbinafine 1% cream', dose:'Apply OD–BID × 1–2 weeks', ind:'Tinea pedis, corporis, cruris — fungicidal, shorter course than azoles' },
+    { cat:'Antifungals — Topical & Systemic', trade:'Lamisil® Tab', sci:'Terbinafine 250 mg tablet', dose:'250 mg OD × 6 weeks (fingernail) / 12 weeks (toenail); 2–4 weeks (tinea corporis)', ind:'Onychomycosis, tinea capitis, tinea unguium — check LFTs before starting' },
+    { cat:'Antifungals — Topical & Systemic', trade:'Fungibacid® Nail Solution', sci:'Amorolfine 5% nail lacquer', dose:'Apply to affected nail(s) BID–TID; file before application', ind:'Onychomycosis (distal/lateral subungual) — do not use under occlusive nail polish' },
+    { cat:'Antifungals — Topical & Systemic', trade:'Daktarin® Cream', sci:'Miconazole nitrate 2% cream', dose:'Apply BID × 2–4 weeks', ind:'Tinea, candidal skin infections, nappy rash, angular cheilitis' },
+    { cat:'Antifungals — Topical & Systemic', trade:'Dermatin-Crot Cream® 15 mg', sci:'Clotrimazole 1% + Hydrocortisone 1%', dose:'Apply BID × max 7 days', ind:'Inflamed/itchy tinea, candidal intertrigo with inflammation — short courses only' },
+    { cat:'Antifungals — Topical & Systemic', trade:'Fungican® Caps', sci:'Fluconazole 150 mg capsule', dose:'150 mg once weekly × 3 weeks (skin); single 150 mg dose (vulvovaginal candidiasis)', ind:'Pityriasis versicolor, cutaneous candidiasis, vulvovaginal candidiasis' },
+    { cat:'Antifungals — Topical & Systemic', trade:'Nizoral® 2% Shampoo', sci:'Ketoconazole 2% shampoo', dose:'Apply OD × 2–4 weeks (leave 3–5 min before rinsing); prophylaxis: once weekly', ind:'Seborrhoeic dermatitis, pityriasis versicolor, tinea capitis adjunct' },
+    { cat:'Antifungals — Topical & Systemic', trade:'Zinc Olive Cream®', sci:'Zinc oxide + Olive oil emollient base', dose:'Apply BID–TID as needed', ind:'Barrier protection, nappy rash, dry/irritated skin, mild eczema — emollient/protectant' },
+    { cat:'Antifungals — Topical & Systemic', trade:'Vitamount® Syrup', sci:'Multivitamin + mineral supplement syrup', dose:'120 mL OD × 1 month', ind:'Nutritional support during dermatological illness, hair/nail recovery' },
+    { cat:'Antifungals — Topical & Systemic', trade:'Tacrolimus Ointment 0.03%', sci:'Tacrolimus 0.03% ointment (calcineurin inhibitor)', dose:'Apply BID until clearance (max 6 weeks per course initially)', ind:'Atopic eczema (moderate–severe), steroid-sparing — safe for face/flexures; avoid in immunocompromised' },
+
+    // ── HERPES / VIRAL SKIN ──
+    { cat:'Herpes & Viral Skin Infections', trade:'Acyclovir® Tab', sci:'Acyclovir 800 mg tablet', dose:'800 mg 5× daily (every 4h, omit night dose) × 7 days', ind:'Herpes zoster (shingles); HSV-2 recurrence: 400 mg TID × 5 days' },
+    { cat:'Herpes & Viral Skin Infections', trade:'Brufen®', sci:'Ibuprofen 400 mg', dose:'400 mg TID with food × 5–7 days', ind:'Post-herpetic neuralgia pain, acute zoster pain, anti-inflammatory' },
+    { cat:'Herpes & Viral Skin Infections', trade:'Lignocaine 5% Gel', sci:'Lidocaine 5% topical gel', dose:'Apply TID–QID to affected area', ind:'Post-herpetic neuralgia topical analgesia, oral mucosal pain, procedural anaesthesia' },
+    { cat:'Herpes & Viral Skin Infections', trade:'Potassium Permanganate 1:8000', sci:'Potassium permanganate 0.01% solution', dose:'Apply TID as wet compress or soak (10–15 min)', ind:'Weeping/crusted herpes, infected eczema, impetigo — antiseptic/astringent; stains skin brown' },
+    { cat:'Herpes & Viral Skin Infections', trade:'Gaptin® Caps', sci:'Gabapentin 300 mg capsule', dose:'300 mg TID (start 300 mg OD night 1, BD night 2, TID night 3 — titrate); usual 900–3600 mg/day', ind:'Post-herpetic neuralgia, neuropathic pain, adjunct anticonvulsant' },
+
+    // ── SCABIES & PEDICULOSIS ──
+    { cat:'Scabies & Pediculosis', trade:'Permethrin® 5% Cream', sci:'Permethrin 5% cream', dose:'Apply neck-down to all skin, leave overnight (8–12h), wash off; repeat after 7 days', ind:'Scabies (first-line) — treat all household contacts simultaneously; wash bedding/clothes 60°C' },
+    { cat:'Scabies & Pediculosis', trade:'Ivermectin®', sci:'Ivermectin 3 mg tablet', dose:'200 µg/kg single oral dose (repeat after 7–14 days); avoid in < 15 kg or pregnancy', ind:'Scabies (crusted/Norwegian or permethrin failure), head lice — systemic alternative' },
+    { cat:'Scabies & Pediculosis', trade:'Permethrin® 1% Lotion', sci:'Permethrin 1% lotion', dose:'Apply to dry hair/scalp, leave 10 min, rinse; repeat after 7–9 days', ind:'Pediculosis capitis (head lice) — first-line topical' },
+
+    // ── ECZEMA / URTICARIA / ALLERGIC SKIN ──
+    { cat:'Eczema, Urticaria & Allergic Skin', trade:'Elocom® Cream', sci:'Mometasone furoate 0.1% cream (moderate-potent)', dose:'Apply OD (thin layer) to affected areas', ind:'Atopic eczema, contact dermatitis, psoriasis — avoid face/flexures long-term' },
+    { cat:'Eczema, Urticaria & Allergic Skin', trade:'Emovate® Cream', sci:'Clobetasone butyrate 0.05% (mild-moderate potency)', dose:'Apply OD–BID × max 7 days for flexures/face', ind:'Mild–moderate eczema, perioral/periorbital dermatitis — safer than potent steroids for sensitive areas' },
+    { cat:'Eczema, Urticaria & Allergic Skin', trade:'Advantan® Cream/Ointment', sci:'Methylprednisolone aceponate 0.1% (moderate-potent)', dose:'Apply OD × 12 weeks adults; OD × 4 weeks children', ind:'Atopic eczema, seborrhoeic dermatitis — good safety profile for OD dosing' },
+    { cat:'Eczema, Urticaria & Allergic Skin', trade:'Hydrocortisone 2% Cream', sci:'Hydrocortisone acetate 2% (mild potency)', dose:'Apply BID × up to 4 weeks', ind:'Mild eczema, insect bites, intertrigo, nappy rash — safest steroid for face/flexures/children' },
+    { cat:'Eczema, Urticaria & Allergic Skin', trade:'Vaseline® Pure Petroleum Jelly', sci:'White soft paraffin (emollient)', dose:'Apply liberally as needed (BD–QID minimum)', ind:'Emollient/moisturiser for eczema, xerosis, barrier protection, chapped lips/skin — use before topical steroids' },
+    { cat:'Eczema, Urticaria & Allergic Skin', trade:'Panthenol 2% Cream', sci:'Dexpanthenol (pro-vitamin B5) 2% cream', dose:'Apply BID–TID to affected area', ind:'Skin regeneration, minor burns, dry eczema, post-procedure wound healing, nappy rash' },
+    { cat:'Eczema, Urticaria & Allergic Skin', trade:'Zyrtec®', sci:'Cetirizine HCl 10 mg tablet', dose:'10 mg OD (evening — mild sedation); 5 mg BD if sensitive to sedation', ind:'Urticaria, allergic rhinitis, atopic eczema pruritus, hay fever — 2nd-gen antihistamine' },
+    { cat:'Eczema, Urticaria & Allergic Skin', trade:'Telfast® / Fastel®', sci:'Fexofenadine HCl 120 mg / 180 mg tablet', dose:'120 mg OD (allergic rhinitis); 180 mg OD (urticaria)', ind:'Chronic spontaneous urticaria, allergic rhinitis — non-sedating, safest antihistamine for drivers' },
+    { cat:'Eczema, Urticaria & Allergic Skin', trade:'Avil®', sci:'Pheniramine maleate 22.75 mg/mL injection', dose:'45 mg (2 mL) IM/IV slow push for acute urticaria/anaphylaxis adjunct', ind:'Acute urticaria, anaphylaxis adjunct (after epinephrine), severe allergic reactions — 1st-gen (sedating)' },
+// ── SALINE IRRIGATION ──
+{ cat:'Saline Nasal Irrigation', trade:'Rhino Rinse®', sci:'Isotonic saline rinse', dose:'OD–BD', ind:'Rhinitis, post-nasal drip' },
+  { cat:'Saline Nasal Irrigation', trade:'NeilMed® Sachets', sci:'Isotonic buffered saline', dose:'With distilled water BD', ind:'Nasal irrigation, sinusitis' },
+  { cat:'Saline Nasal Irrigation', trade:'Alka-Misr®', sci:'Alkaline saline nasal rinse', dose:'BD', ind:'Nasal irrigation' },
+  { cat:'Saline Nasal Irrigation', trade:'Neti Pot Saline Solution', sci:'Isotonic saline', dose:'OD', ind:'Nasal irrigation' },
+
+  // ── NASAL SPRAYS ──
+  { cat:'Nasal Sprays', trade:'Otrivin® Spray', sci:'Xylometazoline 0.1%', dose:'1 spray/nostril BID — max 5 days', ind:'Nasal congestion (decongestant)' },
+  { cat:'Nasal Sprays', trade:'Nasonex® Spray', sci:'Mometasone furoate 50 mcg', dose:'2 sprays/nostril OD (or 1 BD)', ind:'Allergic rhinitis, nasal polyps' },
+  { cat:'Nasal Sprays', trade:'Avamys®', sci:'Fluticasone furoate 27.5 mcg', dose:'2 sprays/nostril OD', ind:'Allergic rhinitis' },
+  { cat:'Nasal Sprays', trade:'Ticanase Plus® 125/50 mcg', sci:'Triamcinolone + Ipratropium', dose:'1 spray/nostril BID', ind:'Allergic + vasomotor rhinitis' },
+  { cat:'Nasal Sprays', trade:'Azelast Plus®', sci:'Azelastine + Fluticasone', dose:'1 spray/nostril BID', ind:'Allergic rhinitis — combination antihistamine/steroid' },
+
+  // ── THROAT / ORAL PREPARATIONS ──
+  { cat:'Throat & Oral Preparations', trade:'Pectol Fresh®', sci:'Demulcent throat lozenge', dose:'1 lozenge q3–4h PRN', ind:'Sore throat, pharyngitis symptom relief' },
+  { cat:'Throat & Oral Preparations', trade:'Strepsils®', sci:'Antiseptic throat lozenge', dose:'1 lozenge q2–3h PRN', ind:'Sore throat, pharyngitis, oral infections' },
+  { cat:'Throat & Oral Preparations', trade:'Larypro®', sci:'Throat spray/lozenge', dose:'As directed PRN', ind:'Sore throat, laryngitis' },
+
+  // ── COMBINATION TOPICAL CREAMS ──
+  { cat:'Combination Topical Creams', trade:'Polyderm Cream®', sci:'Steroid + antibiotic + antifungal', dose:'Apply BID', ind:'Mixed skin infections; risk of dermal atrophy with prolonged use' },
+  { cat:'Combination Topical Creams', trade:'Pandermal Cream®', sci:'Steroid + antibiotic combination', dose:'Apply BID', ind:'Infected eczema, intertrigo' },
+  { cat:'Combination Topical Creams', trade:'Dermatin-Crot Cream® 15 mg', sci:'Clotrimazole 1% + Hydrocortisone 1%', dose:'Apply BID × max 7 days', ind:'Flexural dermatitis, candidal intertrigo' },
+  { cat:'Combination Topical Creams', trade:'Fusi-Zon Cream®', sci:'Fusidic acid + Hydrocortisone', dose:'Apply BID', ind:'Infected eczema, flexures' },
+
+  // ── TOPICAL STEROIDS ──
+  { cat:'Topical Steroids', trade:'Dermatop Cream®', sci:'Prednicarbate 0.25% (moderate potency)', dose:'Apply OD–BID', ind:'Eczema, dermatitis' },
+  { cat:'Topical Steroids', trade:'Borgasone Cream®', sci:'Mometasone furoate 0.1% (moderate-potent)', dose:'Apply OD', ind:'Eczema, psoriasis, dermatitis' },
+  { cat:'Topical Steroids', trade:'Dermovate Cream® 0.05%', sci:'Clobetasol propionate (highly potent)', dose:'Apply OD–BID × max 2 weeks', ind:'Severe eczema/psoriasis; avoid flexures and face' },
+  { cat:'Topical Steroids', trade:'Perderm 0.05% Cream®', sci:'Betamethasone (mildly potent formulation)', dose:'Apply OD–BID', ind:'Safe for flexures; mild-moderate eczema' },
+  { cat:'Topical Steroids', trade:'Topisonide 0.05% Cream®', sci:'Fluocinonide (potent)', dose:'Apply BID', ind:'Inflammatory dermatoses' },
+
+  // ── EMOLLIENTS / MOISTURIZERS / KERATOLYTICS ──
+  { cat:'Emollients, Moisturizers & Keratolytics', trade:'Uremel 20% Cream', sci:'Urea 20% (keratolytic/moisturizer)', dose:'Apply BID to affected areas', ind:'Xerosis, hyperkeratosis, ichthyosis, calluses — softens thickened skin' },
+  { cat:'Emollients, Moisturizers & Keratolytics', trade:'Bepanthen Cream', sci:'Dexpanthenol (pro-vitamin B5)', dose:'Apply BID–TID', ind:'Skin regeneration, minor wounds, nappy rash, dry skin' },
+  { cat:'Emollients, Moisturizers & Keratolytics', trade:'U-Richi Panthenol Cream', sci:'Panthenol + emollient base', dose:'Apply BID', ind:'Dry skin, eczema adjunct, skin barrier repair' },
+  { cat:'Emollients, Moisturizers & Keratolytics', trade:'Carbamide 10% Cream', sci:'Urea 10% (keratolytic)', dose:'Apply BID', ind:'Mild xerosis, rough skin, maintenance therapy' },
+  { cat:'Emollients, Moisturizers & Keratolytics', trade:'Fitamart Cream 50 gm', sci:'Emollient/moisturizer base', dose:'Apply BID', ind:'Dry skin, eczema maintenance, emollient therapy' },
+
+  // ── ACNE / ROSACEA PREPARATIONS ──
+  { cat:'Acne & Rosacea Preparations', trade:'Differin® Gel', sci:'Adapalene 0.1% (retinoid)', dose:'Apply HS (thin layer to clean dry skin); start 3×/week then increase', ind:'Acne vulgaris — comedolytic, anti-inflammatory; avoid sun exposure, use sunscreen' },
+  { cat:'Acne & Rosacea Preparations', trade:'Duac® Gel', sci:'Benzoyl peroxide 3% + Clindamycin 1%', dose:'Apply OD (evening) to affected areas', ind:'Mild-moderate inflammatory acne — antibacterial + comedolytic; may bleach fabrics' },
+  { cat:'Acne & Rosacea Preparations', trade:'Roaccutane®', sci:'Isotretinoin 10/20/40 mg', dose:'0.5–1 mg/kg/day OD with food × 16–24 weeks', ind:'Severe nodulocystic acne, acne conglobata — teratogenic (pregnancy Category X); monitor LFTs, lipids; avoid vitamin A supplements' },
+
+  // ── PSORIASIS PREPARATIONS ──
+  { cat:'Psoriasis Preparations', trade:'Daivobet®', sci:'Calcipotriol 50 mcg/g + Betamethasone 0.5 mg/g', dose:'Apply OD × max 4 weeks (then maintenance with calcipotriol alone)', ind:'Plaque psoriasis (body/scalp) — vitamin D analogue + potent steroid; avoid face/flexures' },
+
+  // ── CALCINEURIN INHIBITORS ──
+  { cat:'Calcineurin Inhibitors', trade:'Protopic®', sci:'Tacrolimus 0.03%/0.1% ointment', dose:'Apply BID until clearance (max 6 weeks per course)', ind:'Moderate-severe atopic eczema — steroid-sparing; safe for face/flexures; burning sensation common initially' },
+
+  // ── HAIR LOSS PREPARATIONS ──
+  { cat:'Hair Loss Preparations', trade:'Minoxidil® 5%', sci:'Minoxidil 5% topical solution/foam', dose:'Apply BID to dry scalp (1 mL per application); wash hands after', ind:'Androgenetic alopecia (male/female pattern); results visible after 4–6 months; initial shedding common' },
+
+  // ── ANTIBIOTIC TOPICALS ──
+  { cat:'Antibiotic Topicals', trade:'Bivatracin Spray®', sci:'Neomycin + Bacitracin', dose:'Apply BID to affected area', ind:'Superficial skin infections, impetigo, minor wounds — avoid prolonged use (neomycin sensitization risk)' },
+
+  // ── ANALGESIA / ANTIPYRETICS ──
+  { cat:'Analgesia & Antipyretics', trade:'Panadol®', sci:'Paracetamol 500 mg', dose:'500–1000 mg q6–8h (max 4 g/day)', ind:'Pain, fever, headache, musculoskeletal pain — safe in pregnancy; hepatotoxic in overdose' },
+  { cat:'Analgesia & Antipyretics', trade:'Brufen®', sci:'Ibuprofen 400 mg', dose:'400 mg TID with food', ind:'Pain, inflammation, fever, dysmenorrhoea, musculoskeletal conditions — avoid in peptic ulcer, renal impairment' },
+
+  // ── ENZYME PREPARATIONS ──
+  { cat:'Enzyme Preparations', trade:'Alphintern Tab', sci:'Trypsin + Chymotrypsin (proteolytic enzymes)', dose:'1 tab TID before meals', ind:'Anti-inflammatory, oedema reduction, post-traumatic swelling, post-surgical recovery' },
+
+  // ── SKIN PROTECTANTS / BARRIER CREAMS ──
+  { cat:'Skin Protectants & Barrier Creams', trade:'Peano Balm', sci:'Protective emollient balm', dose:'Apply as needed', ind:'Skin protection, dry/cracked skin, barrier repair' },
+
+  // ── ANTIBIOTICS — SYSTEMIC ──
+  { cat:'Antibiotics — Systemic', trade:'Amoxil®', sci:'Amoxicillin 500 mg', dose:'500 mg TID × 7–10 days', ind:'RTI, UTI, skin infections, H. pylori (combination) — penicillin class' },
+  { cat:'Antibiotics — Systemic', trade:'Augmentin®', sci:'Amoxicillin 875 mg + Clavulanic acid 125 mg', dose:'1 g (875/125) BID × 7–10 days', ind:'RTI, UTI, skin/soft tissue infections, otitis media — beta-lactam/beta-lactamase inhibitor' },
+  { cat:'Antibiotics — Systemic', trade:'Vibramycin®', sci:'Doxycycline 100 mg', dose:'100 mg BID (or 100 mg OD for some indications)', ind:'Acne, atypical pneumonia, chlamydia, Lyme disease, malaria prophylaxis — avoid in pregnancy/children <8 yrs; photosensitivity' },
+
+  // ── SINUS / ALLERGY COMBINATIONS ──
+  { cat:'Sinus & Allergy Combinations', trade:'Cetal Sinus', sci:'Paracetamol 500 mg + Phenylephrine 30 mg', dose:'1 tab TID', ind:'Sinusitis, nasal congestion with pain/fever — decongestant + analgesic; avoid in hypertension' },
+  // ── RESPIRATORY / BRONCHODILATORS ──
+  { cat:'Respiratory & Bronchodilators', trade:'Ventolin® Inhaler', sci:'Salbutamol 100 mcg/actuation (SABA)', dose:'2 puffs q4–6h PRN; may increase to q2h in exacerbation', ind:'Acute bronchospasm, asthma, COPD — rescue inhaler; shake well, use spacer if possible' },
+  { cat:'Respiratory & Bronchodilators', trade:'Ventolin® Nebulizer Solution', sci:'Salbutamol 2.5 mg/2.5 mL or 5 mg/mL', dose:'2.5–5 mg (0.5–1 mL of 5 mg/mL) every 20 min × 3 doses in acute asthma; then q4–6h', ind:'Acute severe asthma/COPD exacerbation — nebulized beta-2 agonist; monitor heart rate, potassium' },
+  { cat:'Respiratory & Bronchodilators', trade:'Atrovent® Nebulizer', sci:'Ipratropium bromide 0.25 mg/mL or 0.5 mg/2 mL', dose:'0.5 mg (2 mL) every 20 min × 3 in acute exacerbation; then q6h', ind:'COPD exacerbation, acute asthma (adjunct to salbutamol) — anticholinergic bronchodilator; avoid in narrow-angle glaucoma' },
+  { cat:'Respiratory & Bronchodilators', trade:'Pulmicort® Nebulizer', sci:'Budesonide 0.5 mg/mL respules', dose:'0.5–1 mg BID via nebulizer', ind:'Asthma maintenance, COPD with frequent exacerbations — inhaled corticosteroid; rinse mouth after use' },
+  { cat:'Respiratory & Bronchodilators', trade:'All-Vent Syrup®', sci:'Salbutamol 2 mg/5 mL syrup', dose:'2–4 mg (5–10 mL) TID–QID', ind:'Bronchospasm in children or patients unable to use inhalers — oral beta-2 agonist; tremor, tachycardia common' },
+
+  // ── RESPIRATORY / MUCOLYTICS & EXPECTORANTS ──
+  { cat:'Respiratory Mucolytics & Expectorants', trade:'Mucosol® Syrup Adult', sci:'Carbocysteine 250 mg/5 mL', dose:'15 mL (750 mg) QID initially; then 10 mL (500 mg) TID maintenance', ind:'Productive cough, COPD, bronchiectasis — mucolytic; reduces sputum viscosity' },
+  { cat:'Respiratory Mucolytics & Expectorants', trade:'ACC®', sci:'N-acetylcysteine (NAC) 600 mg effervescent', dose:'600 mg OD (morning, dissolved in water)', ind:'Mucolytic, paracetamol overdose antidote (different dose), COPD exacerbation prevention — antioxidant properties' },
+  { cat:'Respiratory Mucolytics & Expectorants', trade:'Tussivan-N Syrup®', sci:'Dextromethorphan HBr 15 mg + Chlorpheniramine 2 mg per 5 mL', dose:'10–15 mL (2–3 tsp) TID–QID', ind:'Dry cough, URTI-related cough — antitussive + antihistamine; may cause drowsiness' },
+  { cat:'Respiratory Mucolytics & Expectorants', trade:'Delsym® Syrup Adult', sci:'Dextromethorphan polistirex (extended-release)', dose:'10 mL (60 mg) BID', ind:'Persistent dry cough — long-acting antitussive (12h duration); avoid with MAOIs' },
+  { cat:'Respiratory Mucolytics & Expectorants', trade:'Toplexil® Syrup', sci:'Oxomemazine 3.3 mg + Guaifenesin 20 mg per 5 mL', dose:'15 mL (3 tsp) TID', ind:'Cough with bronchial secretions — antitussive (phenothiazine) + expectorant; sedating' },
+
+  // ── RESPIRATORY / ANTIBIOTICS FOR RTI ──
+  { cat:'Respiratory Antibiotics', trade:'Zithromax®', sci:'Azithromycin 250 mg / 500 mg', dose:'500 mg OD day 1, then 250 mg OD days 2–5 (total 1.5 g); or 500 mg OD × 3 days', ind:'Community-acquired pneumonia, acute exacerbation of COPD, pharyngitis — macrolide; take on empty stomach' },
+  { cat:'Respiratory Antibiotics', trade:'Tavanic®', sci:'Levofloxacin 500 mg / 750 mg', dose:'750 mg OD × 5 days (CAP); 500 mg OD × 7–14 days (AECOPD)', ind:'Community-acquired pneumonia, acute bacterial sinusitis, AECOPD — respiratory fluoroquinolone; avoid in <18 yrs, tendon rupture risk' },
+
+  // ── ANAPHYLAXIS / EMERGENCY STEROID ──
+  { cat:'Anaphylaxis & Emergency Medications', trade:'Solu-Cortef®', sci:'Hydrocortisone sodium succinate 100 mg vial', dose:'100–200 mg IV/IM stat (then 100 mg q6–8h)', ind:'Anaphylaxis (after epinephrine), acute asthma exacerbation, adrenal crisis — IV steroid; onset 1–2h' },
+  { cat:'Anaphylaxis & Emergency Medications', trade:'Oxygen', sci:'Medical oxygen (O₂)', dose:'High flow 10–15 L/min via non-rebreather mask; titrate to SpO₂ 94–98% (or 88–92% in COPD)', ind:'Hypoxia, respiratory distress, anaphylaxis, shock, acute asthma/COPD — first-line supportive therapy' },
+
+  // ── ANTIHISTAMINES / ANTI-ALLERGIC ──
+  { cat:'Antihistamines & Anti-allergics', trade:'Allergex Caffeine Tab®', sci:'Chlorpheniramine 4 mg + Caffeine 100 mg', dose:'1 tab OD–TID', ind:'Allergic rhinitis, urticaria — 1st-gen antihistamine with caffeine to reduce sedation; may still cause drowsiness' },
+  { cat:'Antihistamines & Anti-allergics', trade:'Clarityne®', sci:'Loratadine 10 mg', dose:'10 mg OD', ind:'Allergic rhinitis, chronic urticaria — 2nd-gen non-sedating antihistamine; onset 1–3h' },
+  // ── HERBAL ANTITUSSIVES / COUGH PREPARATIONS ──
+  { cat:'Herbal Anticough Preparations', trade:'Sine Dry®', sci:'Ivy leaf extract (Hedera helix) + Thyme', dose:'5 mL TID (adults); 2.5 mL TID (children 6–12 yrs)', ind:'Dry cough, URTI — expectorant and bronchospasmolytic; shake well before use' },
+  { cat:'Herbal Anticough Preparations', trade:'Sina Wet®', sci:'Ivy leaf + Thyme + Primrose root extract', dose:'5 mL TID–QID (adults); 2.5 mL TID (children)', ind:'Productive cough, bronchitis — mucolytic and secretolytic herbal formula' },
+  { cat:'Herbal Anticough Preparations', trade:'Bronchicum® Elixir', sci:'Thyme fluid extract (Thymus vulgaris)', dose:'1 tsp (5 mL) TID–QID (adults); ½ tsp TID (children 6–12 yrs)', ind:'Cough with difficult expectoration, bronchitis, URTI — traditional herbal expectorant' },
+  { cat:'Herbal Anticough Preparations', trade:'Balsam® Syrup', sci:'Pine bud + Tolu balsam + Wild cherry bark', dose:'10 mL TID–QID', ind:'Cough, sore throat, bronchial irritation — demulcent and mild antitussive; soothing for dry cough' },
+  { cat:'Herbal Anticough Preparations', trade:'Herba Cough®', sci:'Plantain leaf + Ivy + Thyme extract', dose:'5–10 mL TID', ind:'Dry and productive cough, bronchitis — herbal secretolytic and anti-inflammatory' },
+  { cat:'Herbal Anticough Preparations', trade:'Broncho® Syrup', sci:'Ivy leaf extract + Vitamin C', dose:'5 mL TID (adults); 2.5 mL TID (children)', ind:'Cough with mucus, immune support during URTI — mucolytic + antioxidant' },
+  { cat:'Herbal Anticough Preparations', trade:'Broncare®', sci:'Thyme + Ivy + Anise extract', dose:'10 mL TID', ind:'Bronchial congestion, cough, URTI — herbal expectorant with carminative effect' },
+  { cat:'Herbal Anticough Preparations', trade:'Cough Aid® Syrup', sci:'Marshmallow root + Licorice + Ivy extract', dose:'10 mL TID–QID', ind:'Dry irritating cough, throat irritation — demulcent and soothing herbal formula' },
+  { cat:'Herbal Anticough Preparations', trade:'Guava® Syrup', sci:'Psidium guajava leaf extract', dose:'5–10 mL TID', ind:'Cough, diarrhoea (traditional use), antimicrobial — traditional Egyptian herbal remedy; mild astringent' },
+
+  // ── ANTIHYPERTENSIVES / CARDIOVASCULAR ──
+  { cat:'Antihypertensives — ARB/ACEi', trade:'Erastapex®', sci:'Irbesartan 150/300 mg + Hydrochlorothiazide 12.5/25 mg', dose:'1 tab OD (start 150/12.5; titrate to 300/25 if needed)', ind:'Hypertension (uncontrolled on monotherapy), cardiovascular risk reduction — ARB + thiazide; monitor K⁺, creatinine' },
+  { cat:'Antihypertensives — ARB/ACEi', trade:'Candalkan®', sci:'Candesartan cilexetil 8/16/32 mg', dose:'8–16 mg OD (max 32 mg); may add HCTZ if needed', ind:'Hypertension, heart failure (NYHA II–IV), post-MI LV dysfunction — ARB; avoid in pregnancy, bilateral renal artery stenosis' },
+  { cat:'Antihypertensives — Beta-blockers', trade:'Selokenzoc®', sci:'Metoprolol succinate 50/100 mg (extended-release)', dose:'50–100 mg OD (may increase to 200 mg); swallow whole, do not crush', ind:'Hypertension, angina, heart failure, post-MI — cardioselective beta-1 blocker; avoid in severe bradycardia, decompensated HF' },
+  { cat:'Antihypertensives — CCB', trade:'Norvasc®', sci:'Amlodipine besylate 5 mg / 10 mg', dose:'5 mg OD (elderly/hepatic impairment); may increase to 10 mg OD', ind:'Hypertension, chronic stable angina, vasospastic angina — dihydropyridine CCB; peripheral oedema common, avoid grapefruit juice' },
+  { cat:'Antihypertensives — Diuretics', trade:'Torseretic®', sci:'Torsemide 10 mg + Spironolactone 25 mg', dose:'1 tab OD (morning); monitor electrolytes', ind:'Hypertension, oedema, heart failure, resistant ascites — loop diuretic + potassium-sparing; monitor K⁺, Na⁺, renal function' },
+  // ── ANTI-HYPERLIPIDEMIA / STATINS & FIBRATES ──
+  { cat:'Anti-hyperlipidemics — Statins', trade:'Lipocomb®', sci:'Atorvastatin 10/20 mg + Ezetimibe 10 mg', dose:'1 tab OD (evening preferred); may start 10/10 and titrate', ind:'Mixed hyperlipidaemia, familial hypercholesterolaemia, CVD risk reduction — statin + cholesterol absorption inhibitor; monitor LFTs, CK' },
+  { cat:'Anti-hyperlipidemics — Statins', trade:'Ator® / Atorstat® / Lipomax® / Liptor®', sci:'Atorvastatin calcium 10/20/40/80 mg', dose:'10–80 mg OD (evening); start low, titrate q4wks based on LDL goal', ind:'Primary/secondary CVD prevention, hypercholesterolaemia, dyslipidaemia — HMG-CoA reductase inhibitor; avoid in pregnancy, active liver disease; grapefruit interaction' },
+  { cat:'Anti-hyperlipidemics — Statins', trade:'Simvastat® / Zocor®', sci:'Simvastatin 10/20/40 mg', dose:'10–40 mg OD (evening); max 40 mg if interacting drugs present', ind:'Hypercholesterolaemia, CVD risk reduction — statin; higher myopathy risk vs atorvastatin at high doses; avoid with strong CYP3A4 inhibitors' },
+  { cat:'Anti-hyperlipidemics — Bile Acid Sequestrants', trade:'Questran®', sci:'Cholestyramine resin 4 g/sachet', dose:'1 sachet BID–TID (mix in water/juice; take with meals)', ind:'Hypercholesterolaemia (adjunct), pruritus in cholestasis, bile acid diarrhoea — non-absorbed resin; separate other meds by 4h (binding interaction)' },
+  { cat:'Anti-hyperlipidemics — Fibrates', trade:'Lipanthyl®', sci:'Fenofibrate 145 mg / 200 mg (micronized)', dose:'145–200 mg OD with main meal', ind:'Hypertriglyceridaemia, mixed dyslipidaemia, low HDL — PPAR-α agonist; monitor LFTs, creatinine, CK; avoid with severe renal/hepatic impairment' },
+
+  // ── HEMOSTATICS / ANTI-FIBRINOLYTICS / VITAMIN K ──
+  { cat:'Hemostatics — Antifibrinolytics', trade:'Kapron® Amp / Cyclokapron®', sci:'Tranexamic acid 500 mg/5 mL ampoule or 500 mg tab', dose:'1 g IV/PO TID (acute bleeding); 1–1.5 g PO TID (menorrhagia, dental extraction prophylaxis)', ind:'Acute hemorrhage, menorrhagia, trauma, post-op bleeding, hereditary angioedema — antifibrinolytic; avoid in active thrombosis, renal impairment (dose adjust)' },
+  { cat:'Hemostatics — Capillary Stabilizers', trade:'Dicynone®', sci:'Etamsylate 250 mg / 500 mg', dose:'500 mg TID–QID PO; 250–500 mg IV/IM stat in acute bleeding', ind:'Capillary bleeding, menorrhagia, post-partum hemorrhage, dental extraction — enhances platelet adhesion; minimal thrombotic risk' },
+  { cat:'Hemostatics — Topical/Systemic', trade:'Hemostat® / Cyclona®', sci:'Tranexamic acid / topical hemostatic complex', dose:'As directed (topical: apply to bleeding site; systemic: see tranexamic dosing)', ind:'Local bleeding control (dental, epistaxis, surgical), adjunct to systemic therapy — use per product formulation' },
+  { cat:'Hemostatics — Vitamin K', trade:'Konakion® / Haemokion®', sci:'Phytomenadione (Vitamin K1) 10 mg/1 mL ampoule or 2 mg tab', dose:'10 mg IV/IM/SC slow (warfarin reversal); 2–5 mg PO for deficiency; neonatal: 1 mg IM at birth', ind:'Warfarin reversal, vitamin K deficiency bleeding, neonatal hemorrhage prophylaxis — fat-soluble vitamin; IV: risk of anaphylactoid reactions (give slow, monitor)' },
+
+  // ── VENOUS INSUFFICIENCY / VASCULAR PROTECTANTS ──
+  { cat:'Vascular Insufficiency — Venotonics', trade:'Daflon®', sci:'Micronized purified flavonoid fraction (Diosmin 90% + Hesperidin 10%) 500 mg', dose:'1 tab BID (acute hemorrhoids: 3 tabs BID × 4 days, then 2 tabs BID × 3 days); chronic: 1 tab BID', ind:'Chronic venous insufficiency (leg pain, oedema, heaviness), hemorrhoidal disease, post-phlebitic syndrome — venotonic, lymphatic drainage enhancer; take with meals' },
+  { cat:'Vascular Insufficiency — Capillary Stabilizers', trade:'Ruta C®', sci:'Rutoside (Rutin) 50 mg + Ascorbic acid (Vitamin C) 250 mg', dose:'1–2 caps TID', ind:'Capillary fragility, venous insufficiency, easy bruising, hemorrhoids — flavonoid + vitamin C synergy; antioxidant and venotonic effects' },
+
+  // ── ANTI-EDEMA / PROTEOLYTIC ENZYMES ──
+  { cat:'Anti-edema — Proteolytic Enzymes', trade:'Maxilase® Syrup / Megalase®', sci:'Alpha-amylase (fungal) 15,000 IU/5 mL or proteolytic enzyme complex', dose:'10–15 mL TID (adults); 5 mL TID (children) — dilute in water, take before meals', ind:'Post-traumatic oedema, post-surgical swelling, sinusitis, bronchitis — mucolytic and anti-inflammatory enzyme; avoid in pancreatic disease' },
+  { cat:'Anti-edema — Proteolytic Enzymes', trade:'Alphintern® / Alphinterin®', sci:'Trypsin + Chymotrypsin (bovine pancreatic enzymes)', dose:'1 tab TID before meals (swallow whole, do not crush)', ind:'Inflammation, oedema, post-operative swelling, sports injuries, sinusitis — proteolytic anti-inflammatory; avoid in bleeding disorders, with anticoagulants' },
+  { cat:'Anti-edema — Enzyme Combinations', trade:'Ambezim®', sci:'Trypsin + Bromelain + Rutoside trihydrate', dose:'1–2 tabs TID before meals', ind:'Post-traumatic oedema, post-surgical inflammation, sinusitis, sports injuries — multi-enzyme + flavonoid synergy; enhanced anti-oedema effect' },
+];
+
+function openTradrugs() {
+  renderTradrugs(TRADRUGS_DATA);
+  document.getElementById('tradrugs-overlay').classList.add('open');
+  document.getElementById('tradrugs-search').value = '';
+  setTimeout(() => document.getElementById('tradrugs-search').focus(), 120);
+}
+
+function closeTradrugs() {
+  document.getElementById('tradrugs-overlay').classList.remove('open');
+}
+
+function closeTradrugsOutside(e) {
+  if (e.target === document.getElementById('tradrugs-overlay')) closeTradrugs();
+}
+
+function filterTradrugs(query) {
+  const q = query.toLowerCase().trim();
+  if (!q) { renderTradrugs(TRADRUGS_DATA); return; }
+  const filtered = TRADRUGS_DATA.filter(d =>
+      d.trade.toLowerCase().includes(q) ||
+      d.sci.toLowerCase().includes(q) ||
+      d.ind.toLowerCase().includes(q) ||
+      d.cat.toLowerCase().includes(q) ||
+      d.dose.toLowerCase().includes(q)
+  );
+  renderTradrugs(filtered);
+}
+
+function renderTradrugs(data) {
+  const body = document.getElementById('tradrugs-body');
+  if (!data.length) {
+      body.innerHTML = '<div class="tradrugs-empty">No drugs found matching your search.</div>';
+      return;
+  }
+
+  let lastCat = null;
+  let html = '';
+  data.forEach(d => {
+      if (d.cat !== lastCat) {
+          html += `<div class="tradrugs-category">${d.cat}</div>`;
+          lastCat = d.cat;
+      }
+      html += `
+      <div class="tradrug-row" title="${d.ind}">
+          <div>
+              <div class="tradrug-trade">${d.trade}</div>
+              <div style="font-size:0.68rem;color:var(--text-dim);margin-top:1px">${d.ind}</div>
+          </div>
+          <div class="tradrug-scientific">${d.sci}</div>
+          <div class="tradrug-dose">${d.dose}</div>
+      </div>`;
+  });
+  body.innerHTML = html;
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeTradrugs();
+});
 </script>
 </body>
 </html>
